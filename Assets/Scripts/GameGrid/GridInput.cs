@@ -1,0 +1,102 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+public class GridInput : MonoBehaviour
+{
+    [SerializeField] private LineRendererManager lineManager;
+    [SerializeField] private GameGrid gameGrid;
+
+    [Header("Physics Settings")]
+    [SerializeField] private LayerMask gemLayer;
+
+    private bool isDrawing = false;
+    private List<Gem> selectedGems = new List<Gem>();
+    private GemType currentGemType;
+
+    private void Update()
+    {
+        HandleMouseInput();
+    }
+
+    private void HandleMouseInput()
+    {
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Gem hitGem = GetGemAtPosition(mouseWorldPos);
+            if (hitGem != null)
+            {
+                isDrawing = true;
+                selectedGems.Clear();
+                lineManager.ClearLine();
+
+                AddGemToSelection(hitGem);
+                currentGemType = hitGem.GetGemData().gemType;
+            }
+        }
+
+        if (Input.GetMouseButton(0) && isDrawing)
+        {
+            Gem hitGem = GetGemAtPosition(mouseWorldPos);
+
+            if (hitGem != null)
+            {
+                if (!selectedGems.Contains(hitGem))
+                {
+                    if (hitGem.GetGemData().gemType == currentGemType && IsAdjacent(selectedGems[selectedGems.Count - 1], hitGem))
+                    {
+                        AddGemToSelection(hitGem);
+                    }
+                }
+                else if (selectedGems.Count > 1 && hitGem == selectedGems[selectedGems.Count - 2])
+                {
+                    RemoveLastGemFromSelection();
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            isDrawing = false;
+
+            if (selectedGems.Count >= gameGrid.MatchThreshold)
+            {
+                gameGrid.ProcessMatch(selectedGems);
+            }
+
+            lineManager.ClearLine();
+            selectedGems.Clear();
+        }
+    }
+
+    private Gem GetGemAtPosition(Vector2 pos)
+    {
+        Collider2D hit = Physics2D.OverlapPoint(pos, gemLayer);
+        if (hit != null)
+        {
+            return hit.GetComponent<Gem>();
+        }
+        return null;
+    }
+
+    private void AddGemToSelection(Gem gem)
+    {
+        selectedGems.Add(gem);
+        lineManager.AddPoint(gem.transform.position);
+    }
+
+    private void RemoveLastGemFromSelection()
+    {
+        selectedGems.RemoveAt(selectedGems.Count - 1);
+        lineManager.RemoveLastPoint();
+    }
+
+    private bool IsAdjacent(Gem g1, Gem g2)
+    {
+        int dx = Mathf.Abs(g1.gridPosition.x - g2.gridPosition.x);
+        int dy = Mathf.Abs(g1.gridPosition.y - g2.gridPosition.y);
+        return (dx <= 1 && dy <= 1) && (dx + dy > 0);
+    }
+}
