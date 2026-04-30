@@ -170,7 +170,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineManager: {fileID: 2116840264}
   gameGrid: {fileID: 22158564}
-  selectTolerance: 0.4
+  gemLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &22158564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,8 +295,9 @@ GameObject:
   m_Component:
   - component: {fileID: 422270800}
   - component: {fileID: 422270801}
+  - component: {fileID: 422270802}
   m_Layer: 0
-  m_Name: Monster_Slime_Idle-Sheet_0
+  m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -353,8 +356,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1883849075
-  m_SortingLayer: 5
+  m_SortingLayerID: 869599237
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -609422779, guid: 17d3f336f648cc84e8e91cb12e0cc66b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -367,6 +370,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &422270802
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422270799}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 32b67765310fed14b994250a6743685e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &500948702
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,8 +608,9 @@ GameObject:
   m_Component:
   - component: {fileID: 722919999}
   - component: {fileID: 722920000}
+  - component: {fileID: 722920001}
   m_Layer: 0
-  m_Name: Human_Soldier_Sword_Shield_Idle-Sheet_0
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -644,8 +669,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1883849075
-  m_SortingLayer: 5
+  m_SortingLayerID: 869599237
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 558388502, guid: 7aa4332887ae8214489911a507b3c3e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -658,6 +683,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &722920001
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722919998}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e5138ca1bde127d41ae05180fd1a0e52, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &978869674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,7 +1153,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 265291811
+  m_SortingLayerID: 1427444091
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1822388727
@@ -1333,7 +1379,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 265291811
+  m_SortingLayerID: 1686829977
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &2073600566
@@ -1626,7 +1672,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1879392953
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
