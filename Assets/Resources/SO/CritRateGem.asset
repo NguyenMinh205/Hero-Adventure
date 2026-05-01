@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemType: 4
   gemSprite: {fileID: 21300000, guid: 15c9bef7f446b124c928fd707392dccf, type: 3}
+  lineColor: {r: 0.9622642, g: 0.72836757, b: 0.25236732, a: 1}

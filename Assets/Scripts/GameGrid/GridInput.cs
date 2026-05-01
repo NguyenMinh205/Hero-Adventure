@@ -31,7 +31,7 @@ public class GridInput : MonoBehaviour
                 isDrawing = true;
                 selectedGems.Clear();
                 lineManager.ClearLine();
-
+                lineManager.LineColor = hitGem.GetGemData().lineColor;
                 AddGemToSelection(hitGem);
                 currentGemType = hitGem.GetGemData().gemType;
             }

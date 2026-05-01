@@ -4,6 +4,15 @@ using UnityEngine;
 public class LineRendererManager : MonoBehaviour
 {
     [SerializeField] private LineRenderer lineRenderer;
+    public Color LineColor
+    {
+        get => lineRenderer.startColor;
+        set
+        {
+            lineRenderer.startColor = value;
+            lineRenderer.endColor = value;
+        }
+    }
     private List<Vector3> linePoints = new List<Vector3>();
 
     private void Awake()
