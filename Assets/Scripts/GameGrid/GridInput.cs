@@ -20,6 +20,8 @@ public class GridInput : MonoBehaviour
 
     private void HandleMouseInput()
     {
+        if (BattleManager.Instance != null && BattleManager.Instance.CurrentState != GameState.PlayerAttacking) return;
+
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
 

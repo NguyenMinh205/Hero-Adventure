@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d7c8093ca04a54e8868385ec2de9fb, type: 3}
+  m_Name: Slime
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  baseArmor: 10
+  baseDodge: 5
+  baseDamage: 10
+  baseCritRate: 5
+  baseCritDamage: 50
+  characterAnim: {fileID: 9100000, guid: a5f31a162b14bf94d93564973e91b2a4, type: 2}
+  defaultCharacterSprite: {fileID: -609422779, guid: 17d3f336f648cc84e8e91cb12e0cc66b, type: 3}

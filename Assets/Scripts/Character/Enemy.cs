@@ -1,0 +1,16 @@
+using System.Collections;
+using UnityEngine;
+
+public class Enemy : BaseCharacter
+{
+    protected override void DestroyOrDespawn()
+    {
+        StartCoroutine(DespawnAfterDelay(2f));
+    }
+
+    private IEnumerator DespawnAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        PoolingManager.Despawn(gameObject);
+    }
+}

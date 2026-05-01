@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - Gem
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: BackgroundUI
     uniqueID: 1686829977
+    locked: 0
+  - name: LineRenderer
+    uniqueID: 1420569933
     locked: 0
   - name: Character
     uniqueID: 869599237
