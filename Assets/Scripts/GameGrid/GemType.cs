@@ -18,4 +18,5 @@ public class GemData : ScriptableObject
     public GemType gemType;
     public Sprite gemSprite;
     public Color lineColor;
+    public float powerValue;
 }

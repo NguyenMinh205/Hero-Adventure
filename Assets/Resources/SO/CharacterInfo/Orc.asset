@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d7c8093ca04a54e8868385ec2de9fb, type: 3}
   m_Name: Orc
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  baseArmor: 10
+  maxHealth: 200
+  baseArmor: 20
   baseDodge: 5
-  baseDamage: 10
-  baseCritRate: 5
+  baseDamage: 20
+  baseCritRate: 10
   baseCritDamage: 50
   characterAnim: {fileID: 9100000, guid: 32b67765310fed14b994250a6743685e, type: 2}
   defaultCharacterSprite: {fileID: -837245134, guid: 42a9390c81833f4439c029f09bda6b22, type: 3}

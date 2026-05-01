@@ -1267,6 +1267,7 @@ MonoBehaviour:
   currentActionPoints: 0
   player: {fileID: 722920002}
   activeEnemies: []
+  multiplierPerGem: 0.25
   enemyPrefab: {fileID: 4840756094578868637, guid: c063c18f8852b2143a0b31a297aee12d, type: 3}
   listEnemySO:
   - {fileID: 11400000, guid: 6df6eb6f0b2846f4da89a8e0b9492a43, type: 2}
@@ -1533,8 +1534,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -12}
-  m_SizeDelta: {x: 48, y: 72}
+  m_AnchoredPosition: {x: 0, y: -18}
+  m_SizeDelta: {x: 48, y: 84}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2100477327
 MonoBehaviour:

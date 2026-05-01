@@ -36,7 +36,7 @@ public class GameGrid : MonoBehaviour
     private void SpawnGemAtPosition(int x, int y, bool animate = true)
     {
         Vector2 finalPosition = GetWorldPosition(x, y);
-        Vector2 spawnPosition = animate ? GetWorldPosition(x, -3) : finalPosition;
+        Vector2 spawnPosition = animate ? GetWorldPosition(x, -4) : finalPosition;
 
         Gem newGem = gemSpawner.SpawnGem(spawnPosition, this.transform);
 
@@ -63,9 +63,17 @@ public class GameGrid : MonoBehaviour
     {
         HashSet<int> affectedColumns = new HashSet<int>();
 
-        GemType type = matchedGems[0].GetGemData().gemType;
+        GemData gemData = matchedGems[0].GetGemData();
+        GemType type = gemData.gemType;
+        float power = gemData.powerValue;
         int matchCount = matchedGems.Count;
-        ObserverManager<EventID>.PostEvent(EventID.OnGemsMatched, new MatchEventData { GemType = type, MatchCount = matchCount });
+
+        ObserverManager<EventID>.PostEvent(EventID.OnGemsMatched, new MatchEventData
+        {
+            GemType = type,
+            MatchCount = matchCount,
+            PowerValue = power
+        });
 
         foreach (Gem gem in matchedGems)
         {

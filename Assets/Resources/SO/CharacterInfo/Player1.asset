@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d7c8093ca04a54e8868385ec2de9fb, type: 3}
   m_Name: Player1
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 150
   baseArmor: 10
   baseDodge: 5
-  baseDamage: 10
+  baseDamage: 15
   baseCritRate: 5
   baseCritDamage: 50
   characterAnim: {fileID: 9100000, guid: e5138ca1bde127d41ae05180fd1a0e52, type: 2}

@@ -14,6 +14,7 @@ public class BattleManager : Singleton<BattleManager>
     [Header("References")]
     [SerializeField] private Player player;
     [SerializeField] private List<Enemy> activeEnemies = new List<Enemy>();
+    [SerializeField] private float multiplierPerGem = 0.25f;
 
     [Header("Enemy Spawner Settings")]
     [SerializeField] private Enemy enemyPrefab;
@@ -105,7 +106,8 @@ public class BattleManager : Singleton<BattleManager>
     {
         currentState = GameState.Matching;
 
-        float multiplier = 1f + (data.MatchCount - 3) * 0.5f;
+        float multiplier = 1f + (data.MatchCount - 3) * multiplierPerGem;
+        float totalPower = data.PowerValue * multiplier;
 
         switch (data.GemType)
         {
@@ -113,23 +115,23 @@ public class BattleManager : Singleton<BattleManager>
                 Enemy target = activeEnemies.Find(e => !e.IsDead());
                 if (target != null)
                 {
-                    yield return StartCoroutine(player.PerformAttackSequence(target, multiplier));
+                    yield return StartCoroutine(player.PerformAttackSequence(target, totalPower));
                 }
                 break;
             case GemType.Health:
-                player.Heal(20f * multiplier);
+                player.Heal(totalPower);
                 break;
             case GemType.Shield:
-                player.AddShield(15f * multiplier);
+                player.AddShield(totalPower);
                 break;
             case GemType.CritRate:
-                player.AddCritRate(2f * multiplier);
+                player.AddCritRate(totalPower);
                 break;
             case GemType.CritDamage:
-                player.AddCritDamage(10f * multiplier);
+                player.AddCritDamage(totalPower);
                 break;
             case GemType.Dodge:
-                player.AddDodge(2f * multiplier);
+                player.AddDodge(totalPower);
                 break;
         }
 

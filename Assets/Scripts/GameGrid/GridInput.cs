@@ -5,8 +5,6 @@ public class GridInput : MonoBehaviour
 {
     [SerializeField] private LineRendererManager lineManager;
     [SerializeField] private GameGrid gameGrid;
-
-    [Header("Physics Settings")]
     [SerializeField] private LayerMask gemLayer;
 
     private bool isDrawing = false;
