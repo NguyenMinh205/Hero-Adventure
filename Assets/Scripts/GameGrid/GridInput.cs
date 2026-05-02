@@ -18,7 +18,7 @@ public class GridInput : MonoBehaviour
 
     private void HandleMouseInput()
     {
-        if (BattleManager.Instance != null && BattleManager.Instance.CurrentState != GameState.PlayerAttacking) return;
+        if (BattleManager.Instance != null && BattleManager.Instance.CurrentState != GameState.PlayerTurn) return;
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
@@ -64,6 +64,7 @@ public class GridInput : MonoBehaviour
             if (selectedGems.Count >= gameGrid.MatchThreshold)
             {
                 gameGrid.ProcessMatch(selectedGems);
+                Debug.Log($"Matched {selectedGems.Count} gems of type {currentGemType}");
             }
 
             lineManager.ClearLine();

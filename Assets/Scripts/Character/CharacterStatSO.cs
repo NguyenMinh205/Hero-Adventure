@@ -6,7 +6,7 @@ public class CharacterInfoSO : ScriptableObject
 {
     [Header("Health & Defense")]
     public float maxHealth = 100f;
-    public float baseArmor = 10f;
+    public float baseShield = 10f;
     public float baseDodge = 5f;
 
     [Header("Offense")]

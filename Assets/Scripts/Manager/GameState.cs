@@ -6,7 +6,7 @@ public enum GameState
 {
     Running,
     Matching,
-    PlayerAttacking,
-    EnemyAttacking,
+    PlayerTurn,
+    EnemyTurn,
     Finished
 }

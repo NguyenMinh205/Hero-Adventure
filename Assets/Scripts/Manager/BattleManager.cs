@@ -47,6 +47,7 @@ public class BattleManager : Singleton<BattleManager>
                 return;
             }
         }
+        player.InitStat();
         StartCoroutine(ExploreRoutine());
     }
 
@@ -86,7 +87,7 @@ public class BattleManager : Singleton<BattleManager>
 
     private void StartPlayerTurn()
     {
-        currentState = GameState.PlayerAttacking;
+        currentState = GameState.PlayerTurn;
         currentActionPoints = maxActionPoints;
         ObserverManager<EventID>.PostEvent(EventID.OnPlayerTurnStart);
         Debug.Log($"LƯỢT PLAYER BẮT ĐẦU - Bạn có {currentActionPoints} lượt nối");
@@ -94,10 +95,23 @@ public class BattleManager : Singleton<BattleManager>
 
     private void HandleGemsMatched(object param)
     {
-        if (currentState != GameState.PlayerAttacking || player.IsDead()) return;
+        Debug.Log("Nhận được sự kiện nối, đang xử lý...");
+        if (currentState != GameState.PlayerTurn)
+        {
+            Debug.LogWarning("Không thể xử lý sự kiện nối vì không phải lượt của player.");
+            return;
+        }
+        if (player.IsDead())
+        {
+            Debug.LogWarning("Không thể xử lý sự kiện nối vì player đã chết.");
+            return;
+        }
+
+        Debug.Log("Đã check điều kiện, đang xử lý...");
 
         if (param is MatchEventData data)
         {
+            Debug.Log($"Nhận được sự kiện nối: {data.GemType} x{data.MatchCount} với giá trị cơ bản {data.PowerValue}");
             StartCoroutine(ProcessMatchRoutine(data));
         }
     }
@@ -150,13 +164,13 @@ public class BattleManager : Singleton<BattleManager>
             yield break;
         }
 
-        currentState = GameState.PlayerAttacking;
+        currentState = GameState.PlayerTurn;
         Debug.Log($"Còn {currentActionPoints} lượt nối");
     }
 
     private IEnumerator EnemyTurnRoutine()
     {
-        currentState = GameState.EnemyAttacking;
+        currentState = GameState.EnemyTurn;
         yield return new WaitForSeconds(1f);
 
         ObserverManager<EventID>.PostEvent(EventID.OnEnemyTurnStart);

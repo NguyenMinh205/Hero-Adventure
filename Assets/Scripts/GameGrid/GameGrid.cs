@@ -75,6 +75,8 @@ public class GameGrid : MonoBehaviour
             PowerValue = power
         });
 
+        Debug.Log($"Matched {matchCount} gems of type {type} with power {power}");
+
         foreach (Gem gem in matchedGems)
         {
             affectedColumns.Add(gem.gridPosition.x);

@@ -22,46 +22,48 @@ public class BaseCharacter : MonoBehaviour
 
     private Vector3 originalPosition;
 
-    public event Action<float, float> OnHealthChanged;
-    public event Action<float> OnShieldChanged;
-    public event Action OnDeath;
-
-    public virtual void InitStat(CharacterInfoSO statData)
+    public virtual void InitStat(CharacterInfoSO statData = null)
     {
-        baseStatData = statData;
-        currentMaxHealth = statData.maxHealth;
+        if (statData != null) baseStatData = statData;
+        currentMaxHealth = baseStatData.maxHealth;
         currentHealth = currentMaxHealth;
-        currentShield = 0;
-        currentDamage = statData.baseDamage;
-        currentCritRate = statData.baseCritRate;
-        currentCritDamage = statData.baseCritDamage;
-        currentDodge = statData.baseDodge;
-        animator.runtimeAnimatorController = statData.characterAnim;
-        spriteRenderer.sprite = statData.defaultCharacterSprite;
+        currentShield = baseStatData.baseShield;
+        currentDamage = baseStatData.baseDamage;
+        currentCritRate = baseStatData.baseCritRate;
+        currentCritDamage = baseStatData.baseCritDamage;
+        currentDodge = baseStatData.baseDodge;
+        animator.runtimeAnimatorController = baseStatData.characterAnim;
+        spriteRenderer.sprite = baseStatData.defaultCharacterSprite;
 
         originalPosition = transform.position;
-        OnHealthChanged?.Invoke(currentHealth, currentMaxHealth);
-        OnShieldChanged?.Invoke(currentShield);
     }
 
     public IEnumerator PerformAttackSequence(BaseCharacter target, float damageMultiplier)
     {
         Vector3 direction = (transform.position - target.transform.position).normalized;
-        Vector3 attackPosition = target.transform.position + direction * 1.5f;
-
+        Vector3 attackPosition = target.transform.position + direction * 1.25f;
         yield return StartCoroutine(MoveToPosition(attackPosition, 10f));
 
         bool isCrit;
         float rawDamage = CalculateDamage(out isCrit) * damageMultiplier;
+        string animParam = isCrit ? "IsCritAttacking" : "IsBaseAttacking";
 
-        if (isCrit) yield return StartCoroutine(PlayAnimationBool("IsCritAttacking"));
-        else yield return StartCoroutine(PlayAnimationBool("IsBaseAttacking"));
+        animator.SetBool(animParam, true);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return null;
+
+        AnimatorStateInfo stateInfo = animator.IsInTransition(0) ? animator.GetNextAnimatorStateInfo(0) : animator.GetCurrentAnimatorStateInfo(0);
+        float animLength = stateInfo.length;
+
+        float impactDelay = animLength * 0.75f;
+
+        yield return new WaitForSeconds(impactDelay);
 
         target.TakeDamage(rawDamage);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(animLength - impactDelay);
+
+        animator.SetBool(animParam, false);
 
         yield return StartCoroutine(MoveToPosition(originalPosition, 10f));
     }
@@ -104,7 +106,6 @@ public class BaseCharacter : MonoBehaviour
         {
             currentShield -= damagePrevented;
             currentShield = Mathf.Max(0, currentShield);
-            OnShieldChanged?.Invoke(currentShield);
 
             StartCoroutine(PlayAnimationBool("IsBlocking"));
             transform.DOShakePosition(0.2f, 0.1f, 15);
@@ -114,7 +115,6 @@ public class BaseCharacter : MonoBehaviour
         {
             currentHealth -= damageToHealth;
             currentHealth = Mathf.Clamp(currentHealth, 0, currentMaxHealth);
-            OnHealthChanged?.Invoke(currentHealth, currentMaxHealth);
 
             if (currentHealth <= 0)
             {
@@ -134,14 +134,12 @@ public class BaseCharacter : MonoBehaviour
         if (currentHealth >= currentMaxHealth) currentMaxHealth += amount/2;
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, currentMaxHealth);
-        OnHealthChanged?.Invoke(currentHealth, currentMaxHealth);
         Debug.Log($"{gameObject.name} hồi phục {amount} HP!");
     }
 
     public virtual void AddShield(float amount)
     {
         currentShield += amount;
-        OnShieldChanged?.Invoke(currentShield);
         Debug.Log($"{gameObject.name} nhận được {amount} lá chắn!");
     }
 
@@ -180,7 +178,6 @@ public class BaseCharacter : MonoBehaviour
 
     protected virtual void Die()
     {
-        OnDeath?.Invoke();
         transform.DOKill();
         DestroyOrDespawn();
     }
@@ -195,7 +192,21 @@ public class BaseCharacter : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool(paramName, true);
-            yield return new WaitForSeconds(0.1f);
+
+            yield return null;
+
+            AnimatorStateInfo stateInfo;
+            if (animator.IsInTransition(0))
+            {
+                stateInfo = animator.GetNextAnimatorStateInfo(0);
+            }
+            else
+            {
+                stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            }
+
+            yield return new WaitForSeconds(stateInfo.length);
+
             animator.SetBool(paramName, false);
         }
     }
