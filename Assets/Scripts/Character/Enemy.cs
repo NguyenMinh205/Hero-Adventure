@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class Enemy : BaseCharacter
 {
+    public override void BroadcastUIUpdate()
+    {
+        ObserverManager<EventID>.PostEvent(EventID.OnUpdateEnemyHP, this);
+    }
+
     protected override void DestroyOrDespawn()
     {
         StartCoroutine(DespawnAfterDelay(2f));

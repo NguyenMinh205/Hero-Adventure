@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   maxHealth: 50
-  baseArmor: 10
-  baseDodge: 10
+  baseShield: 10
+  baseBlockRate: 10
   baseDamage: 10
   baseCritRate: 5
   baseCritDamage: 50

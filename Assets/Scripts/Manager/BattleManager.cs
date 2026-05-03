@@ -11,6 +11,11 @@ public class BattleManager : Singleton<BattleManager>
     [SerializeField] private int maxActionPoints = 5;
     [SerializeField] private int currentActionPoints;
 
+    [Header("Level Progress")]
+    [SerializeField] private int maxRounds = 3;
+    private int currentRound = 0;
+    [SerializeField] private BackgroundScroller bgScroller;
+
     [Header("References")]
     [SerializeField] private Player player;
     [SerializeField] private List<Enemy> activeEnemies = new List<Enemy>();
@@ -41,25 +46,36 @@ public class BattleManager : Singleton<BattleManager>
         if (player == null)
         {
             player = FindObjectOfType<Player>();
-            if (player == null)
-            {
-                Debug.LogWarning("Không tìm thấy Player! Game tạm dừng.");
-                return;
-            }
+            if (player == null) return;
         }
+
         player.InitStat();
+        currentRound = 0;
         StartCoroutine(ExploreRoutine());
     }
 
     private IEnumerator ExploreRoutine()
     {
+        if (currentRound >= maxRounds)
+        {
+            currentState = GameState.Finished;
+            ObserverManager<EventID>.PostEvent(EventID.OnGameOver);
+            yield break;
+        }
+
+        currentRound++;
+        ObserverManager<EventID>.PostEvent(EventID.OnUpdateRoundCount, currentRound);
         currentState = GameState.Running;
+
         player.SetRunningAnimation(true);
+        if (bgScroller != null) bgScroller.StartScrolling();
 
         float waitTime = Random.Range(3f, 5f);
         yield return new WaitForSeconds(waitTime);
 
         player.SetRunningAnimation(false);
+        if (bgScroller != null) bgScroller.StopScrolling();
+
         SpawnEnemies();
         StartPlayerTurn();
     }
@@ -90,28 +106,15 @@ public class BattleManager : Singleton<BattleManager>
         currentState = GameState.PlayerTurn;
         currentActionPoints = maxActionPoints;
         ObserverManager<EventID>.PostEvent(EventID.OnPlayerTurnStart);
-        Debug.Log($"LƯỢT PLAYER BẮT ĐẦU - Bạn có {currentActionPoints} lượt nối");
+        ObserverManager<EventID>.PostEvent(EventID.OnUpdateTurnCount, currentActionPoints);
     }
 
     private void HandleGemsMatched(object param)
     {
-        Debug.Log("Nhận được sự kiện nối, đang xử lý...");
-        if (currentState != GameState.PlayerTurn)
-        {
-            Debug.LogWarning("Không thể xử lý sự kiện nối vì không phải lượt của player.");
-            return;
-        }
-        if (player.IsDead())
-        {
-            Debug.LogWarning("Không thể xử lý sự kiện nối vì player đã chết.");
-            return;
-        }
-
-        Debug.Log("Đã check điều kiện, đang xử lý...");
+        if (currentState != GameState.PlayerTurn || player.IsDead()) return;
 
         if (param is MatchEventData data)
         {
-            Debug.Log($"Nhận được sự kiện nối: {data.GemType} x{data.MatchCount} với giá trị cơ bản {data.PowerValue}");
             StartCoroutine(ProcessMatchRoutine(data));
         }
     }
@@ -129,7 +132,9 @@ public class BattleManager : Singleton<BattleManager>
                 Enemy target = activeEnemies.Find(e => !e.IsDead());
                 if (target != null)
                 {
+                    ObserverManager<EventID>.PostEvent(EventID.OnShowEnemyInfo, target);
                     yield return StartCoroutine(player.PerformAttackSequence(target, totalPower));
+                    ObserverManager<EventID>.PostEvent(EventID.OnHideEnemyInfo);
                 }
                 break;
             case GemType.Health:
@@ -150,6 +155,7 @@ public class BattleManager : Singleton<BattleManager>
         }
 
         currentActionPoints--;
+        ObserverManager<EventID>.PostEvent(EventID.OnUpdateTurnCount, currentActionPoints);
         activeEnemies.RemoveAll(e => e.IsDead());
 
         if (activeEnemies.Count == 0)
@@ -165,7 +171,6 @@ public class BattleManager : Singleton<BattleManager>
         }
 
         currentState = GameState.PlayerTurn;
-        Debug.Log($"Còn {currentActionPoints} lượt nối");
     }
 
     private IEnumerator EnemyTurnRoutine()
@@ -191,7 +196,6 @@ public class BattleManager : Singleton<BattleManager>
         else
         {
             currentState = GameState.Finished;
-            Debug.Log("GAME OVER");
             ObserverManager<EventID>.PostEvent(EventID.OnGameOver);
         }
     }

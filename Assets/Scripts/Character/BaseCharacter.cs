@@ -17,10 +17,21 @@ public class BaseCharacter : MonoBehaviour
     protected float currentDamage;
     protected float currentCritRate;
     protected float currentCritDamage;
-    protected float currentDodge;
+    protected float currentBlockRate;
     private const float MAX_DODGE = 80f;
 
     private Vector3 originalPosition;
+
+    public float CurrentHealth => currentHealth;
+    public float CurrentMaxHealth => currentMaxHealth;
+    public float CurrentShield => currentShield;
+    public float CurrentDamage => currentDamage;
+    public float CurrentCritRate => currentCritRate;
+    public float CurrentCritDamage => currentCritDamage;
+    public float CurrentBlockRate => currentBlockRate;
+    public Sprite CharacterSprite => spriteRenderer.sprite;
+
+    public virtual void BroadcastUIUpdate() { }
 
     public virtual void InitStat(CharacterInfoSO statData = null)
     {
@@ -31,11 +42,12 @@ public class BaseCharacter : MonoBehaviour
         currentDamage = baseStatData.baseDamage;
         currentCritRate = baseStatData.baseCritRate;
         currentCritDamage = baseStatData.baseCritDamage;
-        currentDodge = baseStatData.baseDodge;
+        currentBlockRate = baseStatData.baseBlockRate;
         animator.runtimeAnimatorController = baseStatData.characterAnim;
         spriteRenderer.sprite = baseStatData.defaultCharacterSprite;
 
         originalPosition = transform.position;
+        BroadcastUIUpdate();
     }
 
     public IEnumerator PerformAttackSequence(BaseCharacter target, float damageMultiplier)
@@ -49,20 +61,17 @@ public class BaseCharacter : MonoBehaviour
         string animParam = isCrit ? "IsCritAttacking" : "IsBaseAttacking";
 
         animator.SetBool(animParam, true);
-
         yield return null;
 
         AnimatorStateInfo stateInfo = animator.IsInTransition(0) ? animator.GetNextAnimatorStateInfo(0) : animator.GetCurrentAnimatorStateInfo(0);
         float animLength = stateInfo.length;
 
         float impactDelay = animLength * 0.75f;
-
         yield return new WaitForSeconds(impactDelay);
 
         target.TakeDamage(rawDamage);
 
         yield return new WaitForSeconds(animLength - impactDelay);
-
         animator.SetBool(animParam, false);
 
         yield return StartCoroutine(MoveToPosition(originalPosition, 10f));
@@ -71,7 +80,6 @@ public class BaseCharacter : MonoBehaviour
     private IEnumerator MoveToPosition(Vector3 targetPosition, float speed)
     {
         animator.SetBool("IsRunning", true);
-
         float distance = Vector3.Distance(transform.position, targetPosition);
         float duration = distance / speed;
 
@@ -79,7 +87,6 @@ public class BaseCharacter : MonoBehaviour
 
         transform.position = targetPosition;
         animator.SetBool("IsRunning", false);
-
         yield return new WaitForSeconds(0.1f);
     }
 
@@ -90,13 +97,11 @@ public class BaseCharacter : MonoBehaviour
 
     public virtual void TakeDamage(float rawDamage)
     {
-        if (UnityEngine.Random.Range(0f, 100f) <= currentDodge)
+        if (UnityEngine.Random.Range(0f, 100f) <= currentBlockRate)
         {
             Debug.Log($"{gameObject.name} né được đòn!");
             return;
         }
-
-        Debug.Log($"{gameObject.name} nhận {rawDamage} sát thương thô!");
 
         float damageMultiplier = 100f / (100f + currentShield);
         float damageToHealth = rawDamage * damageMultiplier;
@@ -106,7 +111,6 @@ public class BaseCharacter : MonoBehaviour
         {
             currentShield -= damagePrevented;
             currentShield = Mathf.Max(0, currentShield);
-
             StartCoroutine(PlayAnimationBool("IsBlocking"));
             transform.DOShakePosition(0.2f, 0.1f, 15);
         }
@@ -127,45 +131,46 @@ public class BaseCharacter : MonoBehaviour
                 transform.DOShakePosition(0.3f, 0.3f, 20);
             }
         }
+
+        BroadcastUIUpdate();
     }
 
     public virtual void Heal(float amount)
     {
-        if (currentHealth >= currentMaxHealth) currentMaxHealth += amount/2;
+        if (currentHealth >= currentMaxHealth) currentMaxHealth += amount / 2;
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, currentMaxHealth);
-        Debug.Log($"{gameObject.name} hồi phục {amount} HP!");
+        BroadcastUIUpdate();
     }
 
     public virtual void AddShield(float amount)
     {
         currentShield += amount;
-        Debug.Log($"{gameObject.name} nhận được {amount} lá chắn!");
+        BroadcastUIUpdate();
     }
 
     public virtual void AddCritRate(float amount)
     {
         currentCritRate = Mathf.Clamp(currentCritRate + amount, 0, 100f);
-        Debug.Log($"{gameObject.name} tăng {amount}% tỉ lệ chí mạng!");
+        BroadcastUIUpdate();
     }
 
     public virtual void AddCritDamage(float amount)
     {
         currentCritDamage += amount;
-        Debug.Log($"{gameObject.name} tăng {amount}% sát thương chí mạng!");
+        BroadcastUIUpdate();
     }
 
     public virtual void AddDodge(float amount)
     {
-        currentDodge = Mathf.Clamp(currentDodge + amount, 0, MAX_DODGE);
-        Debug.Log($"{gameObject.name} tăng {amount}% tỉ lệ né đòn!");
+        currentBlockRate = Mathf.Clamp(currentBlockRate + amount, 0, MAX_DODGE);
+        BroadcastUIUpdate();
     }
 
     public virtual float CalculateDamage(out bool isCrit)
     {
         float damageOut = currentDamage;
         isCrit = false;
-
         if (UnityEngine.Random.Range(0f, 100f) <= currentCritRate)
         {
             damageOut += (damageOut * (currentCritDamage / 100f));
@@ -192,21 +197,9 @@ public class BaseCharacter : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool(paramName, true);
-
             yield return null;
-
-            AnimatorStateInfo stateInfo;
-            if (animator.IsInTransition(0))
-            {
-                stateInfo = animator.GetNextAnimatorStateInfo(0);
-            }
-            else
-            {
-                stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            }
-
+            AnimatorStateInfo stateInfo = animator.IsInTransition(0) ? animator.GetNextAnimatorStateInfo(0) : animator.GetCurrentAnimatorStateInfo(0);
             yield return new WaitForSeconds(stateInfo.length);
-
             animator.SetBool(paramName, false);
         }
     }

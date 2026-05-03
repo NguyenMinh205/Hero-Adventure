@@ -5,7 +5,14 @@ public enum EventID
     OnGemsMatched,
     OnPlayerTurnStart,
     OnEnemyTurnStart,
-    OnGameOver
+    OnGameOver,
+
+    OnUpdatePlayerStats,
+    OnUpdateTurnCount,
+    OnUpdateRoundCount,
+    OnShowEnemyInfo,
+    OnHideEnemyInfo,
+    OnUpdateEnemyHP
 }
 
 public class MatchEventData
