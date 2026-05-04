@@ -77,7 +77,7 @@ public class BaseCharacter : MonoBehaviour
         float impactDelay = animLength * 0.7f;
         yield return new WaitForSeconds(impactDelay);
 
-        target.TakeDamage(rawDamage);
+        target.TakeDamage(rawDamage, isCrit);
 
         yield return new WaitForSeconds(animLength - impactDelay);
         animator.SetBool(animParam, false);
@@ -98,10 +98,12 @@ public class BaseCharacter : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
     }
 
-    public virtual void TakeDamage(float rawDamage)
+    public virtual void TakeDamage(float rawDamage, bool isCrit)
     {
         if (UnityEngine.Random.Range(0f, 100f) <= currentBlockRate)
         {
+            StartCoroutine(PlayAnimationBool("IsBlocking"));
+            transform.DOShakePosition(0.2f, 0.1f, 15);
             Debug.Log($"{gameObject.name} né được đòn!");
             return;
         }
@@ -114,14 +116,19 @@ public class BaseCharacter : MonoBehaviour
         {
             currentShield -= damagePrevented;
             currentShield = RoundStat(Mathf.Max(0, currentShield));
-            StartCoroutine(PlayAnimationBool("IsBlocking"));
-            transform.DOShakePosition(0.2f, 0.1f, 15);
         }
 
         if (damageToHealth > 0)
         {
             currentHealth -= damageToHealth;
             currentHealth = RoundStat(Mathf.Clamp(currentHealth, 0, currentMaxHealth));
+
+            ObserverManager<EventID>.PostEvent(EventID.OnShowDamagePopup, new DamagePopupData
+            {
+                Position = transform.position + Vector3.up * 1f,
+                Damage = Mathf.RoundToInt(damageToHealth),
+                IsCritical = isCrit
+            });
 
             if (currentHealth <= 0)
             {

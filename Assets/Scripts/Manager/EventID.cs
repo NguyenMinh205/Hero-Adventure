@@ -6,7 +6,7 @@ public enum EventID
     OnPlayerTurnStart,
     OnEnemyTurnStart,
     OnGameOver,
-
+    OnShowDamagePopup,
     OnUpdatePlayerStats,
     OnUpdateTurnCount,
     OnUpdateRoundCount,

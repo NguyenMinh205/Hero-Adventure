@@ -3,25 +3,41 @@ using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
 
+public struct DamagePopupData
+{
+    public Vector3 Position;
+    public int Damage;
+    public bool IsCritical;
+}
+
 public class UIManager : MonoBehaviour
 {
     [Header("Player Stats UI")]
-    public TextMeshProUGUI hpText;
-    public TextMeshProUGUI shieldText;
-    public TextMeshProUGUI damageText;
-    public TextMeshProUGUI critRateText;
-    public TextMeshProUGUI critDamageText;
-    public TextMeshProUGUI blockRateText;
+    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI shieldText;
+    [SerializeField] private TextMeshProUGUI damageText;
+    [SerializeField] private TextMeshProUGUI critRateText;
+    [SerializeField] private TextMeshProUGUI critDamageText;
+    [SerializeField] private TextMeshProUGUI blockRateText;
 
     [Header("Turn & Round UI")]
-    public TextMeshProUGUI roundText;
-    public GameObject[] turnIcons;
+    [SerializeField] private TextMeshProUGUI roundText;
+    [SerializeField] private GameObject[] turnIcons;
 
     [Header("Enemy Info Panel")]
-    public GameObject enemyInfoPanel;
-    public Image enemySprite;
-    public Image enemyHpFill; 
-    public TextMeshProUGUI enemyHpText;
+    [SerializeField] private GameObject enemyInfoPanel;
+    [SerializeField] private Image enemySprite;
+    [SerializeField] private Image enemyHpFill; 
+    [SerializeField] private TextMeshProUGUI enemyHpText;
+
+    [Header("Damage Popups")]
+    [SerializeField] private GameObject damagePopupObj;
+    [SerializeField] private TextMeshProUGUI damagePopupText;
+
+    [Header("Popups")]
+    [SerializeField] private GameObject pausePopupObj;
+    [SerializeField] private GameObject victoryPanelObj;
+    [SerializeField] private GameObject gameOverPanelObj;
 
     private void OnEnable()
     {
@@ -31,6 +47,7 @@ public class UIManager : MonoBehaviour
         ObserverManager<EventID>.AddRegisterEvent(EventID.OnShowEnemyInfo, ShowEnemyInfo);
         ObserverManager<EventID>.AddRegisterEvent(EventID.OnHideEnemyInfo, HideEnemyInfo);
         ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateEnemyHP, UpdateEnemyHP);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnShowDamagePopup, HandleShowDamagePopup);
     }
 
     private void OnDisable()
@@ -41,11 +58,13 @@ public class UIManager : MonoBehaviour
         ObserverManager<EventID>.RemoveAddListener(EventID.OnShowEnemyInfo, ShowEnemyInfo);
         ObserverManager<EventID>.RemoveAddListener(EventID.OnHideEnemyInfo, HideEnemyInfo);
         ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateEnemyHP, UpdateEnemyHP);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnShowDamagePopup, HandleShowDamagePopup);
     }
 
     private void Start()
     {
         enemyInfoPanel.SetActive(false);
+        damagePopupObj.SetActive(false);
     }
 
     private void UpdatePlayerStats(object param)
@@ -102,9 +121,35 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void HandleShowDamagePopup(object param)
+    {
+        if (param is DamagePopupData data)
+        {
+            Debug.Log($"Showing damage popup at {data.Position} with damage {data.Damage} (Critical: {data.IsCritical})");
+            ShowDamagePopup(data.Position, data.Damage, data.IsCritical);
+        }
+    }
+
     public void ShowDamagePopup(Vector3 position, int damageAmount, bool isCritical)
     {
-        // Implement damage popup logic here (e.g., instantiate a prefab, set text, animate, etc.)
+        damagePopupObj.transform.position = position;
+        damagePopupObj.SetActive(true);
+
+        damagePopupText.text = damageAmount.ToString();
+        damagePopupText.color = isCritical ? Color.red : Color.yellow;
+        damagePopupText.alpha = 1f;
+
+        damagePopupText.transform.localScale = Vector3.one * (isCritical ? 1.5f : 1f);
+        damagePopupObj.transform.DOKill();
+        damagePopupText.DOKill();
+
+        float endPosY = position.y + 1f;
+        damagePopupObj.transform.DOMoveY(endPosY, 0.7f).SetEase(Ease.OutBack);
+
+        damagePopupText.DOFade(0f, 0.7f).SetDelay(0.3f).OnComplete(() =>
+        {
+            damagePopupObj.SetActive(false);
+        });
     }
 
     public void ShowPausePopup()
