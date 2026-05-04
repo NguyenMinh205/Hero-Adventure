@@ -133,7 +133,8 @@ public class BattleManager : Singleton<BattleManager>
                 if (target != null)
                 {
                     ObserverManager<EventID>.PostEvent(EventID.OnShowEnemyInfo, target);
-                    yield return StartCoroutine(player.PerformAttackSequence(target, totalPower));
+                    yield return StartCoroutine(player.PerformAttackSequence(target, totalPower, data.MatchCount - 3));
+                    yield return new WaitForSeconds(1f);
                     ObserverManager<EventID>.PostEvent(EventID.OnHideEnemyInfo);
                 }
                 break;
@@ -184,7 +185,7 @@ public class BattleManager : Singleton<BattleManager>
         {
             if (!enemy.IsDead())
             {
-                yield return StartCoroutine(enemy.PerformAttackSequence(player, 1f));
+                yield return StartCoroutine(enemy.PerformAttackSequence(player, 1f, 0));
                 yield return new WaitForSeconds(0.2f);
             }
         }

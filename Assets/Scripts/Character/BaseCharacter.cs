@@ -50,7 +50,14 @@ public class BaseCharacter : MonoBehaviour
         BroadcastUIUpdate();
     }
 
-    public IEnumerator PerformAttackSequence(BaseCharacter target, float damageMultiplier)
+    protected float RoundStat(float value)
+    {
+
+        return Mathf.Round(value * 10f) / 10f;
+
+    }
+
+    public IEnumerator PerformAttackSequence(BaseCharacter target, float damageMultiplier, int countOfGemMore)
     {
         Vector3 direction = (transform.position - target.transform.position).normalized;
         Vector3 attackPosition = target.transform.position + direction * 1.25f;
@@ -58,6 +65,7 @@ public class BaseCharacter : MonoBehaviour
 
         bool isCrit;
         float rawDamage = CalculateDamage(out isCrit) * damageMultiplier;
+        AddDamage((damageMultiplier - 1f) * countOfGemMore);
         string animParam = isCrit ? "IsCritAttacking" : "IsBaseAttacking";
 
         animator.SetBool(animParam, true);
@@ -66,7 +74,7 @@ public class BaseCharacter : MonoBehaviour
         AnimatorStateInfo stateInfo = animator.IsInTransition(0) ? animator.GetNextAnimatorStateInfo(0) : animator.GetCurrentAnimatorStateInfo(0);
         float animLength = stateInfo.length;
 
-        float impactDelay = animLength * 0.75f;
+        float impactDelay = animLength * 0.7f;
         yield return new WaitForSeconds(impactDelay);
 
         target.TakeDamage(rawDamage);
@@ -90,11 +98,6 @@ public class BaseCharacter : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
     }
 
-    public void SetRunningAnimation(bool isRunning)
-    {
-        if (animator != null) animator.SetBool("IsRunning", isRunning);
-    }
-
     public virtual void TakeDamage(float rawDamage)
     {
         if (UnityEngine.Random.Range(0f, 100f) <= currentBlockRate)
@@ -110,7 +113,7 @@ public class BaseCharacter : MonoBehaviour
         if (currentShield > 0 && damagePrevented > 0)
         {
             currentShield -= damagePrevented;
-            currentShield = Mathf.Max(0, currentShield);
+            currentShield = RoundStat(Mathf.Max(0, currentShield));
             StartCoroutine(PlayAnimationBool("IsBlocking"));
             transform.DOShakePosition(0.2f, 0.1f, 15);
         }
@@ -118,7 +121,7 @@ public class BaseCharacter : MonoBehaviour
         if (damageToHealth > 0)
         {
             currentHealth -= damageToHealth;
-            currentHealth = Mathf.Clamp(currentHealth, 0, currentMaxHealth);
+            currentHealth = RoundStat(Mathf.Clamp(currentHealth, 0, currentMaxHealth));
 
             if (currentHealth <= 0)
             {
@@ -137,33 +140,43 @@ public class BaseCharacter : MonoBehaviour
 
     public virtual void Heal(float amount)
     {
-        if (currentHealth >= currentMaxHealth) currentMaxHealth += amount / 2;
-        currentHealth += amount;
+        if (currentHealth >= currentMaxHealth)
+        {
+            amount /= 2f;
+            currentMaxHealth = RoundStat(currentMaxHealth + amount);
+        }
+        currentHealth = RoundStat(currentHealth + amount);
         currentHealth = Mathf.Clamp(currentHealth, 0, currentMaxHealth);
+        BroadcastUIUpdate();
+    }
+
+    public virtual void AddDamage(float amount)
+    {
+        currentDamage = RoundStat(currentDamage + amount);
         BroadcastUIUpdate();
     }
 
     public virtual void AddShield(float amount)
     {
-        currentShield += amount;
+        currentShield = RoundStat(currentShield + amount);
         BroadcastUIUpdate();
     }
 
     public virtual void AddCritRate(float amount)
     {
-        currentCritRate = Mathf.Clamp(currentCritRate + amount, 0, 100f);
+        currentCritRate = RoundStat(Mathf.Clamp(currentCritRate + amount, 0, 100f));
         BroadcastUIUpdate();
     }
 
     public virtual void AddCritDamage(float amount)
     {
-        currentCritDamage += amount;
+        currentCritDamage = RoundStat(currentCritDamage + amount);
         BroadcastUIUpdate();
     }
 
     public virtual void AddDodge(float amount)
     {
-        currentBlockRate = Mathf.Clamp(currentBlockRate + amount, 0, MAX_DODGE);
+        currentBlockRate = RoundStat(Mathf.Clamp(currentBlockRate + amount, 0, MAX_DODGE));
         BroadcastUIUpdate();
     }
 
@@ -176,6 +189,7 @@ public class BaseCharacter : MonoBehaviour
             damageOut += (damageOut * (currentCritDamage / 100f));
             isCrit = true;
         }
+        damageOut = Mathf.Round(damageOut * 10f) / 10f;
         return damageOut;
     }
 
@@ -189,7 +203,12 @@ public class BaseCharacter : MonoBehaviour
 
     protected virtual void DestroyOrDespawn()
     {
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 1f);
+    }
+
+    public void SetRunningAnimation(bool isRunning)
+    {
+        if (animator != null) animator.SetBool("IsRunning", isRunning);
     }
 
     public IEnumerator PlayAnimationBool(string paramName)

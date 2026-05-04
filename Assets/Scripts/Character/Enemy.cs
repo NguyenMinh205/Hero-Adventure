@@ -10,7 +10,7 @@ public class Enemy : BaseCharacter
 
     protected override void DestroyOrDespawn()
     {
-        StartCoroutine(DespawnAfterDelay(2f));
+        StartCoroutine(DespawnAfterDelay(1f));
     }
 
     private IEnumerator DespawnAfterDelay(float delay)

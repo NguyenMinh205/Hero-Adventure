@@ -101,4 +101,24 @@ public class UIManager : MonoBehaviour
             enemyHpFill.DOFillAmount(fillAmount, 0.3f).SetEase(Ease.OutQuad);
         }
     }
+
+    public void ShowDamagePopup(Vector3 position, int damageAmount, bool isCritical)
+    {
+        // Implement damage popup logic here (e.g., instantiate a prefab, set text, animate, etc.)
+    }
+
+    public void ShowPausePopup()
+    {
+        // Implement pause popup logic here (e.g., show a panel, display options, etc.)
+    }
+
+    public void ShowVictory()
+    {
+        // Implement victory UI logic here (e.g., show a panel, display rewards, etc.)
+    }
+
+    public void ShowGameOver()
+    {
+        // Implement game over UI logic here (e.g., show a panel, display final stats, etc.)
+    }
 }
