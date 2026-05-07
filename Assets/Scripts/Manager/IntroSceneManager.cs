@@ -40,7 +40,10 @@ public class IntroSceneManager : MonoBehaviour
         playButton.onClick.AddListener(OnPlayClicked);
         quitButton.onClick.AddListener(OnQuitClicked);
 
-        StartCoroutine(LoadSceneAsync());
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            StartCoroutine(LoadSceneAsync());
+        });
     }
 
     private IEnumerator LoadSceneAsync()
