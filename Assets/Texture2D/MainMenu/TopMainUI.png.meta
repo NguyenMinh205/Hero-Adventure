@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4b2a6f32a3c7fb6428a476ff42ed4d78
+guid: ba32c7357c46a4449b62614d0e70b565
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,106 +123,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MenuNavBtn_0
+      name: TopMainUI_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 186
-        height: 189
+        x: 11
+        y: 9
+        width: 289
+        height: 186
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 68, y: 0, z: 82, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 13986026a5e108846b50cc6531e1e118
-      internalID: 1221918330
+      spriteID: 0ba4969f055e5b346a00bfc78bdbf2bf
+      internalID: -1971123338
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MenuNavBtn_1
+      name: TopMainUI_1
       rect:
         serializedVersion: 2
-        x: 196
-        y: 0
-        width: 185
-        height: 189
+        x: 308
+        y: 102
+        width: 88
+        height: 91
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6cbb61a7fc5b96644817aeb1e78617f1
-      internalID: 1048652491
+      spriteID: b15b3a8bfda8dec4d9ca5f33ca2e5ab7
+      internalID: 1650367957
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MenuNavBtn_2
+      name: TopMainUI_2
       rect:
         serializedVersion: 2
-        x: 390
-        y: 0
-        width: 185
-        height: 189
+        x: 411
+        y: 102
+        width: 87
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca47be16f679d5d4fa55eeefacc5bde3
-      internalID: -1532982158
+      spriteID: 1d7571e8be760074194d293d724890e9
+      internalID: 381725572
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MenuNavBtn_3
+      name: TopMainUI_3
       rect:
         serializedVersion: 2
-        x: 584
-        y: 0
-        width: 184
-        height: 189
+        x: 309
+        y: 9
+        width: 84
+        height: 84
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d386a59ed6aad214e8d303172c8ec162
-      internalID: -1661275872
+      spriteID: fbdc485a3eb9f7e4899cee5b49a6ad2c
+      internalID: -1962287108
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MenuNavBtn_4
+      name: TopMainUI_4
       rect:
         serializedVersion: 2
-        x: 779
-        y: 0
-        width: 185
-        height: 189
+        x: 411
+        y: 9
+        width: 82
+        height: 84
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df34567cbf9508f448e1e669605dfd2f
-      internalID: -1878788960
+      spriteID: cde22f23bbbbf8e4a8949dae20c60f2d
+      internalID: 481868975
       vertices: []
       indices: 
       edges: []
@@ -238,11 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      MenuNavBtn_0: 1221918330
-      MenuNavBtn_1: 1048652491
-      MenuNavBtn_2: -1532982158
-      MenuNavBtn_3: -1661275872
-      MenuNavBtn_4: -1878788960
+      TopMainUI_0: -1971123338
+      TopMainUI_1: 1650367957
+      TopMainUI_2: 381725572
+      TopMainUI_3: -1962287108
+      TopMainUI_4: 481868975
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

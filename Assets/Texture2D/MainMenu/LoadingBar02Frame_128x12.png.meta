@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4b2a6f32a3c7fb6428a476ff42ed4d78
+guid: 895b36e75a71d0842a2074769c1fc6a9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,112 +121,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: MenuNavBtn_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 186
-        height: 189
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 13986026a5e108846b50cc6531e1e118
-      internalID: 1221918330
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MenuNavBtn_1
-      rect:
-        serializedVersion: 2
-        x: 196
-        y: 0
-        width: 185
-        height: 189
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6cbb61a7fc5b96644817aeb1e78617f1
-      internalID: 1048652491
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MenuNavBtn_2
-      rect:
-        serializedVersion: 2
-        x: 390
-        y: 0
-        width: 185
-        height: 189
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ca47be16f679d5d4fa55eeefacc5bde3
-      internalID: -1532982158
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MenuNavBtn_3
-      rect:
-        serializedVersion: 2
-        x: 584
-        y: 0
-        width: 184
-        height: 189
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d386a59ed6aad214e8d303172c8ec162
-      internalID: -1661275872
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MenuNavBtn_4
-      rect:
-        serializedVersion: 2
-        x: 779
-        y: 0
-        width: 185
-        height: 189
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: df34567cbf9508f448e1e669605dfd2f
-      internalID: -1878788960
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -237,12 +132,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      MenuNavBtn_0: 1221918330
-      MenuNavBtn_1: 1048652491
-      MenuNavBtn_2: -1532982158
-      MenuNavBtn_3: -1661275872
-      MenuNavBtn_4: -1878788960
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
