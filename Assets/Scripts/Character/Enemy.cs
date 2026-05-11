@@ -18,4 +18,14 @@ public class Enemy : BaseCharacter
         yield return new WaitForSeconds(delay);
         PoolingManager.Despawn(gameObject);
     }
+
+    public void ApplyDifficultyMultiplier(float multiplier)
+    {
+        currentMaxHealth = RoundStat(currentMaxHealth * multiplier);
+        currentHealth = currentMaxHealth;
+        currentDamage = RoundStat(currentDamage * multiplier);
+        currentShield = RoundStat(currentShield * multiplier);
+        
+        BroadcastUIUpdate();
+    }
 }

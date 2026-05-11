@@ -12,9 +12,8 @@ public class BattleManager : Singleton<BattleManager>
     [SerializeField] private int currentActionPoints;
 
     [Header("Level Progress")]
-    [SerializeField] private int maxRounds = 3;
-    private int currentRound = 0;
     [SerializeField] private BackgroundScroller bgScroller;
+    private IGameModeStrategy currentStrategy;
 
     [Header("References")]
     [SerializeField] private Player player;
@@ -41,7 +40,7 @@ public class BattleManager : Singleton<BattleManager>
         ObserverManager<EventID>.RemoveAddListener(EventID.OnGemsMatched, HandleGemsMatched);
     }
 
-    private void Start()
+    public void InitBattle()
     {
         if (player == null)
         {
@@ -50,21 +49,25 @@ public class BattleManager : Singleton<BattleManager>
         }
 
         player.InitStat();
-        currentRound = 0;
-        StartCoroutine(ExploreRoutine());
-    }
-
-    private IEnumerator ExploreRoutine()
-    {
-        if (currentRound >= maxRounds)
+        
+        if (GameModeManager.Instance != null)
         {
-            currentState = GameState.Finished;
-            ObserverManager<EventID>.PostEvent(EventID.OnGameOver);
-            yield break;
+            if (GameModeManager.Instance.CurrentMode == GameModeType.Level)
+                currentStrategy = new LevelModeStrategy();
+            else
+                currentStrategy = new EndlessModeStrategy();
+        }
+        else
+        {
+            currentStrategy = new LevelModeStrategy();
         }
 
-        currentRound++;
-        ObserverManager<EventID>.PostEvent(EventID.OnUpdateRoundCount, currentRound);
+        currentStrategy.Initialize(this);
+        StartCoroutine(currentStrategy.OnWaveCleared(this));
+    }
+
+    public IEnumerator ExploreRoutine()
+    {
         currentState = GameState.Running;
 
         player.SetRunningAnimation(true);
@@ -83,20 +86,21 @@ public class BattleManager : Singleton<BattleManager>
     private void SpawnEnemies()
     {
         activeEnemies.Clear();
-        int enemyCount = Random.Range(1, spawnPoints.Length + 1);
+        List<CharacterInfoSO> enemiesToSpawn = currentStrategy.GetEnemiesToSpawn(listEnemySO);
 
-        if (enemyCount == 1)
+        for (int i = 0; i < enemiesToSpawn.Count; i++)
         {
-            Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[spawnPoints.Length - 1].position, Quaternion.identity);
-            newEnemy.InitStat(listEnemySO[Random.Range(0, listEnemySO.Count)]);
-            activeEnemies.Add(newEnemy);
-            return;
-        }
-
-        for (int i = 0; i < enemyCount; i++)
-        {
+            if (i >= spawnPoints.Length) break;
+            
             Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[i].position, Quaternion.identity);
-            newEnemy.InitStat(listEnemySO[Random.Range(0, listEnemySO.Count)]);
+            newEnemy.InitStat(enemiesToSpawn[i]);
+            
+            if (currentStrategy is EndlessModeStrategy endlessStrategy)
+            {
+                float multiplier = endlessStrategy.GetDifficultyMultiplier();
+                newEnemy.ApplyDifficultyMultiplier(multiplier);
+            }
+
             activeEnemies.Add(newEnemy);
         }
     }
@@ -161,7 +165,7 @@ public class BattleManager : Singleton<BattleManager>
 
         if (activeEnemies.Count == 0)
         {
-            StartCoroutine(ExploreRoutine());
+            StartCoroutine(currentStrategy.OnWaveCleared(this));
             yield break;
         }
 
@@ -190,14 +194,19 @@ public class BattleManager : Singleton<BattleManager>
             }
         }
 
-        if (!player.IsDead())
+        if (!currentStrategy.IsGameOver(player))
         {
             StartPlayerTurn();
         }
         else
         {
             currentState = GameState.Finished;
-            ObserverManager<EventID>.PostEvent(EventID.OnGameOver);
+            ObserverManager<EventID>.PostEvent(EventID.OnGameOver, false);
         }
+    }
+
+    public void SetGameState(GameState state)
+    {
+        currentState = state;
     }
 }
