@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -15,7 +15,7 @@ public class GameGrid : MonoBehaviour
     public Gem[,] gridGems { get; private set; }
     private float startX;
 
-    private void Start()
+    public void Init()
     {
         startX = -(gridSize - 1) * spacing / 2f;
         CreateGrid();

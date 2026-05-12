@@ -16,6 +16,8 @@ public class BattleManager : Singleton<BattleManager>
     private IGameModeStrategy currentStrategy;
 
     [Header("References")]
+    [SerializeField] private GameplayUIManager gameplayUIManager;
+    [SerializeField] private GameGrid gameGrid;
     [SerializeField] private Player player;
     [SerializeField] private List<Enemy> activeEnemies = new List<Enemy>();
     [SerializeField] private float multiplierPerGem = 0.25f;
@@ -42,6 +44,26 @@ public class BattleManager : Singleton<BattleManager>
 
     public void InitBattle()
     {
+        if (gameplayUIManager != null)
+        {
+            gameplayUIManager.Init();
+        }
+        else
+        {
+            gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+            if (gameplayUIManager != null) gameplayUIManager.Init();
+        }   
+
+        if (gameGrid != null)
+        {
+            gameGrid.Init();
+        }
+        else
+        {
+            gameGrid = FindObjectOfType<GameGrid>();
+            if (gameGrid != null) gameGrid.Init();
+        }
+
         if (player == null)
         {
             player = FindObjectOfType<Player>();
@@ -49,19 +71,28 @@ public class BattleManager : Singleton<BattleManager>
         }
 
         player.InitStat();
-        
+
+        Debug.Log("Initializing BattleManager with GameMode: " + (GameModeManager.Instance != null ? GameModeManager.Instance.CurrentMode.ToString() : "None"));
+
         if (GameModeManager.Instance != null)
         {
             if (GameModeManager.Instance.CurrentMode == GameModeType.Level)
+            {
+                Debug.Log("Selected Game Mode: Level");
                 currentStrategy = new LevelModeStrategy();
+            }
             else
+            {
+                Debug.Log("Selected Game Mode: Endless");
                 currentStrategy = new EndlessModeStrategy();
+            }
         }
         else
         {
             currentStrategy = new LevelModeStrategy();
         }
 
+        Debug.Log("Initialized Strategy: " + currentStrategy.GetType().Name);
         currentStrategy.Initialize(this);
         StartCoroutine(currentStrategy.OnWaveCleared(this));
     }
@@ -87,6 +118,27 @@ public class BattleManager : Singleton<BattleManager>
     {
         activeEnemies.Clear();
         List<CharacterInfoSO> enemiesToSpawn = currentStrategy.GetEnemiesToSpawn(listEnemySO);
+
+        if (enemiesToSpawn == null || enemiesToSpawn.Count == 0)
+        {
+            Debug.LogWarning("No enemies to spawn from strategy.");
+            return;
+        }
+
+        if (enemiesToSpawn.Count == 1)
+        {
+            Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[spawnPoints.Length - 1].position, Quaternion.identity);
+            newEnemy.InitStat(enemiesToSpawn[0]);
+
+            if (currentStrategy is EndlessModeStrategy endlessStrategy)
+            {
+                float multiplier = endlessStrategy.GetDifficultyMultiplier();
+                newEnemy.ApplyDifficultyMultiplier(multiplier);
+            }
+
+            activeEnemies.Add(newEnemy);
+            return;
+        }    
 
         for (int i = 0; i < enemiesToSpawn.Count; i++)
         {

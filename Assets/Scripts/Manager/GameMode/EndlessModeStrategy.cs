@@ -10,7 +10,7 @@ public class EndlessModeStrategy : IGameModeStrategy
     public void Initialize(BattleManager battleManager)
     {
         currentRound = 0;
-        difficultyMultiplier = 1.0f;
+        difficultyMultiplier = 0.9f;
     }
 
     public List<CharacterInfoSO> GetEnemiesToSpawn(List<CharacterInfoSO> availableEnemies)

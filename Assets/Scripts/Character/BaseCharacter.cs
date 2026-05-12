@@ -36,6 +36,13 @@ public class BaseCharacter : MonoBehaviour
     public virtual void InitStat(CharacterInfoSO statData = null)
     {
         if (statData != null) baseStatData = statData;
+        
+        if (baseStatData == null)
+        {
+            Debug.LogError($"[BaseCharacter] Lỗi: baseStatData (CharacterInfoSO) chưa được gán cho {gameObject.name}!");
+            return;
+        }
+
         currentMaxHealth = baseStatData.maxHealth;
         currentHealth = currentMaxHealth;
         currentShield = baseStatData.baseShield;
@@ -43,8 +50,9 @@ public class BaseCharacter : MonoBehaviour
         currentCritRate = baseStatData.baseCritRate;
         currentCritDamage = baseStatData.baseCritDamage;
         currentBlockRate = baseStatData.baseBlockRate;
-        animator.runtimeAnimatorController = baseStatData.characterAnim;
-        spriteRenderer.sprite = baseStatData.defaultCharacterSprite;
+        
+        if (animator != null) animator.runtimeAnimatorController = baseStatData.characterAnim;
+        if (spriteRenderer != null) spriteRenderer.sprite = baseStatData.defaultCharacterSprite;
 
         originalPosition = transform.position;
         BroadcastUIUpdate();
@@ -74,7 +82,7 @@ public class BaseCharacter : MonoBehaviour
         AnimatorStateInfo stateInfo = animator.IsInTransition(0) ? animator.GetNextAnimatorStateInfo(0) : animator.GetCurrentAnimatorStateInfo(0);
         float animLength = stateInfo.length;
 
-        float impactDelay = animLength * 0.7f;
+        float impactDelay = animLength * 0.6f;
         yield return new WaitForSeconds(impactDelay);
 
         target.TakeDamage(rawDamage, isCrit);

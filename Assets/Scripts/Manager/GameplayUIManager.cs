@@ -10,7 +10,7 @@ public struct DamagePopupData
     public bool IsCritical;
 }
 
-public class UIManager : MonoBehaviour
+public class GameplayUIManager : MonoBehaviour
 {
     [Header("Player Stats UI")]
     [SerializeField] private TextMeshProUGUI hpText;
@@ -61,63 +61,68 @@ public class UIManager : MonoBehaviour
         ObserverManager<EventID>.RemoveAddListener(EventID.OnShowDamagePopup, HandleShowDamagePopup);
     }
 
-    private void Start()
+    public void Init()
     {
-        enemyInfoPanel.SetActive(false);
-        damagePopupObj.SetActive(false);
+        if (enemyInfoPanel != null) enemyInfoPanel.SetActive(false);
+        if (damagePopupObj != null) damagePopupObj.SetActive(false);
     }
 
     private void UpdatePlayerStats(object param)
     {
         if (param is Player player)
         {
-            hpText.text = $"{player.CurrentHealth}/{player.CurrentMaxHealth}";
-            shieldText.text = $"{player.CurrentShield}";
-            damageText.text = $"{player.CurrentDamage}";
-            critRateText.text = $"{player.CurrentCritRate}%";
-            critDamageText.text = $"{player.CurrentCritDamage}%";
-            blockRateText.text = $"{player.CurrentBlockRate}%";
+            if (hpText != null) hpText.text = $"{player.CurrentHealth}/{player.CurrentMaxHealth}";
+            if (shieldText != null) shieldText.text = $"{player.CurrentShield}";
+            if (damageText != null) damageText.text = $"{player.CurrentDamage}";
+            if (critRateText != null) critRateText.text = $"{player.CurrentCritRate}%";
+            if (critDamageText != null) critDamageText.text = $"{player.CurrentCritDamage}%";
+            if (blockRateText != null) blockRateText.text = $"{player.CurrentBlockRate}%";
         }
     }
 
     private void UpdateTurnCount(object param)
     {
         int currentTurns = (int)param;
-        for (int i = 0; i < turnIcons.Length; i++)
+        if (turnIcons != null)
         {
-            turnIcons[i].SetActive(i < currentTurns);
+            for (int i = 0; i < turnIcons.Length; i++)
+            {
+                if (turnIcons[i] != null) turnIcons[i].SetActive(i < currentTurns);
+            }
         }
     }
 
     private void UpdateRoundCount(object param)
     {
         int round = (int)param;
-        roundText.text = round.ToString();
+        if (roundText != null) roundText.text = round.ToString();
     }
 
     private void ShowEnemyInfo(object param)
     {
         if (param is Enemy enemy)
         {
-            enemyInfoPanel.SetActive(true);
-            enemySprite.sprite = enemy.CharacterSprite;
+            if (enemyInfoPanel != null) enemyInfoPanel.SetActive(true);
+            if (enemySprite != null) enemySprite.sprite = enemy.CharacterSprite;
             UpdateEnemyHP(enemy);
         }
     }
 
     private void HideEnemyInfo(object param)
     {
-        enemyInfoPanel.SetActive(false);
+        if (enemyInfoPanel != null) enemyInfoPanel.SetActive(false);
     }
 
     private void UpdateEnemyHP(object param)
     {
         if (param is Enemy enemy)
         {
-            enemyHpText.text = $"{enemy.CurrentHealth}/{enemy.CurrentMaxHealth}";
-            float fillAmount = enemy.CurrentHealth / enemy.CurrentMaxHealth;
-
-            enemyHpFill.DOFillAmount(fillAmount, 0.3f).SetEase(Ease.OutQuad);
+            if (enemyHpText != null) enemyHpText.text = $"{enemy.CurrentHealth}/{enemy.CurrentMaxHealth}";
+            if (enemyHpFill != null)
+            {
+                float fillAmount = enemy.CurrentHealth / enemy.CurrentMaxHealth;
+                enemyHpFill.DOFillAmount(fillAmount, 0.3f).SetEase(Ease.OutQuad);
+            }
         }
     }
 
@@ -125,13 +130,14 @@ public class UIManager : MonoBehaviour
     {
         if (param is DamagePopupData data)
         {
-            Debug.Log($"Showing damage popup at {data.Position} with damage {data.Damage} (Critical: {data.IsCritical})");
             ShowDamagePopup(data.Position, data.Damage, data.IsCritical);
         }
     }
 
     public void ShowDamagePopup(Vector3 position, int damageAmount, bool isCritical)
     {
+        if (damagePopupObj == null || damagePopupText == null) return;
+
         damagePopupObj.transform.position = position;
         damagePopupObj.SetActive(true);
 
@@ -148,7 +154,7 @@ public class UIManager : MonoBehaviour
 
         damagePopupText.DOFade(0f, 0.7f).SetDelay(0.3f).OnComplete(() =>
         {
-            damagePopupObj.SetActive(false);
+            if (damagePopupObj != null) damagePopupObj.SetActive(false);
         });
     }
 

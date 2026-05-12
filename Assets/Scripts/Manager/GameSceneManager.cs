@@ -19,7 +19,7 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] private Button[] levelNodeButtons;
     [SerializeField] private LevelConfig[] levelConfigs; 
     
-    private void Start()
+    public void Start()
     {
         ShowMainMenu();
 

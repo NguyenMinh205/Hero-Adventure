@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Player1
   m_EditorClassIdentifier: 
   maxHealth: 150
-  baseArmor: 10
-  baseDodge: 5
+  baseShield: 10
+  baseBlockRate: 5
   baseDamage: 15
   baseCritRate: 5
   baseCritDamage: 50

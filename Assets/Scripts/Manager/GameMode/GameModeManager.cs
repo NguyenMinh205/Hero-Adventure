@@ -13,8 +13,6 @@ public class GameModeManager : Singleton<GameModeManager>
     protected override void Awake()
     {
         base.Awake();
-        // Giữ Manager không bị destroy khi chuyển scene nếu cần
-        // DontDestroyOnLoad(gameObject);
     }
 
     public void SetGameMode(GameModeType mode)
