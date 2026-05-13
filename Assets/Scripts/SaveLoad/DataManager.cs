@@ -33,10 +33,12 @@ public class SecureGameData
 {
     [SerializeField] private float _musicVolume = 0.5f;
     [SerializeField] private float _soundVolume = 0.5f;
+    [SerializeField] private bool _vibration = true;
 
     #region CONST
     private const float DEFAULT_MUSIC_VOLUME = 0.5f;
     private const float DEFAULT_SOUND_VOLUME = 0.5f;
+    private const bool DEFAULT_VIBRATION = true;
     #endregion
 
     #region PROPERTIES
@@ -50,6 +52,12 @@ public class SecureGameData
     {
         get { return _soundVolume; }
         set { _soundVolume = value; }
+    }
+
+    public bool Vibration
+    {
+        get { return _vibration; }
+        set { _vibration = value; }
     }
 
     #endregion
@@ -78,6 +86,7 @@ public class SecureGameData
 
         this._musicVolume = other._musicVolume;
         this._soundVolume = other._soundVolume;
+        this._vibration = other._vibration;
     }
 
     public void ClearAllData()
@@ -90,6 +99,7 @@ public class SecureGameData
     {
         _musicVolume = DEFAULT_MUSIC_VOLUME;
         _soundVolume = DEFAULT_SOUND_VOLUME;
+        _vibration = DEFAULT_VIBRATION;
     }
 
     #endregion

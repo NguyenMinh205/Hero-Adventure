@@ -97,6 +97,11 @@ public class IntroSceneManager : MonoBehaviour
         }
     }
 
+    public void OnSettingsClicked()
+    {
+        SettingsManager.Instance.OpenSettings();
+    }
+
     private void OnQuitClicked()
     {
         Debug.Log("Quit button clicked. Exiting application...");

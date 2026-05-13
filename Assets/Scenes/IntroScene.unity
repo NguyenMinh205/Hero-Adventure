@@ -386,13 +386,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 161632134}
+  - component: {fileID: 161632135}
   m_Layer: 0
   m_Name: -----SETTING-----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &161632134
 Transform:
   m_ObjectHideFlags: 0
@@ -409,6 +410,19 @@ Transform:
   - {fileID: 1194898521}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &161632135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161632133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 020b9b306aa401f44931425437ef00dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settingsUI: {fileID: 1194898525}
 --- !u!1 &185392523
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,7 +990,7 @@ GameObject:
   - component: {fileID: 407728346}
   - component: {fileID: 407728347}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: SFXSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1629,7 +1643,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 788244009}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1297596060}
+        m_TargetAssemblyTypeName: IntroSceneManager, Assembly-CSharp
+        m_MethodName: OnSettingsClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &788244009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2127,7 +2153,7 @@ GameObject:
   - component: {fileID: 1029845474}
   - component: {fileID: 1029845475}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: MusicSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2319,13 +2345,14 @@ GameObject:
   - component: {fileID: 1194898524}
   - component: {fileID: 1194898523}
   - component: {fileID: 1194898522}
+  - component: {fileID: 1194898525}
   m_Layer: 5
   m_Name: SettingUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1194898521
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2410,6 +2437,25 @@ Canvas:
   m_SortingLayerID: -1633783565
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1194898525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194898520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f3685b0c28c11745b2e722cfd272aa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _musicSlider: {fileID: 1029845475}
+  _sfxSlider: {fileID: 407728347}
+  _vibrationButton: {fileID: 185392525}
+  _backButton: {fileID: 1741727372}
+  _vibrationBtnImage: {fileID: 185392526}
+  _vibrationOnSprite: {fileID: 212979555, guid: b7d0e4985f7b5f24c82531f20c64750a, type: 3}
+  _vibrationOffSprite: {fileID: 352988519, guid: b7d0e4985f7b5f24c82531f20c64750a, type: 3}
 --- !u!1 &1243254442
 GameObject:
   m_ObjectHideFlags: 0
