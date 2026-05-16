@@ -44,7 +44,6 @@ public class SettingsManager : Singleton<SettingsManager>
         
         if (isOn)
         {
-            // Trigger a short vibration to indicate it's ON
             #if !UNITY_EDITOR
             Vibration.Vibrate(50);
             #endif

@@ -1,6 +1,6 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
 using DG.Tweening;
 
 public struct DamagePopupData
@@ -27,68 +27,170 @@ public class GameplayUIManager : MonoBehaviour
     [Header("Enemy Info Panel")]
     [SerializeField] private GameObject enemyInfoPanel;
     [SerializeField] private Image enemySprite;
-    [SerializeField] private Image enemyHpFill; 
+    [SerializeField] private Image enemyHpFill;
     [SerializeField] private TextMeshProUGUI enemyHpText;
 
     [Header("Damage Popups")]
     [SerializeField] private GameObject damagePopupObj;
     [SerializeField] private TextMeshProUGUI damagePopupText;
 
-    [Header("Popups")]
-    [SerializeField] private GameObject pausePopupObj;
+    [Header("Pause Popup")]
+    [SerializeField] private PausePopup pausePopup;
+    [SerializeField] private Button pauseButton;
+
+    [Header("Victory Panel")]
     [SerializeField] private GameObject victoryPanelObj;
+    [SerializeField] private Transform victoryPopupContent;
+    [SerializeField] private Button victoryNextLevelButton;
+    [SerializeField] private Button victoryReplayButton;
+    [SerializeField] private Button victoryMainMenuButton;
+
+    [Header("Game Over Panel")]
     [SerializeField] private GameObject gameOverPanelObj;
+    [SerializeField] private Transform gameOverPopupContent;
+    [SerializeField] private Button gameOverRetryButton;
+    [SerializeField] private Button gameOverMainMenuButton;
 
     private void OnEnable()
     {
         ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdatePlayerStats, UpdatePlayerStats);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateTurnCount, UpdateTurnCount);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateRoundCount, UpdateRoundCount);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnShowEnemyInfo, ShowEnemyInfo);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnHideEnemyInfo, HideEnemyInfo);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateEnemyHP, UpdateEnemyHP);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnShowDamagePopup, HandleShowDamagePopup);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateTurnCount,   UpdateTurnCount);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateRoundCount,  UpdateRoundCount);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnShowEnemyInfo,     ShowEnemyInfo);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnHideEnemyInfo,     HideEnemyInfo);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateEnemyHP,     UpdateEnemyHP);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnShowDamagePopup,   HandleShowDamagePopup);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnVictory,           HandleVictory);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnGameOver,          HandleGameOver);
     }
 
     private void OnDisable()
     {
         ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdatePlayerStats, UpdatePlayerStats);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateTurnCount, UpdateTurnCount);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateRoundCount, UpdateRoundCount);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnShowEnemyInfo, ShowEnemyInfo);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnHideEnemyInfo, HideEnemyInfo);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateEnemyHP, UpdateEnemyHP);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnShowDamagePopup, HandleShowDamagePopup);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateTurnCount,   UpdateTurnCount);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateRoundCount,  UpdateRoundCount);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnShowEnemyInfo,     ShowEnemyInfo);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnHideEnemyInfo,     HideEnemyInfo);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateEnemyHP,     UpdateEnemyHP);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnShowDamagePopup,   HandleShowDamagePopup);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnVictory,           HandleVictory);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnGameOver,          HandleGameOver);
     }
 
     public void Init()
     {
-        if (enemyInfoPanel != null) enemyInfoPanel.SetActive(false);
-        if (damagePopupObj != null) damagePopupObj.SetActive(false);
+        if (enemyInfoPanel   != null) enemyInfoPanel.SetActive(false);
+        if (damagePopupObj   != null) damagePopupObj.SetActive(false);
+        if (victoryPanelObj  != null) victoryPanelObj.SetActive(false);
+        if (gameOverPanelObj != null) gameOverPanelObj.SetActive(false);
+
+        if (pausePopup != null) pausePopup.Init();
+        if (pauseButton != null) pauseButton.onClick.AddListener(OnPauseClicked);
+
+
+        if (victoryNextLevelButton != null) victoryNextLevelButton.onClick.AddListener(OnNextLevelClicked);
+        if (victoryReplayButton    != null) victoryReplayButton.onClick.AddListener(OnReplayClicked);
+        if (victoryMainMenuButton  != null) victoryMainMenuButton.onClick.AddListener(GoToMainMenu);
+
+        if (gameOverRetryButton    != null) gameOverRetryButton.onClick.AddListener(OnReplayClicked);
+        if (gameOverMainMenuButton != null) gameOverMainMenuButton.onClick.AddListener(GoToMainMenu);
+    }
+
+    private void OnDestroy()
+    {
+        if (pauseButton != null) pauseButton.onClick.RemoveAllListeners();
+        if (victoryNextLevelButton != null) victoryNextLevelButton.onClick.RemoveAllListeners();
+        if (victoryReplayButton    != null) victoryReplayButton.onClick.RemoveAllListeners();
+        if (victoryMainMenuButton  != null) victoryMainMenuButton.onClick.RemoveAllListeners();
+        if (gameOverRetryButton    != null) gameOverRetryButton.onClick.RemoveAllListeners();
+        if (gameOverMainMenuButton != null) gameOverMainMenuButton.onClick.RemoveAllListeners();
+    }
+
+    private void OnPauseClicked()
+    {
+        AudioManager.Instance?.PlaySoundButtonClick();
+        ObserverManager<EventID>.PostEvent(EventID.OnPause);
+    }
+
+    private void HandleVictory(object param) => ShowVictory();
+
+    public void ShowVictory()
+    {
+        if (victoryPanelObj == null || victoryPopupContent == null) return;
+
+        AudioManager.Instance?.PlaySoundWin();
+
+        victoryPanelObj.SetActive(true);
+        victoryPopupContent.localScale = Vector3.zero;
+        victoryPopupContent
+            .DOScale(1f, 0.4f)
+            .SetEase(Ease.OutBack);
+    }
+
+    private void OnNextLevelClicked()
+    {
+        AudioManager.Instance?.PlaySoundButtonClick();
+        Time.timeScale = 1f;
+        if (victoryPanelObj != null) victoryPanelObj.SetActive(false);
+        // TODO: Mở rộng sau — tự động chọn level kế tiếp
+        // Hiện tại về Main Menu của GameScene để chọn level
+        GoToMainMenu();
+    }
+
+    private void OnReplayClicked()
+    {
+        AudioManager.Instance?.PlaySoundButtonClick();
+        Time.timeScale = 1f;
+        if (victoryPanelObj  != null) victoryPanelObj.SetActive(false);
+        if (gameOverPanelObj != null) gameOverPanelObj.SetActive(false);
+        BattleManager.Instance?.InitBattle();
+    }
+
+    private void HandleGameOver(object param) => ShowGameOver();
+
+    public void ShowGameOver()
+    {
+        if (gameOverPanelObj == null || gameOverPopupContent == null) return;
+
+        AudioManager.Instance?.PlaySoundLose();
+
+        gameOverPanelObj.SetActive(true);
+        gameOverPopupContent.localScale = Vector3.zero;
+        gameOverPopupContent
+            .DOScale(1f, 0.4f)
+            .SetEase(Ease.OutBack);
+    }
+
+    private void GoToMainMenu()
+    {
+        AudioManager.Instance?.PlaySoundButtonClick();
+        Time.timeScale = 1f;
+        if (pausePopup != null) pausePopup.Hide();
+        if (victoryPanelObj  != null) victoryPanelObj.SetActive(false);
+        if (gameOverPanelObj != null) gameOverPanelObj.SetActive(false);
+        FindObjectOfType<GameSceneManager>()?.ShowMainMenu();
     }
 
     private void UpdatePlayerStats(object param)
     {
         if (param is Player player)
         {
-            if (hpText != null) hpText.text = $"{player.CurrentHealth}/{player.CurrentMaxHealth}";
-            if (shieldText != null) shieldText.text = $"{player.CurrentShield}";
-            if (damageText != null) damageText.text = $"{player.CurrentDamage}";
-            if (critRateText != null) critRateText.text = $"{player.CurrentCritRate}%";
+            if (hpText         != null) hpText.text         = $"{player.CurrentHealth}/{player.CurrentMaxHealth}";
+            if (shieldText     != null) shieldText.text     = $"{player.CurrentShield}";
+            if (damageText     != null) damageText.text     = $"{player.CurrentDamage}";
+            if (critRateText   != null) critRateText.text   = $"{player.CurrentCritRate}%";
             if (critDamageText != null) critDamageText.text = $"{player.CurrentCritDamage}%";
-            if (blockRateText != null) blockRateText.text = $"{player.CurrentBlockRate}%";
+            if (blockRateText  != null) blockRateText.text  = $"{player.CurrentBlockRate}%";
         }
     }
 
     private void UpdateTurnCount(object param)
     {
         int currentTurns = (int)param;
-        if (turnIcons != null)
+        if (turnIcons == null) return;
+        for (int i = 0; i < turnIcons.Length; i++)
         {
-            for (int i = 0; i < turnIcons.Length; i++)
-            {
-                if (turnIcons[i] != null) turnIcons[i].SetActive(i < currentTurns);
-            }
+            if (turnIcons[i] != null) turnIcons[i].SetActive(i < currentTurns);
         }
     }
 
@@ -103,7 +205,7 @@ public class GameplayUIManager : MonoBehaviour
         if (param is Enemy enemy)
         {
             if (enemyInfoPanel != null) enemyInfoPanel.SetActive(true);
-            if (enemySprite != null) enemySprite.sprite = enemy.CharacterSprite;
+            if (enemySprite    != null) enemySprite.sprite = enemy.CharacterSprite;
             UpdateEnemyHP(enemy);
         }
     }
@@ -117,7 +219,8 @@ public class GameplayUIManager : MonoBehaviour
     {
         if (param is Enemy enemy)
         {
-            if (enemyHpText != null) enemyHpText.text = $"{enemy.CurrentHealth}/{enemy.CurrentMaxHealth}";
+            if (enemyHpText != null)
+                enemyHpText.text = $"{enemy.CurrentHealth}/{enemy.CurrentMaxHealth}";
             if (enemyHpFill != null)
             {
                 float fillAmount = enemy.CurrentHealth / enemy.CurrentMaxHealth;
@@ -129,9 +232,7 @@ public class GameplayUIManager : MonoBehaviour
     private void HandleShowDamagePopup(object param)
     {
         if (param is DamagePopupData data)
-        {
             ShowDamagePopup(data.Position, data.Damage, data.IsCritical);
-        }
     }
 
     public void ShowDamagePopup(Vector3 position, int damageAmount, bool isCritical)
@@ -141,7 +242,7 @@ public class GameplayUIManager : MonoBehaviour
         damagePopupObj.transform.position = position;
         damagePopupObj.SetActive(true);
 
-        damagePopupText.text = damageAmount.ToString();
+        damagePopupText.text  = damageAmount.ToString();
         damagePopupText.color = isCritical ? Color.red : Color.yellow;
         damagePopupText.alpha = 1f;
 
@@ -151,25 +252,9 @@ public class GameplayUIManager : MonoBehaviour
 
         float endPosY = position.y + 1f;
         damagePopupObj.transform.DOMoveY(endPosY, 0.7f).SetEase(Ease.OutBack);
-
         damagePopupText.DOFade(0f, 0.7f).SetDelay(0.3f).OnComplete(() =>
         {
             if (damagePopupObj != null) damagePopupObj.SetActive(false);
         });
-    }
-
-    public void ShowPausePopup()
-    {
-        // Implement pause popup logic here (e.g., show a panel, display options, etc.)
-    }
-
-    public void ShowVictory()
-    {
-        // Implement victory UI logic here (e.g., show a panel, display rewards, etc.)
-    }
-
-    public void ShowGameOver()
-    {
-        // Implement game over UI logic here (e.g., show a panel, display final stats, etc.)
     }
 }

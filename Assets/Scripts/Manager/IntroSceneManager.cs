@@ -38,6 +38,7 @@ public class IntroSceneManager : MonoBehaviour
         quitButton.transform.localScale = Vector3.zero;
 
         playButton.onClick.AddListener(OnPlayClicked);
+        settingButton.onClick.AddListener(OnSettingsClicked);
         quitButton.onClick.AddListener(OnQuitClicked);
 
         DOVirtual.DelayedCall(1f, () =>

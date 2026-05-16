@@ -6,13 +6,16 @@ public enum EventID
     OnPlayerTurnStart,
     OnEnemyTurnStart,
     OnGameOver,
+    OnVictory,
     OnShowDamagePopup,
     OnUpdatePlayerStats,
     OnUpdateTurnCount,
     OnUpdateRoundCount,
     OnShowEnemyInfo,
     OnHideEnemyInfo,
-    OnUpdateEnemyHP
+    OnUpdateEnemyHP,
+    OnPause,
+    OnResume
 }
 
 public class MatchEventData

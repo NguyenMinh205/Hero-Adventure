@@ -8,6 +8,8 @@ public class BattleManager : Singleton<BattleManager>
     [Header("State")]
     [SerializeField] private GameState currentState;
     public GameState CurrentState => currentState;
+    private GameState previousState;
+
     [SerializeField] private int maxActionPoints = 5;
     [SerializeField] private int currentActionPoints;
 
@@ -35,11 +37,15 @@ public class BattleManager : Singleton<BattleManager>
     private void OnEnable()
     {
         ObserverManager<EventID>.AddRegisterEvent(EventID.OnGemsMatched, HandleGemsMatched);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnPause, HandlePause);
+        ObserverManager<EventID>.AddRegisterEvent(EventID.OnResume, HandleResume);
     }
 
     private void OnDisable()
     {
         ObserverManager<EventID>.RemoveAddListener(EventID.OnGemsMatched, HandleGemsMatched);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnPause, HandlePause);
+        ObserverManager<EventID>.RemoveAddListener(EventID.OnResume, HandleResume);
     }
 
     public void InitBattle()
@@ -260,5 +266,22 @@ public class BattleManager : Singleton<BattleManager>
     public void SetGameState(GameState state)
     {
         currentState = state;
+    }
+
+    private void HandlePause(object param)
+    {
+        if (currentState != GameState.Paused)
+        {
+            previousState = currentState;
+            currentState = GameState.Paused;
+        }
+    }
+
+    private void HandleResume(object param)
+    {
+        if (currentState == GameState.Paused)
+        {
+            currentState = previousState;
+        }
     }
 }

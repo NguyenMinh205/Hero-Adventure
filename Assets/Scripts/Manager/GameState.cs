@@ -8,5 +8,6 @@ public enum GameState
     Matching,
     PlayerTurn,
     EnemyTurn,
-    Finished
+    Finished,
+    Paused
 }

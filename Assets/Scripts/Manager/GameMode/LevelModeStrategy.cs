@@ -43,7 +43,7 @@ public class LevelModeStrategy : IGameModeStrategy
         if (currentWave >= maxWaves)
         {
             battleManager.SetGameState(GameState.Finished);
-            ObserverManager<EventID>.PostEvent(EventID.OnGameOver, true);
+            ObserverManager<EventID>.PostEvent(EventID.OnVictory);
             yield break;
         }
 
