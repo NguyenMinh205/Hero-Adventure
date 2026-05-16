@@ -21,6 +21,7 @@ public class BattleManager : Singleton<BattleManager>
     [SerializeField] private GameplayUIManager gameplayUIManager;
     [SerializeField] private GameGrid gameGrid;
     [SerializeField] private Player player;
+    public Player Player => player;
     [SerializeField] private List<Enemy> activeEnemies = new List<Enemy>();
     [SerializeField] private float multiplierPerGem = 0.25f;
 
@@ -259,7 +260,7 @@ public class BattleManager : Singleton<BattleManager>
         else
         {
             currentState = GameState.Finished;
-            ObserverManager<EventID>.PostEvent(EventID.OnGameOver, false);
+            ObserverManager<EventID>.PostEvent(EventID.OnGameOver, player);
         }
     }
 
