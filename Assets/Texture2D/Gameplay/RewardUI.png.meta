@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d3d031f3eb3b10f41832465fb68fdbe8
+guid: d0d4220b0751b4145bc99427d44d6057
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,127 +123,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: victoryUI_0
+      name: RewardUI_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 798
-        width: 259
-        height: 111
+        x: 33
+        y: 529
+        width: 336
+        height: 343
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ce7a9481e5f6a94d829049cee4a3462
-      internalID: 85874397
+      spriteID: bdfa0bfe96abe474da9fe65878445bc7
+      internalID: 1455809456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: victoryUI_1
+      name: RewardUI_1
       rect:
         serializedVersion: 2
-        x: 277
-        y: 681
-        width: 242
-        height: 285
+        x: 408
+        y: 530
+        width: 336
+        height: 342
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 74, y: 71, z: 78, w: 79}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 25801a2dc1651c3418667c60dc1bb800
-      internalID: 1764241022
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: victoryUI_2
-      rect:
-        serializedVersion: 2
-        x: 273
-        y: 297
-        width: 247
-        height: 311
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1fe1c5e262419a448a1764c5718d970
-      internalID: -961020950
+      spriteID: 2f0e4558958bbcc4b8d0698a43752c38
+      internalID: -2124171016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: victoryUI_3
+      name: RewardUI_2
       rect:
         serializedVersion: 2
-        x: 12
-        y: 402
-        width: 237
-        height: 208
+        x: 779
+        y: 529
+        width: 336
+        height: 343
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c3d50e9d9bb86747a84b9fc0b2fa528
-      internalID: -75518337
+      spriteID: 81836515ed176894eaefb0db2b15781a
+      internalID: -1923008590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: victoryUI_4
+      name: RewardUI_3
       rect:
         serializedVersion: 2
-        x: 36
-        y: 72
-        width: 192
-        height: 114
+        x: 1150
+        y: 529
+        width: 335
+        height: 343
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f3445a49afc18b244835adae731ce070
-      internalID: 35668554
+      spriteID: 2d7d29b6505488045bd603b04484c8dd
+      internalID: 552541338
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: victoryUI_5
+      name: RewardUI_4
       rect:
         serializedVersion: 2
-        x: 300
-        y: 72
-        width: 187
-        height: 115
+        x: 35
+        y: 131
+        width: 337
+        height: 342
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbd30d17d2f71734daf007621418d797
-      internalID: 1087567540
+      spriteID: 1ddbab6420e76454fb0e852b3f16e112
+      internalID: 27350095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_5
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 131
+        width: 338
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d116db0c6381c345862c0786c9e498b
+      internalID: 1016731397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_6
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 131
+        width: 338
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1de3d76e60ce9794bb52e8411dc9a0ea
+      internalID: 1930746309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_7
+      rect:
+        serializedVersion: 2
+        x: 1150
+        y: 131
+        width: 335
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92238e06ec22b674580333f2dbf19617
+      internalID: 390288751
       vertices: []
       indices: 
       edges: []
@@ -259,12 +301,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      victoryUI_0: 85874397
-      victoryUI_1: 1764241022
-      victoryUI_2: -961020950
-      victoryUI_3: -75518337
-      victoryUI_4: 35668554
-      victoryUI_5: 1087567540
+      RewardUI_0: 1455809456
+      RewardUI_1: -2124171016
+      RewardUI_2: -1923008590
+      RewardUI_3: 552541338
+      RewardUI_4: 27350095
+      RewardUI_5: 1016731397
+      RewardUI_6: 1930746309
+      RewardUI_7: 390288751
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

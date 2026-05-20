@@ -2,9 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameSceneManager : MonoBehaviour
 {
+    [Header("Top Bar UI")]
+    [SerializeField] private TextMeshProUGUI topBarLevelText;
+    [SerializeField] private Image topBarExpFill;
+    [SerializeField] private TextMeshProUGUI topBarExpText;
+    [SerializeField] private TextMeshProUGUI topBarGoldText;
+    [SerializeField] private TextMeshProUGUI topBarDiamondText;
     [Header("Panels")]
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject selectLevelPanel;
@@ -18,6 +25,10 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] private Button backButton;
     [SerializeField] private Button[] levelNodeButtons;
     [SerializeField] private LevelConfig[] levelConfigs; 
+    
+    [Header("Level Node Assets")]
+    [SerializeField] private Sprite lockedLevelSprite;
+    [SerializeField] private Sprite unlockedLevelSprite;
     
     public void Start()
     {
@@ -55,9 +66,26 @@ public class GameSceneManager : MonoBehaviour
 
     public void ShowMainMenu()
     {
+        UpdateTopBar();
         if (mainMenuPanel) mainMenuPanel.SetActive(true);
         if (selectLevelPanel) selectLevelPanel.SetActive(false);
         if (gameplayPanel) gameplayPanel.SetActive(false);
+    }
+
+    private void UpdateTopBar()
+    {
+        if (DataManager.Instance == null) return;
+
+        var data = DataManager.Instance.GameData;
+        
+        if (topBarLevelText != null) topBarLevelText.text = $"{data.PlayerLevel}";
+        
+        int maxExp = data.PlayerLevel * 100;
+        if (topBarExpText != null) topBarExpText.text = $"{data.CurrentExp}/{maxExp}";
+        if (topBarExpFill != null) topBarExpFill.fillAmount = (float)data.CurrentExp / maxExp;
+
+        if (topBarGoldText != null) topBarGoldText.text = data.Gold.ToString();
+        if (topBarDiamondText != null) topBarDiamondText.text = data.Diamond.ToString();
     }
 
     private void OnAdventureClicked()
@@ -65,6 +93,38 @@ public class GameSceneManager : MonoBehaviour
         if (mainMenuPanel) mainMenuPanel.SetActive(false);
         if (selectLevelPanel) selectLevelPanel.SetActive(true);
         if (gameplayPanel) gameplayPanel.SetActive(false);
+        
+        UpdateLevelNodes();
+    }
+
+    private void UpdateLevelNodes()
+    {
+        if (DataManager.Instance == null) return;
+
+        int maxUnlocked = DataManager.Instance.GameData.MaxUnlockedLevel;
+
+        for (int i = 0; i < levelNodeButtons.Length; i++)
+        {
+            if (levelNodeButtons[i] != null)
+            {
+                bool isUnlocked = (i <= maxUnlocked);
+                levelNodeButtons[i].interactable = isUnlocked;
+
+                // Đổi Sprite giữa khoá và mở khoá
+                Image btnImage = levelNodeButtons[i].GetComponent<Image>();
+                if (btnImage != null && lockedLevelSprite != null && unlockedLevelSprite != null)
+                {
+                    btnImage.sprite = isUnlocked ? unlockedLevelSprite : lockedLevelSprite;
+                }
+
+                // Ẩn/hiện số level
+                TextMeshProUGUI levelText = levelNodeButtons[i].GetComponentInChildren<TextMeshProUGUI>(true);
+                if (levelText != null)
+                {
+                    levelText.gameObject.SetActive(isUnlocked);
+                }
+            }
+        }
     }
 
     private void OnEndlessClicked()

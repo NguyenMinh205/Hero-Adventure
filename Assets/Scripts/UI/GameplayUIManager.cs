@@ -20,6 +20,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI critDamageText;
     [SerializeField] private TextMeshProUGUI blockRateText;
 
+
     [Header("Turn & Round UI")]
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] private GameObject[] turnIcons;
@@ -39,17 +40,10 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private Button pauseButton;
 
     [Header("Victory Panel")]
-    [SerializeField] private GameObject victoryPanelObj;
-    [SerializeField] private Transform victoryPopupContent;
-    [SerializeField] private GameObject[] victoryStars;
-    [SerializeField] private Button victoryNextLevelButton;
-    [SerializeField] private Button victoryMainMenuButton;
+    [SerializeField] private VictoryUI victoryUI;
 
     [Header("Game Over Panel")]
-    [SerializeField] private GameObject gameOverPanelObj;
-    [SerializeField] private Transform gameOverPopupContent;
-    [SerializeField] private Button gameOverRetryButton;
-    [SerializeField] private Button gameOverMainMenuButton;
+    [SerializeField] private DefeatUI defeatUI;
 
     private void OnEnable()
     {
@@ -79,29 +73,18 @@ public class GameplayUIManager : MonoBehaviour
 
     public void Init()
     {
-        if (enemyInfoPanel   != null) enemyInfoPanel.SetActive(false);
-        if (damagePopupObj   != null) damagePopupObj.SetActive(false);
-        if (victoryPanelObj  != null) victoryPanelObj.SetActive(false);
-        if (gameOverPanelObj != null) gameOverPanelObj.SetActive(false);
+        if (enemyInfoPanel != null) enemyInfoPanel.SetActive(false);
+        if (damagePopupObj != null) damagePopupObj.SetActive(false);
+        if (victoryUI != null) victoryUI.Hide();
+        if (defeatUI != null) defeatUI.Hide();
 
         if (pausePopup != null) pausePopup.Init();
         if (pauseButton != null) pauseButton.onClick.AddListener(OnPauseClicked);
-
-
-        if (victoryNextLevelButton != null) victoryNextLevelButton.onClick.AddListener(OnNextLevelClicked);
-        if (victoryMainMenuButton  != null) victoryMainMenuButton.onClick.AddListener(GoToMainMenu);
-
-        if (gameOverRetryButton    != null) gameOverRetryButton.onClick.AddListener(OnReplayClicked);
-        if (gameOverMainMenuButton != null) gameOverMainMenuButton.onClick.AddListener(GoToMainMenu);
     }
 
     private void OnDestroy()
     {
         if (pauseButton != null) pauseButton.onClick.RemoveAllListeners();
-        if (victoryNextLevelButton != null) victoryNextLevelButton.onClick.RemoveAllListeners();
-        if (victoryMainMenuButton  != null) victoryMainMenuButton.onClick.RemoveAllListeners();
-        if (gameOverRetryButton    != null) gameOverRetryButton.onClick.RemoveAllListeners();
-        if (gameOverMainMenuButton != null) gameOverMainMenuButton.onClick.RemoveAllListeners();
     }
 
     private void OnPauseClicked()
@@ -118,65 +101,18 @@ public class GameplayUIManager : MonoBehaviour
 
     public void ShowVictory(Player player = null)
     {
-        if (victoryPanelObj == null || victoryPopupContent == null) return;
-
         AudioManager.Instance?.PlaySoundWin();
-
-        victoryPanelObj.SetActive(true);
-        victoryPopupContent.localScale = Vector3.zero;
-        victoryPopupContent
-            .DOScale(1f, 0.4f)
-            .SetEase(Ease.OutBack);
-
-        if (victoryStars != null && player != null)
-        {
-            float hpPercent = (player.CurrentHealth / player.CurrentMaxHealth) * 100f;
-            int starsToEarn = 1;
-            if (hpPercent >= 70f) starsToEarn = 3;
-            else if (hpPercent >= 40f) starsToEarn = 2;
-
-            for (int i = 0; i < victoryStars.Length; i++)
-            {
-                if (victoryStars[i] != null)
-                {
-                    victoryStars[i].SetActive(i < starsToEarn);
-                }
-            }
-        }
-    }
-
-    private void OnNextLevelClicked()
-    {
-        AudioManager.Instance?.PlaySoundButtonClick();
-        Time.timeScale = 1f;
-        if (victoryPanelObj != null) victoryPanelObj.SetActive(false);
-        // TODO: Mở rộng sau — tự động chọn level kế tiếp
-        // Hiện tại về Main Menu của GameScene để chọn level
-        GoToMainMenu();
-    }
-
-    private void OnReplayClicked()
-    {
-        AudioManager.Instance?.PlaySoundButtonClick();
-        Time.timeScale = 1f;
-        if (victoryPanelObj  != null) victoryPanelObj.SetActive(false);
-        if (gameOverPanelObj != null) gameOverPanelObj.SetActive(false);
-        BattleManager.Instance?.InitBattle();
+        if (victoryUI != null)
+            victoryUI.Show(player);
     }
 
     private void HandleGameOver(object param) => ShowGameOver();
 
     public void ShowGameOver()
     {
-        if (gameOverPanelObj == null || gameOverPopupContent == null) return;
-
         AudioManager.Instance?.PlaySoundLose();
-
-        gameOverPanelObj.SetActive(true);
-        gameOverPopupContent.localScale = Vector3.zero;
-        gameOverPopupContent
-            .DOScale(1f, 0.4f)
-            .SetEase(Ease.OutBack);
+        if (defeatUI != null)
+            defeatUI.Show();
     }
 
     private void GoToMainMenu()
@@ -184,8 +120,8 @@ public class GameplayUIManager : MonoBehaviour
         AudioManager.Instance?.PlaySoundButtonClick();
         Time.timeScale = 1f;
         if (pausePopup != null) pausePopup.Hide();
-        if (victoryPanelObj  != null) victoryPanelObj.SetActive(false);
-        if (gameOverPanelObj != null) gameOverPanelObj.SetActive(false);
+        if (victoryUI != null) victoryUI.Hide();
+        if (defeatUI != null) defeatUI.Hide();
         FindObjectOfType<GameSceneManager>()?.ShowMainMenu();
     }
 
@@ -198,7 +134,7 @@ public class GameplayUIManager : MonoBehaviour
             if (damageText != null) damageText.text = $"{player.CurrentDamage}";
             if (critRateText != null) critRateText.text = $"{player.CurrentCritRate}%";
             if (critDamageText != null) critDamageText.text = $"{player.CurrentCritDamage}%";
-            if (blockRateText != null) blockRateText.text  = $"{player.CurrentBlockRate}%";
+            if (blockRateText != null) blockRateText.text = $"{player.CurrentBlockRate}%";
         }
     }
 
@@ -223,7 +159,7 @@ public class GameplayUIManager : MonoBehaviour
         if (param is Enemy enemy)
         {
             if (enemyInfoPanel != null) enemyInfoPanel.SetActive(true);
-            if (enemySprite    != null) enemySprite.sprite = enemy.CharacterSprite;
+            if (enemySprite != null) enemySprite.sprite = enemy.CharacterSprite;
             UpdateEnemyHP(enemy);
         }
     }
@@ -260,7 +196,7 @@ public class GameplayUIManager : MonoBehaviour
         damagePopupObj.transform.position = position;
         damagePopupObj.SetActive(true);
 
-        damagePopupText.text  = damageAmount.ToString();
+        damagePopupText.text = damageAmount.ToString();
         damagePopupText.color = isCritical ? Color.red : Color.yellow;
         damagePopupText.alpha = 1f;
 

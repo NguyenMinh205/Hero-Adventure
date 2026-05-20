@@ -17,6 +17,6 @@ MonoBehaviour:
   PossibleEnemies:
   - {fileID: 11400000, guid: 6df6eb6f0b2846f4da89a8e0b9492a43, type: 2}
   - {fileID: 11400000, guid: 3678d96dfa1858f45916931e654f01f7, type: 2}
-  GoldReward: 0
-  DiamondReward: 0
-  ExpReward: 0
+  GoldReward: 100
+  DiamondReward: 10
+  ExpReward: 100

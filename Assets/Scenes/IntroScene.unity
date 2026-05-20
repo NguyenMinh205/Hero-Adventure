@@ -2639,9 +2639,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _musicSource: {fileID: 1255373092}
   _soundSource: {fileID: 1707603872}
-  _musicIntro: {fileID: 0}
+  _musicIntro: {fileID: 8300000, guid: 4f273e297c8d71d49a6e5b368dd00b06, type: 3}
   _musicInMenu: {fileID: 0}
-  _musicInGame: {fileID: 0}
+  _musicInGame: {fileID: 8300000, guid: d5b6e5fe4be3e2e479c49af3e2200d69, type: 3}
   _buttonClick: {fileID: 0}
   _click: {fileID: 0}
   _winSound: {fileID: 0}
@@ -3789,9 +3789,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
+    y: 0.00032
     width: 1
-    height: 1
+    height: 0.99935
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60

@@ -5,6 +5,7 @@ using DG.Tweening;
 public class PausePopup : MonoBehaviour
 {
     [Header("UI Elements")]
+    [SerializeField] private Image backgroundDim;
     [SerializeField] private GameObject popupContentObj;
     [SerializeField] private Transform popupContentTransform;
 
@@ -57,7 +58,7 @@ public class PausePopup : MonoBehaviour
 
         AudioManager.Instance?.PlaySoundButtonClick();
         Time.timeScale = 0f;
-
+        backgroundDim.gameObject.SetActive(true);
         popupContentObj.SetActive(true);
         popupContentTransform.localScale = Vector3.zero;
         popupContentTransform
@@ -78,6 +79,7 @@ public class PausePopup : MonoBehaviour
             .OnComplete(() =>
             {
                 if (popupContentObj != null) popupContentObj.SetActive(false);
+                if (backgroundDim != null) backgroundDim.gameObject.SetActive(false);
                 Time.timeScale = 1f;
             });
     }
