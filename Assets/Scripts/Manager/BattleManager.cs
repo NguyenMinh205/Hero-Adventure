@@ -16,6 +16,7 @@ public class BattleManager : Singleton<BattleManager>
     [Header("Level Progress")]
     [SerializeField] private BackgroundScroller bgScroller;
     private IGameModeStrategy currentStrategy;
+    public IGameModeStrategy CurrentStrategy => currentStrategy;
 
     [Header("References")]
     [SerializeField] private GameplayUIManager gameplayUIManager;
@@ -51,6 +52,7 @@ public class BattleManager : Singleton<BattleManager>
 
     public void InitBattle()
     {
+        CleanupBattle();
         if (gameplayUIManager != null)
         {
             gameplayUIManager.Init();
@@ -123,7 +125,6 @@ public class BattleManager : Singleton<BattleManager>
 
     private void SpawnEnemies()
     {
-        activeEnemies.Clear();
         List<CharacterInfoSO> enemiesToSpawn = currentStrategy.GetEnemiesToSpawn(listEnemySO);
 
         if (enemiesToSpawn == null || enemiesToSpawn.Count == 0)
@@ -283,6 +284,30 @@ public class BattleManager : Singleton<BattleManager>
         if (currentState == GameState.Paused)
         {
             currentState = previousState;
+        }
+    }
+
+    public void CleanupBattle()
+    {
+        StopAllCoroutines();
+        
+        foreach (var enemy in activeEnemies)
+        {
+            if (enemy != null && enemy.gameObject.activeInHierarchy)
+            {
+                PoolingManager.Despawn(enemy.gameObject);
+            }
+        }
+        activeEnemies.Clear();
+
+        if (gameGrid != null)
+        {
+            gameGrid.ClearGrid();
+        }
+        
+        if (player != null)
+        {
+            player.StopAllCoroutines();
         }
     }
 }

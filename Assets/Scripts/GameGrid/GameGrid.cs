@@ -17,8 +17,28 @@ public class GameGrid : MonoBehaviour
 
     public void Init()
     {
+        ClearGrid();
         startX = -(gridSize - 1) * spacing / 2f;
         CreateGrid();
+    }
+
+    public void ClearGrid()
+    {
+        if (gridGems != null)
+        {
+            for (int x = 0; x < gridSize; x++)
+            {
+                for (int y = 0; y < gridSize; y++)
+                {
+                    if (gridGems[x, y] != null)
+                    {
+                        gridGems[x, y].transform.DOKill();
+                        gemSpawner.DespawnGem(gridGems[x, y]);
+                        gridGems[x, y] = null;
+                    }
+                }
+            }
+        }
     }
 
     private void CreateGrid()

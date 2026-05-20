@@ -35,10 +35,23 @@ public class SecureGameData
     [SerializeField] private float _soundVolume = 0.5f;
     [SerializeField] private bool _vibration = true;
 
+    [Header("Player Progression")]
+    [SerializeField] private int _gold = 0;
+    [SerializeField] private int _diamond = 0;
+    [SerializeField] private int _playerLevel = 1;
+    [SerializeField] private int _currentExp = 0;
+    [SerializeField] private int _maxUnlockedLevel = 0;
+
     #region CONST
     private const float DEFAULT_MUSIC_VOLUME = 0.5f;
     private const float DEFAULT_SOUND_VOLUME = 0.5f;
     private const bool DEFAULT_VIBRATION = true;
+    
+    private const int DEFAULT_GOLD = 0;
+    private const int DEFAULT_DIAMOND = 0;
+    private const int DEFAULT_PLAYER_LEVEL = 1;
+    private const int DEFAULT_EXP = 0;
+    private const int DEFAULT_UNLOCKED_LEVEL = 0;
     #endregion
 
     #region PROPERTIES
@@ -59,6 +72,12 @@ public class SecureGameData
         get { return _vibration; }
         set { _vibration = value; }
     }
+
+    public int Gold { get => _gold; set => _gold = value; }
+    public int Diamond { get => _diamond; set => _diamond = value; }
+    public int PlayerLevel { get => _playerLevel; set => _playerLevel = value; }
+    public int CurrentExp { get => _currentExp; set => _currentExp = value; }
+    public int MaxUnlockedLevel { get => _maxUnlockedLevel; set => _maxUnlockedLevel = value; }
 
     #endregion
 
@@ -87,19 +106,62 @@ public class SecureGameData
         this._musicVolume = other._musicVolume;
         this._soundVolume = other._soundVolume;
         this._vibration = other._vibration;
+
+        this._gold = other._gold;
+        this._diamond = other._diamond;
+        this._playerLevel = other._playerLevel;
+        this._currentExp = other._currentExp;
+        this._maxUnlockedLevel = other._maxUnlockedLevel;
     }
 
     public void ClearAllData()
-      {
-          SaveGameManager.DeleteSave(SaveFileKey);
-          Reset();
-      }
+    {
+        SaveGameManager.DeleteSave(SaveFileKey);
+        Reset();
+    }
 
     private void Reset()
     {
         _musicVolume = DEFAULT_MUSIC_VOLUME;
         _soundVolume = DEFAULT_SOUND_VOLUME;
         _vibration = DEFAULT_VIBRATION;
+
+        _gold = DEFAULT_GOLD;
+        _diamond = DEFAULT_DIAMOND;
+        _playerLevel = DEFAULT_PLAYER_LEVEL;
+        _currentExp = DEFAULT_EXP;
+        _maxUnlockedLevel = DEFAULT_UNLOCKED_LEVEL;
+    }
+
+    #endregion
+
+    #region LOGIC PROGRESSION
+    
+    public void AddResources(int addGold, int addDiamond, int addExp)
+    {
+        _gold += addGold;
+        _diamond += addDiamond;
+        _currentExp += addExp;
+
+        // Xử lý Level up
+        int maxExpForCurrentLevel = _playerLevel * 100;
+        while (_currentExp >= maxExpForCurrentLevel)
+        {
+            _currentExp -= maxExpForCurrentLevel;
+            _playerLevel++;
+            maxExpForCurrentLevel = _playerLevel * 100;
+            Debug.Log($"Level Up! Current Level: {_playerLevel}");
+        }
+    }
+
+    public void UnlockNextLevel(int currentLevelId)
+    {
+        // currentLevelId là index của màn chơi vừa thắng (VD: 0 cho màn 1).
+        // MaxUnlockedLevel sẽ lưu trữ index lớn nhất có thể truy cập.
+        if (currentLevelId >= _maxUnlockedLevel)
+        {
+            _maxUnlockedLevel = currentLevelId + 1;
+        }
     }
 
     #endregion

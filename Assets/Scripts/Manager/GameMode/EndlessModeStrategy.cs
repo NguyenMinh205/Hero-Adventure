@@ -6,6 +6,7 @@ public class EndlessModeStrategy : IGameModeStrategy
 {
     private int currentRound;
     private float difficultyMultiplier;
+    public int CurrentRound => currentRound;
 
     public void Initialize(BattleManager battleManager)
     {
