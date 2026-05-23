@@ -8,25 +8,32 @@ public class LevelModeStrategy : IGameModeStrategy
     private int maxWaves;
     private LevelConfig config;
 
+    private float levelDifficultyMultiplier;
+    private float waveScalingIncrement;
+
     public void Initialize(BattleManager battleManager)
     {
         currentWave = 0;
         config = GameModeManager.Instance.CurrentLevelConfig;
-        
+
         if (config != null)
         {
             maxWaves = config.MaxWaves;
+            levelDifficultyMultiplier = config.levelDifficultyMultiplier;
+            waveScalingIncrement = config.waveScalingIncrement;
         }
         else
         {
             maxWaves = 3;
+            levelDifficultyMultiplier = 1f;
+            waveScalingIncrement = 0.05f;
         }
     }
 
     public List<CharacterInfoSO> GetEnemiesToSpawn(List<CharacterInfoSO> availableEnemies)
     {
         List<CharacterInfoSO> pool = (config != null && config.PossibleEnemies.Count > 0) ? config.PossibleEnemies : availableEnemies;
-        
+
         List<CharacterInfoSO> selectedEnemies = new List<CharacterInfoSO>();
         int enemyCount = Random.Range(1, 4);
 
@@ -49,7 +56,7 @@ public class LevelModeStrategy : IGameModeStrategy
 
         currentWave++;
         ObserverManager<EventID>.PostEvent(EventID.OnUpdateRoundCount, currentWave);
-        
+
         yield return battleManager.StartCoroutine(battleManager.ExploreRoutine());
     }
 
@@ -61,5 +68,11 @@ public class LevelModeStrategy : IGameModeStrategy
     public string GetProgressText()
     {
         return $"Wave {currentWave}/{maxWaves}";
+    }
+
+    public float GetDifficultyMultiplier()
+    {
+        int completedWaves = Mathf.Max(0, currentWave - 1);
+        return levelDifficultyMultiplier + completedWaves * waveScalingIncrement;
     }
 }

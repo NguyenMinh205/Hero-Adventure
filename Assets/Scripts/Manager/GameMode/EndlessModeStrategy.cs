@@ -8,17 +8,19 @@ public class EndlessModeStrategy : IGameModeStrategy
     private float difficultyMultiplier;
     public int CurrentRound => currentRound;
 
+    private const float IncrementPerRound = 0.1f;
+
     public void Initialize(BattleManager battleManager)
     {
         currentRound = 0;
-        difficultyMultiplier = 0.9f;
+        difficultyMultiplier = 1.0f;
     }
 
     public List<CharacterInfoSO> GetEnemiesToSpawn(List<CharacterInfoSO> availableEnemies)
     {
         List<CharacterInfoSO> selectedEnemies = new List<CharacterInfoSO>();
-        int enemyCount = Mathf.Min(3, 1 + (currentRound / 3)); 
-        
+        int enemyCount = Mathf.Min(3, 1 + (currentRound / 3));
+
         for (int i = 0; i < enemyCount; i++)
         {
             selectedEnemies.Add(availableEnemies[Random.Range(0, availableEnemies.Count)]);
@@ -30,10 +32,10 @@ public class EndlessModeStrategy : IGameModeStrategy
     public IEnumerator OnWaveCleared(BattleManager battleManager)
     {
         currentRound++;
-        difficultyMultiplier += 0.1f;
-        
+        difficultyMultiplier = 1.0f + (currentRound - 1) * IncrementPerRound;
+
         ObserverManager<EventID>.PostEvent(EventID.OnUpdateRoundCount, currentRound);
-        
+
         yield return battleManager.StartCoroutine(battleManager.ExploreRoutine());
     }
 

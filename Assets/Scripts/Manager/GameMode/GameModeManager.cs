@@ -10,11 +10,6 @@ public class GameModeManager : Singleton<GameModeManager>
     [SerializeField] private LevelConfig currentLevelConfig;
     public LevelConfig CurrentLevelConfig => currentLevelConfig;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
     public void SetGameMode(GameModeType mode)
     {
         currentMode = mode;

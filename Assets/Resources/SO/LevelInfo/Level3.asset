@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Level3
   m_EditorClassIdentifier: 
   LevelID: 3
+  IsBossLevel: 0
   MaxWaves: 3
+  levelDifficultyMultiplier: 1.2
+  waveScalingIncrement: 0.04
   PossibleEnemies:
   - {fileID: 11400000, guid: 6df6eb6f0b2846f4da89a8e0b9492a43, type: 2}
   - {fileID: 11400000, guid: 3678d96dfa1858f45916931e654f01f7, type: 2}

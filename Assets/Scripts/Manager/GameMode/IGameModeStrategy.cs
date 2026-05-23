@@ -9,4 +9,5 @@ public interface IGameModeStrategy
     IEnumerator OnWaveCleared(BattleManager battleManager);
     bool IsGameOver(Player player);
     string GetProgressText();
+    float GetDifficultyMultiplier();
 }
