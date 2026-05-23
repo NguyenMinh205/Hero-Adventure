@@ -19,4 +19,8 @@ public class GemData : ScriptableObject
     public Sprite gemSprite;
     public Color lineColor;
     public float powerValue;
+
+    [Header("Spawn Settings")]
+    [Range(1, 10)]
+    public int spawnWeight = 1;
 }

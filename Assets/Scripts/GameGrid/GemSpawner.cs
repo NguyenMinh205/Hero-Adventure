@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GemSpawner : MonoBehaviour
@@ -19,6 +19,24 @@ public class GemSpawner : MonoBehaviour
 
     public GemData GetRandomGemData()
     {
-        return gemDataList[Random.Range(0, gemDataList.Count)];
+        int totalWeight = 0;
+        foreach (GemData data in gemDataList)
+        {
+            totalWeight += data.spawnWeight;
+        }
+
+        int roll = Random.Range(0, totalWeight);
+        int cumulative = 0;
+
+        foreach (GemData data in gemDataList)
+        {
+            cumulative += data.spawnWeight;
+            if (roll < cumulative)
+            {
+                return data;
+            }
+        }
+
+        return gemDataList[gemDataList.Count - 1];
     }
 }
