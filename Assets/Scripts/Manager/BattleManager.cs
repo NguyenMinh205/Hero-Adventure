@@ -25,6 +25,7 @@ public class BattleManager : Singleton<BattleManager>
     public Player Player => player;
     [SerializeField] private List<Enemy> activeEnemies = new List<Enemy>();
     [SerializeField] private float multiplierPerGem = 0.25f;
+    [SerializeField] private EnemySelectionManager enemySelectionManager;
 
     [Header("Enemy Spawner Settings")]
     [SerializeField] private Enemy enemyPrefab;
@@ -133,34 +134,25 @@ public class BattleManager : Singleton<BattleManager>
             return;
         }
 
+        float difficultyMultiplier = currentStrategy.GetDifficultyMultiplier();
+        Debug.Log($"[BattleManager] Spawning {enemiesToSpawn.Count} enemies with difficulty multiplier: {difficultyMultiplier:F2}");
+
         if (enemiesToSpawn.Count == 1)
         {
             Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[spawnPoints.Length - 1].position, Quaternion.identity);
             newEnemy.InitStat(enemiesToSpawn[0]);
-
-            if (currentStrategy is EndlessModeStrategy endlessStrategy)
-            {
-                float multiplier = endlessStrategy.GetDifficultyMultiplier();
-                newEnemy.ApplyDifficultyMultiplier(multiplier);
-            }
-
+            newEnemy.ApplyDifficultyMultiplier(difficultyMultiplier);
             activeEnemies.Add(newEnemy);
             return;
-        }    
+        }
 
         for (int i = 0; i < enemiesToSpawn.Count; i++)
         {
             if (i >= spawnPoints.Length) break;
-            
+
             Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[i].position, Quaternion.identity);
             newEnemy.InitStat(enemiesToSpawn[i]);
-            
-            if (currentStrategy is EndlessModeStrategy endlessStrategy)
-            {
-                float multiplier = endlessStrategy.GetDifficultyMultiplier();
-                newEnemy.ApplyDifficultyMultiplier(multiplier);
-            }
-
+            newEnemy.ApplyDifficultyMultiplier(difficultyMultiplier);
             activeEnemies.Add(newEnemy);
         }
     }
@@ -193,15 +185,31 @@ public class BattleManager : Singleton<BattleManager>
         switch (data.GemType)
         {
             case GemType.Damage:
-                Enemy target = activeEnemies.Find(e => !e.IsDead());
-                if (target != null)
+                currentState = GameState.SelectingTarget;
+
+                Enemy selectedTarget = null;
+
+                if (enemySelectionManager != null)
                 {
-                    ObserverManager<EventID>.PostEvent(EventID.OnShowEnemyInfo, target);
-                    yield return StartCoroutine(player.PerformAttackSequence(target, totalPower, data.MatchCount - 3));
+                    yield return StartCoroutine(enemySelectionManager.SelectTarget(activeEnemies, (t) => selectedTarget = t));
+                }
+                else
+                {
+                    selectedTarget = activeEnemies.Find(e => !e.IsDead());
+                }
+
+                if (selectedTarget != null)
+                {
+                    ObserverManager<EventID>.PostEvent(EventID.OnShowEnemyInfo, selectedTarget);
+                    yield return StartCoroutine(player.PerformAttackSequence(selectedTarget, totalPower, data.MatchCount - 3));
                     yield return new WaitForSeconds(1f);
+                    selectedTarget.HideTargetIndicator();
                     ObserverManager<EventID>.PostEvent(EventID.OnHideEnemyInfo);
                 }
+
+                currentState = GameState.Matching;
                 break;
+
             case GemType.Health:
                 player.Heal(totalPower);
                 break;

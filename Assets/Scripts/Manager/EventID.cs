@@ -15,7 +15,9 @@ public enum EventID
     OnHideEnemyInfo,
     OnUpdateEnemyHP,
     OnPause,
-    OnResume
+    OnResume,
+    OnEnemyTargetSelectionRequired,
+    OnEnemyTargetSelected
 }
 
 public class MatchEventData

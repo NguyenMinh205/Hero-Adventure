@@ -62,7 +62,7 @@ public class IntroSceneManager : MonoBehaviour
 
             if (asyncLoadOperation.progress >= 0.9f)
             {
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1f);
                 ShowButtonsPanel();
                 break;
             }

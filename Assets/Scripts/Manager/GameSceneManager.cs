@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class GameSceneManager : MonoBehaviour
+public class GameSceneManager : Singleton<GameSceneManager>
 {
     [Header("Top Bar UI")]
     [SerializeField] private TextMeshProUGUI topBarLevelText;
@@ -12,6 +12,7 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI topBarExpText;
     [SerializeField] private TextMeshProUGUI topBarGoldText;
     [SerializeField] private TextMeshProUGUI topBarDiamondText;
+
     [Header("Panels")]
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject selectLevelPanel;
@@ -23,12 +24,14 @@ public class GameSceneManager : MonoBehaviour
 
     [Header("Select Level Buttons")]
     [SerializeField] private Button backButton;
-    [SerializeField] private Button[] levelNodeButtons;
+    [SerializeField] private LevelUI[] levelNodeUIs;
     [SerializeField] private LevelConfig[] levelConfigs; 
     
     [Header("Level Node Assets")]
     [SerializeField] private Sprite lockedLevelSprite;
     [SerializeField] private Sprite unlockedLevelSprite;
+    [SerializeField] private Sprite lockedBossLevelSprite;
+    [SerializeField] private Sprite unlockedBossLevelSprite;
     
     public void Start()
     {
@@ -42,15 +45,6 @@ public class GameSceneManager : MonoBehaviour
 
         if (backButton != null)
             backButton.onClick.AddListener(OnBackClicked);
-
-        for (int i = 0; i < levelNodeButtons.Length; i++)
-        {
-            int levelIndex = i;
-            if (levelNodeButtons[i] != null)
-            {
-                levelNodeButtons[i].onClick.AddListener(() => OnLevelNodeClicked(levelIndex));
-            }
-        }
     }
 
     private void OnDestroy()
@@ -58,10 +52,6 @@ public class GameSceneManager : MonoBehaviour
         if (adventureButton != null) adventureButton.onClick.RemoveAllListeners();
         if (endlessButton != null) endlessButton.onClick.RemoveAllListeners();
         if (backButton != null) backButton.onClick.RemoveAllListeners();
-        foreach (var btn in levelNodeButtons)
-        {
-            if (btn != null) btn.onClick.RemoveAllListeners();
-        }
     }
 
     public void ShowMainMenu()
@@ -103,26 +93,22 @@ public class GameSceneManager : MonoBehaviour
 
         int maxUnlocked = DataManager.Instance.GameData.MaxUnlockedLevel;
 
-        for (int i = 0; i < levelNodeButtons.Length; i++)
+        for (int i = 0; i < levelNodeUIs.Length; i++)
         {
-            if (levelNodeButtons[i] != null)
+            if (levelNodeUIs[i] != null)
             {
                 bool isUnlocked = (i <= maxUnlocked);
-                levelNodeButtons[i].interactable = isUnlocked;
+                bool isBossLevel = false;
 
-                // Đổi Sprite giữa khoá và mở khoá
-                Image btnImage = levelNodeButtons[i].GetComponent<Image>();
-                if (btnImage != null && lockedLevelSprite != null && unlockedLevelSprite != null)
+                if (levelConfigs != null && i < levelConfigs.Length && levelConfigs[i] != null)
                 {
-                    btnImage.sprite = isUnlocked ? unlockedLevelSprite : lockedLevelSprite;
+                    isBossLevel = levelConfigs[i].IsBossLevel;
                 }
 
-                // Ẩn/hiện số level
-                TextMeshProUGUI levelText = levelNodeButtons[i].GetComponentInChildren<TextMeshProUGUI>(true);
-                if (levelText != null)
-                {
-                    levelText.gameObject.SetActive(isUnlocked);
-                }
+                Sprite lockedSprite = isBossLevel && lockedBossLevelSprite != null ? lockedBossLevelSprite : lockedLevelSprite;
+                Sprite unlockedSprite = isBossLevel && unlockedBossLevelSprite != null ? unlockedBossLevelSprite : unlockedLevelSprite;
+
+                levelNodeUIs[i].Setup(i, isUnlocked, lockedSprite, unlockedSprite);
             }
         }
     }
@@ -149,7 +135,7 @@ public class GameSceneManager : MonoBehaviour
         ShowMainMenu();
     }
 
-    private void OnLevelNodeClicked(int levelIndex)
+    public void OnLevelNodeClicked(int levelIndex)
     {
         if (GameModeManager.Instance != null)
         {
