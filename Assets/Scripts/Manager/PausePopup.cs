@@ -56,7 +56,7 @@ public class PausePopup : MonoBehaviour
     {
         if (popupContentObj == null || popupContentTransform == null) return;
 
-        AudioManager.Instance?.PlaySoundButtonClick();
+        AudioManager.Instance?.PlayPopupOpen();
         Time.timeScale = 0f;
         backgroundDim.gameObject.SetActive(true);
         popupContentObj.SetActive(true);
@@ -71,7 +71,7 @@ public class PausePopup : MonoBehaviour
     {
         if (popupContentTransform == null) return;
 
-        AudioManager.Instance?.PlaySoundButtonClick();
+        AudioManager.Instance?.PlayPopupClose();
         popupContentTransform
             .DOScale(0f, 0.2f)
             .SetEase(Ease.InBack)

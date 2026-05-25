@@ -96,7 +96,7 @@ public class GameplayUIManager : MonoBehaviour
     private void HandleVictory(object param)
     {
         Player player = param as Player;
-        ShowVictory(player);
+        DOVirtual.DelayedCall(1.5f, () => ShowVictory(player));
     }
 
     public void ShowVictory(Player player = null)
@@ -106,7 +106,10 @@ public class GameplayUIManager : MonoBehaviour
             victoryUI.Show(player);
     }
 
-    private void HandleGameOver(object param) => ShowGameOver();
+    private void HandleGameOver(object param)
+    {
+        DOVirtual.DelayedCall(1.5f, () => ShowGameOver());
+    }
 
     public void ShowGameOver()
     {

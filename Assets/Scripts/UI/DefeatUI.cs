@@ -71,6 +71,7 @@ public class DefeatUI : MonoBehaviour
 
     public void Show(List<int> rewardOverrides = null)
     {
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySoundLose();
         dime.gameObject.SetActive(true);
         PrepareInitialState();
 

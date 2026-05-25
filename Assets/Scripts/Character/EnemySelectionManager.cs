@@ -56,6 +56,7 @@ public class EnemySelectionManager : MonoBehaviour
                     Enemy clickedEnemy = hit.GetComponent<Enemy>();
                     if (clickedEnemy != null && !clickedEnemy.IsDead() && aliveEnemies.Contains(clickedEnemy))
                     {
+                        if (AudioManager.Instance != null) AudioManager.Instance.PlayTargetSelected();
                         selectedEnemy = clickedEnemy;
                     }
                 }

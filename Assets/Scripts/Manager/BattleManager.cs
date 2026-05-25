@@ -111,13 +111,19 @@ public class BattleManager : Singleton<BattleManager>
     {
         currentState = GameState.Running;
 
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayMusicExplore();
+
         player.SetRunningAnimation(true);
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayPlayerFootstep(true);
+
         if (bgScroller != null) bgScroller.StartScrolling();
 
         float waitTime = Random.Range(3f, 5f);
         yield return new WaitForSeconds(waitTime);
 
         player.SetRunningAnimation(false);
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayPlayerFootstep(false);
+
         if (bgScroller != null) bgScroller.StopScrolling();
 
         SpawnEnemies();
@@ -126,6 +132,20 @@ public class BattleManager : Singleton<BattleManager>
 
     private void SpawnEnemies()
     {
+        bool isBoss = GameModeManager.Instance != null &&
+                      GameModeManager.Instance.CurrentMode == GameModeType.Level &&
+                      GameModeManager.Instance.CurrentLevelConfig != null &&
+                      GameModeManager.Instance.CurrentLevelConfig.IsBossLevel;
+
+        if (isBoss)
+        {
+            if (AudioManager.Instance != null) AudioManager.Instance.PlayMusicBattleBoss();
+        }
+        else
+        {
+            if (AudioManager.Instance != null) AudioManager.Instance.PlayMusicBattleNormal();
+        }
+
         List<CharacterInfoSO> enemiesToSpawn = currentStrategy.GetEnemiesToSpawn(listEnemySO);
 
         if (enemiesToSpawn == null || enemiesToSpawn.Count == 0)
@@ -143,18 +163,21 @@ public class BattleManager : Singleton<BattleManager>
             newEnemy.InitStat(enemiesToSpawn[0]);
             newEnemy.ApplyDifficultyMultiplier(difficultyMultiplier);
             activeEnemies.Add(newEnemy);
-            return;
         }
-
-        for (int i = 0; i < enemiesToSpawn.Count; i++)
+        else
         {
-            if (i >= spawnPoints.Length) break;
+            for (int i = 0; i < enemiesToSpawn.Count; i++)
+            {
+                if (i >= spawnPoints.Length) break;
 
-            Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[i].position, Quaternion.identity);
-            newEnemy.InitStat(enemiesToSpawn[i]);
-            newEnemy.ApplyDifficultyMultiplier(difficultyMultiplier);
-            activeEnemies.Add(newEnemy);
+                Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[i].position, Quaternion.identity);
+                newEnemy.InitStat(enemiesToSpawn[i]);
+                newEnemy.ApplyDifficultyMultiplier(difficultyMultiplier);
+                activeEnemies.Add(newEnemy);
+            }
         }
+
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayRoundStart();
     }
 
     private void StartPlayerTurn()
@@ -185,29 +208,34 @@ public class BattleManager : Singleton<BattleManager>
         switch (data.GemType)
         {
             case GemType.Damage:
+                // Chuyển sang state chờ player chọn target
                 currentState = GameState.SelectingTarget;
 
                 Enemy selectedTarget = null;
 
                 if (enemySelectionManager != null)
                 {
-                    yield return StartCoroutine(enemySelectionManager.SelectTarget(activeEnemies, (t) => selectedTarget = t));
+                    yield return StartCoroutine(
+                        enemySelectionManager.SelectTarget(activeEnemies, (t) => selectedTarget = t)
+                    );
                 }
                 else
                 {
+                    // Fallback nếu không có EnemySelectionManager: auto-pick enemy đầu tiên
                     selectedTarget = activeEnemies.Find(e => !e.IsDead());
                 }
+
+                currentState = GameState.Matching;
 
                 if (selectedTarget != null)
                 {
                     ObserverManager<EventID>.PostEvent(EventID.OnShowEnemyInfo, selectedTarget);
                     yield return StartCoroutine(player.PerformAttackSequence(selectedTarget, totalPower, data.MatchCount - 3));
                     yield return new WaitForSeconds(1f);
+                    // Ẩn indicator của target sau khi đòn đánh kết thúc
                     selectedTarget.HideTargetIndicator();
                     ObserverManager<EventID>.PostEvent(EventID.OnHideEnemyInfo);
                 }
-
-                currentState = GameState.Matching;
                 break;
 
             case GemType.Health:
@@ -233,6 +261,7 @@ public class BattleManager : Singleton<BattleManager>
 
         if (activeEnemies.Count == 0)
         {
+            if (AudioManager.Instance != null) AudioManager.Instance.PlayWaveClear();
             StartCoroutine(currentStrategy.OnWaveCleared(this));
             yield break;
         }

@@ -76,6 +76,12 @@ public class BaseCharacter : MonoBehaviour
         AddDamage((damageMultiplier - 1f) * countOfGemMore);
         string animParam = isCrit ? "IsCritAttacking" : "IsBaseAttacking";
 
+        if (AudioManager.Instance != null)
+        {
+            if (isCrit) AudioManager.Instance.PlayAttackCritSwing();
+            else AudioManager.Instance.PlayAttackSwing();
+        }
+
         animator.SetBool(animParam, true);
         yield return null;
 
@@ -84,6 +90,11 @@ public class BaseCharacter : MonoBehaviour
 
         float impactDelay = animLength * 0.6f;
         yield return new WaitForSeconds(impactDelay);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayAttackHit();
+        }
 
         target.TakeDamage(rawDamage, isCrit);
 
@@ -110,6 +121,11 @@ public class BaseCharacter : MonoBehaviour
     {
         if (UnityEngine.Random.Range(0f, 100f) <= currentBlockRate)
         {
+            if (AudioManager.Instance != null)
+            {
+                if (this is Player) AudioManager.Instance.PlayPlayerBlock();
+                else AudioManager.Instance.PlayEnemyBlock();
+            }
             StartCoroutine(PlayAnimationBool("IsBlocking"));
             transform.DOShakePosition(0.2f, 0.1f, 15);
             Debug.Log($"{gameObject.name} né được đòn!");
@@ -140,11 +156,21 @@ public class BaseCharacter : MonoBehaviour
 
             if (currentHealth <= 0)
             {
+                if (AudioManager.Instance != null)
+                {
+                    if (this is Player) AudioManager.Instance.PlayPlayerDie();
+                    else AudioManager.Instance.PlayEnemyDie();
+                }
                 animator.SetBool("IsDie", true);
                 Die();
             }
             else
             {
+                if (AudioManager.Instance != null)
+                {
+                    if (this is Player) AudioManager.Instance.PlayPlayerHurt();
+                    else AudioManager.Instance.PlayEnemyHurt();
+                }
                 StartCoroutine(PlayAnimationBool("IsHurting"));
                 transform.DOShakePosition(0.3f, 0.3f, 20);
             }

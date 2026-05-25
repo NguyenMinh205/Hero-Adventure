@@ -96,6 +96,7 @@ public class GameGrid : MonoBehaviour
         });
 
         Debug.Log($"Matched {matchCount} gems of type {type} with power {power}");
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayGemMatch(matchCount);
 
         foreach (Gem gem in matchedGems)
         {

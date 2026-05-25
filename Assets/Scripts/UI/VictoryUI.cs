@@ -85,6 +85,7 @@ public class VictoryUI : MonoBehaviour
     /// <param name="rewardOverrides">Nếu null sẽ tự tính theo mode hiện tại.</param>
     public void Show(Player player = null, List<int> rewardOverrides = null)
     {
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySoundWin();
         dime.gameObject.SetActive(true);
         PrepareInitialState();
 

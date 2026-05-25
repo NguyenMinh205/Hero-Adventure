@@ -30,6 +30,7 @@ public class SettingsUI : MonoBehaviour
 
     public void DoOpenSettings()
     {
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayPopupOpen();
         InitializeUI();
         this.gameObject.SetActive(true);
     }
@@ -80,7 +81,7 @@ public class SettingsUI : MonoBehaviour
     {
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlaySoundButtonClick();
+            AudioManager.Instance.PlayPopupClose();
         }
         
         this.gameObject.SetActive(false);

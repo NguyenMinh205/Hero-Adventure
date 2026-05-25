@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridInput : MonoBehaviour
@@ -28,6 +28,7 @@ public class GridInput : MonoBehaviour
             Gem hitGem = GetGemAtPosition(mouseWorldPos);
             if (hitGem != null)
             {
+                if (AudioManager.Instance != null) AudioManager.Instance.PlayGemSelect();
                 isDrawing = true;
                 selectedGems.Clear();
                 lineManager.ClearLine();
@@ -47,6 +48,7 @@ public class GridInput : MonoBehaviour
                 {
                     if (hitGem.GetGemData().gemType == currentGemType && IsAdjacent(selectedGems[selectedGems.Count - 1], hitGem))
                     {
+                        if (AudioManager.Instance != null) AudioManager.Instance.PlayGemDrag();
                         AddGemToSelection(hitGem);
                     }
                 }

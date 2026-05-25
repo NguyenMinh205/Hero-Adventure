@@ -2640,12 +2640,31 @@ MonoBehaviour:
   _musicSource: {fileID: 1255373092}
   _soundSource: {fileID: 1707603872}
   _musicIntro: {fileID: 8300000, guid: 4f273e297c8d71d49a6e5b368dd00b06, type: 3}
-  _musicInMenu: {fileID: 0}
-  _musicInGame: {fileID: 8300000, guid: d5b6e5fe4be3e2e479c49af3e2200d69, type: 3}
-  _buttonClick: {fileID: 0}
-  _click: {fileID: 0}
-  _winSound: {fileID: 0}
-  _loseSound: {fileID: 0}
+  _musicInMenu: {fileID: 8300000, guid: bbd2c7c84897e6c4ab124829f4983514, type: 3}
+  _musicBattleNormal: {fileID: 8300000, guid: ca3c61609f362de47b5b4892d17d873e, type: 3}
+  _musicBattleBoss: {fileID: 8300000, guid: d7a0ef91db082094184c45edef346445, type: 3}
+  _musicExplore: {fileID: 8300000, guid: d5b6e5fe4be3e2e479c49af3e2200d69, type: 3}
+  _buttonClick: {fileID: 8300000, guid: 929fb9f0c64806140b14a2245470b9a5, type: 3}
+  _winSound: {fileID: 8300000, guid: 23c8edc4a9922394b8700f5a9cedea2e, type: 3}
+  _loseSound: {fileID: 8300000, guid: 214ea7ec66ae26348be56aec8c667e64, type: 3}
+  _popupOpen: {fileID: 8300000, guid: 3c26360ec82bdb849a3c5e1f6c8c47c6, type: 3}
+  _popupClose: {fileID: 8300000, guid: 5aa6699ceefad6a41b97b23ca012d20d, type: 3}
+  _gemSelect: {fileID: 8300000, guid: 58857d94f8033f04692610c45c5597da, type: 3}
+  _gemDrag: {fileID: 8300000, guid: 58857d94f8033f04692610c45c5597da, type: 3}
+  _gemMatchBase: {fileID: 8300000, guid: 24f58a77b0f044249bfd1ad9b767c789, type: 3}
+  _playerFootstep: {fileID: 8300000, guid: f84975d6de2ea73469db33ac70fd00f0, type: 3}
+  _attackSwing: {fileID: 8300000, guid: cb671bcc50e0ca748874cafde448c5eb, type: 3}
+  _attackCritSwing: {fileID: 8300000, guid: eb1a8034b05a0ad4ca8f39498c1d5d08, type: 3}
+  _attackHit: {fileID: 8300000, guid: 223a366c11a37a14792f1f207e98d84d, type: 3}
+  _playerHurt: {fileID: 8300000, guid: 383ffceaede0d8f4198c7d638412bee8, type: 3}
+  _enemyHurt: {fileID: 8300000, guid: fd18951cdc251d648be5f0d84595665d, type: 3}
+  _playerBlock: {fileID: 8300000, guid: 6e5b8fd650869b54b97def664deb9c7d, type: 3}
+  _enemyBlock: {fileID: 8300000, guid: 902c10e6641c1c2479705513af2aa7ff, type: 3}
+  _playerDie: {fileID: 8300000, guid: a8146d80e15798b40ab8e397169b794f, type: 3}
+  _enemyDie: {fileID: 8300000, guid: 5c7a89821f0dc224d93ff0e51d8844a1, type: 3}
+  _roundStart: {fileID: 8300000, guid: b19ee13312d23b54383808de4d1fe3d5, type: 3}
+  _targetSelected: {fileID: 8300000, guid: 2068fe7ceffab68409bcba148ddec5a7, type: 3}
+  _waveClear: {fileID: 8300000, guid: 5b791ad6d7298b146be29afb9c5d15fd, type: 3}
 --- !u!4 &1268757838
 Transform:
   m_ObjectHideFlags: 0
