@@ -230,6 +230,7 @@ public class AudioManager : Singleton<AudioManager>
         {
             _soundSource.pitch = pitch;
             _soundSource.PlayOneShot(_gemMatchBase, _soundSource.volume);
+            ResetPitch();
         }
     }
 

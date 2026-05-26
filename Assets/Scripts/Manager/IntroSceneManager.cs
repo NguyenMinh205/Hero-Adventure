@@ -49,7 +49,7 @@ public class IntroSceneManager : MonoBehaviour
 
     private IEnumerator LoadSceneAsync()
     {
-        asyncLoadOperation = SceneManager.LoadSceneAsync(1);
+        asyncLoadOperation = SceneManager.LoadSceneAsync(GameConstants.Scenes.MainScene);
 
         asyncLoadOperation.allowSceneActivation = false;
 

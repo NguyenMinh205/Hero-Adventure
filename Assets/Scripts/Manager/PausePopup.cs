@@ -100,6 +100,6 @@ public class PausePopup : MonoBehaviour
         AudioManager.Instance?.PlaySoundButtonClick();
         Time.timeScale = 1f;
         if (popupContentObj != null) popupContentObj.SetActive(false);
-        FindObjectOfType<GameSceneManager>()?.ShowMainMenu();
+        GameSceneManager.Instance?.ShowMainMenu();
     }
 }

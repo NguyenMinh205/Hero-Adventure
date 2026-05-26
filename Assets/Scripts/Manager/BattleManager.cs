@@ -20,6 +20,7 @@ public class BattleManager : Singleton<BattleManager>
 
     [Header("References")]
     [SerializeField] private GameplayUIManager gameplayUIManager;
+    public GameplayUIManager GameplayUIManager => gameplayUIManager;
     [SerializeField] private GameGrid gameGrid;
     [SerializeField] private Player player;
     public Player Player => player;
@@ -62,7 +63,7 @@ public class BattleManager : Singleton<BattleManager>
         {
             gameplayUIManager = FindObjectOfType<GameplayUIManager>();
             if (gameplayUIManager != null) gameplayUIManager.Init();
-        }   
+        }
 
         if (gameGrid != null)
         {
@@ -157,6 +158,12 @@ public class BattleManager : Singleton<BattleManager>
         float difficultyMultiplier = currentStrategy.GetDifficultyMultiplier();
         Debug.Log($"[BattleManager] Spawning {enemiesToSpawn.Count} enemies with difficulty multiplier: {difficultyMultiplier:F2}");
 
+        if (spawnPoints == null || spawnPoints.Length == 0)
+        {
+            Debug.LogError("[BattleManager] spawnPoints chưa được gán!");
+            return;
+        }
+
         if (enemiesToSpawn.Count == 1)
         {
             Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[spawnPoints.Length - 1].position, Quaternion.identity);
@@ -185,7 +192,7 @@ public class BattleManager : Singleton<BattleManager>
         currentState = GameState.PlayerTurn;
         currentActionPoints = maxActionPoints;
         ObserverManager<EventID>.PostEvent(EventID.OnPlayerTurnStart);
-        ObserverManager<EventID>.PostEvent(EventID.OnUpdateTurnCount, currentActionPoints);
+        gameplayUIManager?.UpdateTurnCount(currentActionPoints);
     }
 
     private void HandleGemsMatched(object param)
@@ -208,7 +215,6 @@ public class BattleManager : Singleton<BattleManager>
         switch (data.GemType)
         {
             case GemType.Damage:
-                // Chuyển sang state chờ player chọn target
                 currentState = GameState.SelectingTarget;
 
                 Enemy selectedTarget = null;
@@ -221,7 +227,6 @@ public class BattleManager : Singleton<BattleManager>
                 }
                 else
                 {
-                    // Fallback nếu không có EnemySelectionManager: auto-pick enemy đầu tiên
                     selectedTarget = activeEnemies.Find(e => !e.IsDead());
                 }
 
@@ -229,12 +234,11 @@ public class BattleManager : Singleton<BattleManager>
 
                 if (selectedTarget != null)
                 {
-                    ObserverManager<EventID>.PostEvent(EventID.OnShowEnemyInfo, selectedTarget);
-                    yield return StartCoroutine(player.PerformAttackSequence(selectedTarget, totalPower, data.MatchCount - 3));
+                    gameplayUIManager?.ShowEnemyInfo(selectedTarget);
+                    yield return StartCoroutine(player.PerformAttackSequence(selectedTarget, totalPower));
                     yield return new WaitForSeconds(1f);
-                    // Ẩn indicator của target sau khi đòn đánh kết thúc
                     selectedTarget.HideTargetIndicator();
-                    ObserverManager<EventID>.PostEvent(EventID.OnHideEnemyInfo);
+                    gameplayUIManager?.HideEnemyInfo();
                 }
                 break;
 
@@ -256,7 +260,7 @@ public class BattleManager : Singleton<BattleManager>
         }
 
         currentActionPoints--;
-        ObserverManager<EventID>.PostEvent(EventID.OnUpdateTurnCount, currentActionPoints);
+        gameplayUIManager?.UpdateTurnCount(currentActionPoints);
         activeEnemies.RemoveAll(e => e.IsDead());
 
         if (activeEnemies.Count == 0)
@@ -284,10 +288,16 @@ public class BattleManager : Singleton<BattleManager>
 
         foreach (Enemy enemy in activeEnemies)
         {
+            
+            if (player == null || player.IsDead())
+            {
+                break;
+            }
+
             if (!enemy.IsDead())
             {
-                yield return StartCoroutine(enemy.PerformAttackSequence(player, 1f, 0));
-                yield return new WaitForSeconds(0.2f);
+                yield return StartCoroutine(enemy.PerformAttackSequence(player, 1f));
+                yield return new WaitForSeconds(0.5f); 
             }
         }
 
@@ -298,7 +308,7 @@ public class BattleManager : Singleton<BattleManager>
         else
         {
             currentState = GameState.Finished;
-            ObserverManager<EventID>.PostEvent(EventID.OnGameOver, player);
+            gameplayUIManager?.ShowGameOver(player);
         }
     }
 
@@ -327,7 +337,7 @@ public class BattleManager : Singleton<BattleManager>
     public void CleanupBattle()
     {
         StopAllCoroutines();
-        
+
         foreach (var enemy in activeEnemies)
         {
             if (enemy != null && enemy.gameObject.activeInHierarchy)
@@ -341,7 +351,7 @@ public class BattleManager : Singleton<BattleManager>
         {
             gameGrid.ClearGrid();
         }
-        
+
         if (player != null)
         {
             player.StopAllCoroutines();

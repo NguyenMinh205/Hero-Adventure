@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelID: 1
   IsBossLevel: 0
-  MaxWaves: 3
+  MaxWaves: 2
   levelDifficultyMultiplier: 1
   waveScalingIncrement: 0.02
   PossibleEnemies:

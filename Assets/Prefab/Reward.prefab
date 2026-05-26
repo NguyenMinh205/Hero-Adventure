@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80074af8ce740df4391b2ec8ccbd678d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconImg: {fileID: 6443879939853914326}
   amountText: {fileID: 6575188662103350818}
   cg: {fileID: 4604553051721482397}
 --- !u!1 &2878193242566522271

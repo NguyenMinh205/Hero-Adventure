@@ -50,7 +50,7 @@ public class LevelModeStrategy : IGameModeStrategy
         if (currentWave >= maxWaves)
         {
             battleManager.SetGameState(GameState.Finished);
-            ObserverManager<EventID>.PostEvent(EventID.OnVictory, battleManager.Player);
+            battleManager.GameplayUIManager?.ShowVictory(battleManager.Player);
             yield break;
         }
 
@@ -63,11 +63,6 @@ public class LevelModeStrategy : IGameModeStrategy
     public bool IsGameOver(Player player)
     {
         return player.IsDead();
-    }
-
-    public string GetProgressText()
-    {
-        return $"Wave {currentWave}/{maxWaves}";
     }
 
     public float GetDifficultyMultiplier()

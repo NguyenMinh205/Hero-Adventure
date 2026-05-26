@@ -55,6 +55,17 @@ public class BaseCharacter : MonoBehaviour
         if (spriteRenderer != null) spriteRenderer.sprite = baseStatData.defaultCharacterSprite;
 
         originalPosition = transform.position;
+
+        if (animator != null)
+        {
+            animator.SetBool(GameConstants.AnimParams.IsDie, false);
+            animator.SetBool(GameConstants.AnimParams.IsRunning, false);
+            animator.SetBool(GameConstants.AnimParams.IsHurting, false);
+            animator.SetBool(GameConstants.AnimParams.IsBlocking, false);
+            animator.SetBool(GameConstants.AnimParams.IsBaseAttacking, false);
+            animator.SetBool(GameConstants.AnimParams.IsCritAttacking, false);
+        }
+
         BroadcastUIUpdate();
     }
 
@@ -65,7 +76,7 @@ public class BaseCharacter : MonoBehaviour
 
     }
 
-    public IEnumerator PerformAttackSequence(BaseCharacter target, float damageMultiplier, int countOfGemMore)
+    public IEnumerator PerformAttackSequence(BaseCharacter target, float damageMultiplier)
     {
         Vector3 direction = (transform.position - target.transform.position).normalized;
         Vector3 attackPosition = target.transform.position + direction * 1.25f;
@@ -73,8 +84,8 @@ public class BaseCharacter : MonoBehaviour
 
         bool isCrit;
         float rawDamage = CalculateDamage(out isCrit) * damageMultiplier;
-        AddDamage((damageMultiplier - 1f) * countOfGemMore);
-        string animParam = isCrit ? "IsCritAttacking" : "IsBaseAttacking";
+        AddDamage((damageMultiplier - 1f));
+        string animParam = isCrit ? GameConstants.AnimParams.IsCritAttacking : GameConstants.AnimParams.IsBaseAttacking;
 
         if (AudioManager.Instance != null)
         {
@@ -106,14 +117,14 @@ public class BaseCharacter : MonoBehaviour
 
     private IEnumerator MoveToPosition(Vector3 targetPosition, float speed)
     {
-        animator.SetBool("IsRunning", true);
+        animator.SetBool(GameConstants.AnimParams.IsRunning, true);
         float distance = Vector3.Distance(transform.position, targetPosition);
         float duration = distance / speed;
 
         yield return transform.DOMove(targetPosition, duration).SetEase(Ease.Linear).WaitForCompletion();
 
         transform.position = targetPosition;
-        animator.SetBool("IsRunning", false);
+        animator.SetBool(GameConstants.AnimParams.IsRunning, false);
         yield return new WaitForSeconds(0.1f);
     }
 
@@ -126,7 +137,7 @@ public class BaseCharacter : MonoBehaviour
                 if (this is Player) AudioManager.Instance.PlayPlayerBlock();
                 else AudioManager.Instance.PlayEnemyBlock();
             }
-            StartCoroutine(PlayAnimationBool("IsBlocking"));
+            StartCoroutine(PlayAnimationBool(GameConstants.AnimParams.IsBlocking));
             transform.DOShakePosition(0.2f, 0.1f, 15);
             Debug.Log($"{gameObject.name} né được đòn!");
             return;
@@ -161,7 +172,7 @@ public class BaseCharacter : MonoBehaviour
                     if (this is Player) AudioManager.Instance.PlayPlayerDie();
                     else AudioManager.Instance.PlayEnemyDie();
                 }
-                animator.SetBool("IsDie", true);
+                animator.SetBool(GameConstants.AnimParams.IsDie, true);
                 Die();
             }
             else
@@ -171,7 +182,7 @@ public class BaseCharacter : MonoBehaviour
                     if (this is Player) AudioManager.Instance.PlayPlayerHurt();
                     else AudioManager.Instance.PlayEnemyHurt();
                 }
-                StartCoroutine(PlayAnimationBool("IsHurting"));
+                StartCoroutine(PlayAnimationBool(GameConstants.AnimParams.IsHurting));
                 transform.DOShakePosition(0.3f, 0.3f, 20);
             }
         }
@@ -249,7 +260,7 @@ public class BaseCharacter : MonoBehaviour
 
     public void SetRunningAnimation(bool isRunning)
     {
-        if (animator != null) animator.SetBool("IsRunning", isRunning);
+        if (animator != null) animator.SetBool(GameConstants.AnimParams.IsRunning, isRunning);
     }
 
     public IEnumerator PlayAnimationBool(string paramName)

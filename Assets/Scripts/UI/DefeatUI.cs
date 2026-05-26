@@ -83,25 +83,21 @@ public class DefeatUI : MonoBehaviour
     {
         if (_showCoroutine != null) StopCoroutine(_showCoroutine);
         dime.gameObject.SetActive(false);
+        if (defeatPopup != null) defeatPopup.gameObject.SetActive(false);
     }
-
-    // ──────────────────────────────────────────────────────────────────────────
-    //  PRIVATE
-    // ──────────────────────────────────────────────────────────────────────────
 
     private void PrepareInitialState()
     {
-        // Popup bắt đầu scale = 0
         if (defeatPopup != null)
+        {
+            defeatPopup.gameObject.SetActive(true);
             defeatPopup.localScale = Vector3.zero;
+        }
 
-        // DefeatImg ẩn
         if (defeatImg != null) { defeatImg.alpha = 0f; defeatImg.gameObject.SetActive(false); }
 
-        // SwordBroken ẩn
         if (swordBrokenImg != null) { swordBrokenImg.localScale = Vector3.zero; swordBrokenImg.gameObject.SetActive(false); }
 
-        // Clear old rewards
         if (rewardContainer != null)
         {
             foreach (Transform child in rewardContainer)
@@ -110,7 +106,6 @@ public class DefeatUI : MonoBehaviour
             }
         }
 
-        // Reset buttons
         if (buttons != null)
         {
             foreach (var btn in buttons)
@@ -127,7 +122,6 @@ public class DefeatUI : MonoBehaviour
 
     private IEnumerator ShowSequence(List<int> rewardOverrides)
     {
-        // ── 1. Popup scale-in ─────────────────────────────────────────────────
         if (defeatPopup != null)
         {
             yield return defeatPopup
@@ -139,7 +133,6 @@ public class DefeatUI : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(gapAfterTitle * 0.5f);
 
-        // ── 2. DefeatImg fade + bounce ────────────────────────────────────────
         if (defeatImg != null)
         {
             defeatImg.gameObject.SetActive(true);
@@ -154,7 +147,6 @@ public class DefeatUI : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(gapAfterTitle);
 
-        // ── 3. SwordBrokenImg scale-in ────────────────────────────────────────
         if (swordBrokenImg != null)
         {
             swordBrokenImg.gameObject.SetActive(true);
@@ -166,11 +158,11 @@ public class DefeatUI : MonoBehaviour
         }
 
         yield return new WaitForSecondsRealtime(gapAfterSword);
+        
+        if (swordBrokenImg != null) swordBrokenImg.gameObject.SetActive(false);
 
-        // ── 4. Rewards lần lượt ───────────────────────────────────────────────
         List<int> amounts = rewardOverrides ?? BuildRewardAmounts();
         
-        // Lưu data
         if (DataManager.Instance != null && amounts.Count >= 3)
         {
             DataManager.Instance.GameData.AddResources(amounts[0], amounts[1], amounts[2]);
@@ -184,7 +176,7 @@ public class DefeatUI : MonoBehaviour
             for (int i = 0; i < amounts.Count; i++)
             {
                 int amount = amounts[i];
-                if (amount <= 0) continue; // Chỉ hiện phần thưởng có số lượng > 0
+                if (amount <= 0) continue;
 
                 RewardItem newReward = Instantiate(rewardPrefab, rewardContainer);
                 Sprite icon = (i < sprites.Length) ? sprites[i] : null;
@@ -197,7 +189,6 @@ public class DefeatUI : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(gapAfterRewards);
 
-        // ── 5. Buttons lần lượt ───────────────────────────────────────────────
         if (buttons != null)
         {
             foreach (var btn in buttons)
@@ -219,10 +210,6 @@ public class DefeatUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Tính danh sách phần thưởng dựa vào mode hiện tại.
-    /// Thứ tự mặc định: [Gold, Diamond, Exp] (khớp với rewards list trong Inspector).
-    /// </summary>
     private List<int> BuildRewardAmounts()
     {
         bool isLevel = GameModeManager.Instance != null &&
@@ -230,21 +217,18 @@ public class DefeatUI : MonoBehaviour
 
         if (isLevel)
         {
-            // Lấy từ LevelConfig
             LevelConfig cfg = GameModeManager.Instance?.CurrentLevelConfig;
             return new List<int>
             {
-                cfg?.GoldReward    ?? 0,
-                cfg?.DiamondReward ?? 0,
-                cfg?.ExpReward     ?? 0
+                Mathf.RoundToInt((cfg?.GoldReward ?? 0) / 10f),
+                Mathf.RoundToInt((cfg?.DiamondReward ?? 0) / 10f),
+                Mathf.RoundToInt((cfg?.ExpReward ?? 0) / 10f)
             };
         }
         else
         {
-            // Endless: base x scalingFactor theo round
             int round = GetEndlessCurrentRound();
 
-            // round 1 → x1.00, round 2 → x1.25, round 3 → x1.50, ...
             float scale = 1f + (round - 1) * 0.25f;
 
             return new List<int>
@@ -258,7 +242,6 @@ public class DefeatUI : MonoBehaviour
 
     private int GetEndlessCurrentRound()
     {
-        // EndlessModeStrategy cần expose CurrentRound — xem EndlessModeStrategy.cs
         var strategy = BattleManager.Instance?.CurrentStrategy as EndlessModeStrategy;
         return strategy?.CurrentRound ?? 1;
     }
@@ -283,6 +266,6 @@ public class DefeatUI : MonoBehaviour
         AudioManager.Instance?.PlaySoundButtonClick();
         Time.timeScale = 1f;
         Hide();
-        FindObjectOfType<GameSceneManager>()?.ShowMainMenu();
+        GameSceneManager.Instance?.ShowMainMenu();
     }
 }

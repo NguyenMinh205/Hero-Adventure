@@ -78,11 +78,6 @@ public class VictoryUI : MonoBehaviour
         if (mainMenuButton != null) mainMenuButton.onClick.RemoveAllListeners();
     }
 
-    /// <summary>
-    /// Gọi khi game kết thúc với kết quả thắng.
-    /// </summary>
-    /// <param name="player">Dùng để tính star rating theo % HP còn lại.</param>
-    /// <param name="rewardOverrides">Nếu null sẽ tự tính theo mode hiện tại.</param>
     public void Show(Player player = null, List<int> rewardOverrides = null)
     {
         if (AudioManager.Instance != null) AudioManager.Instance.PlaySoundWin();
@@ -97,27 +92,25 @@ public class VictoryUI : MonoBehaviour
     {
         if (_showCoroutine != null) StopCoroutine(_showCoroutine);
         dime.gameObject.SetActive(false);
+        if (victoryPopup != null) victoryPopup.gameObject.SetActive(false);
     }
-
-    // ──────────────────────────────────────────────────────────────────────────
-    //  PRIVATE
-    // ──────────────────────────────────────────────────────────────────────────
 
     private void PrepareInitialState()
     {
         if (victoryPopup != null)
+        {
+            victoryPopup.gameObject.SetActive(true);
             victoryPopup.localScale = Vector3.zero;
+        }
 
         if (victoryImg != null) { victoryImg.alpha = 0f; victoryImg.gameObject.SetActive(false); }
 
         if (chestRewardImg != null) { chestRewardImg.localScale = Vector3.zero; chestRewardImg.gameObject.SetActive(false); }
 
-        // Stars: ẩn hết
         if (stars != null)
             foreach (var s in stars)
                 if (s != null) s.SetActive(false);
 
-        // Clear old rewards
         if (rewardContainer != null)
         {
             foreach (Transform child in rewardContainer)
@@ -126,7 +119,6 @@ public class VictoryUI : MonoBehaviour
             }
         }
 
-        // Reset buttons
         if (buttons != null)
         {
             foreach (var btn in buttons)
@@ -143,7 +135,6 @@ public class VictoryUI : MonoBehaviour
 
     private IEnumerator ShowSequence(Player player, List<int> rewardOverrides)
     {
-        // ── 1. Popup scale-in ─────────────────────────────────────────────────
         if (victoryPopup != null)
         {
             yield return victoryPopup
@@ -155,7 +146,6 @@ public class VictoryUI : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(gapAfterTitle * 0.5f);
 
-        // ── 2. VictoryImg fade + bounce ───────────────────────────────────────
         if (victoryImg != null)
         {
             victoryImg.gameObject.SetActive(true);
@@ -170,7 +160,6 @@ public class VictoryUI : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(gapAfterTitle);
 
-        // ── 3. ChestRewardImg scale-in ────────────────────────────────────────
         if (chestRewardImg != null)
         {
             chestRewardImg.gameObject.SetActive(true);
@@ -183,7 +172,6 @@ public class VictoryUI : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(gapAfterChest);
 
-        // ── 4. Stars (chỉ Level Mode) ─────────────────────────────────────────
         bool isLevel = GameModeManager.Instance != null &&
                        GameModeManager.Instance.CurrentMode == GameModeType.Level;
 
@@ -213,10 +201,10 @@ public class VictoryUI : MonoBehaviour
             yield return new WaitForSecondsRealtime(gapAfterStars);
         }
 
-        // ── 5. Rewards lần lượt ───────────────────────────────────────────────
+        if (chestRewardImg != null) chestRewardImg.gameObject.SetActive(false);
+
         List<int> amounts = rewardOverrides ?? BuildRewardAmounts(isLevel);
         
-        // Lưu data và mở khoá cấp độ
         if (DataManager.Instance != null && amounts.Count >= 3)
         {
             DataManager.Instance.GameData.AddResources(amounts[0], amounts[1], amounts[2]);
@@ -253,7 +241,6 @@ public class VictoryUI : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(gapAfterRewards);
 
-        // ── 6. Buttons lần lượt ───────────────────────────────────────────────
         if (buttons != null)
         {
             foreach (var btn in buttons)
@@ -330,9 +317,23 @@ public class VictoryUI : MonoBehaviour
         AudioManager.Instance?.PlaySoundButtonClick();
         Time.timeScale = 1f;
         Hide();
-        // TODO: Mở rộng sau — tự động chọn level kế tiếp
-        // Hiện tại về Main Menu của GameScene để chọn level
-        FindObjectOfType<GameSceneManager>()?.ShowMainMenu();
+        
+        bool isLevel = GameModeManager.Instance != null && GameModeManager.Instance.CurrentMode == GameModeType.Level;
+        if (isLevel && GameModeManager.Instance.CurrentLevelConfig != null)
+        {
+            int nextLevelId = GameModeManager.Instance.CurrentLevelConfig.LevelID + 1;
+            
+            bool success = GameSceneManager.Instance != null &&
+                           GameSceneManager.Instance.TryStartLevel(nextLevelId);
+            if (!success)
+            {
+                GameSceneManager.Instance?.ShowMainMenu();
+            }
+        }
+        else
+        {
+            BattleManager.Instance?.InitBattle();
+        }
     }
 
     private void OnMainMenuClicked()
@@ -340,6 +341,6 @@ public class VictoryUI : MonoBehaviour
         AudioManager.Instance?.PlaySoundButtonClick();
         Time.timeScale = 1f;
         Hide();
-        FindObjectOfType<GameSceneManager>()?.ShowMainMenu();
+        GameSceneManager.Instance?.ShowMainMenu();
     }
 }

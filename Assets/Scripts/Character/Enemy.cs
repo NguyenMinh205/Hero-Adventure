@@ -8,7 +8,7 @@ public class Enemy : BaseCharacter
 
     public override void BroadcastUIUpdate()
     {
-        ObserverManager<EventID>.PostEvent(EventID.OnUpdateEnemyHP, this);
+        BattleManager.Instance.GameplayUIManager.RefreshEnemyHP(this);
     }
 
     protected override void DestroyOrDespawn()

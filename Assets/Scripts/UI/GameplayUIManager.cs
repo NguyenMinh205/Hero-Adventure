@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using TMPro;
 using DG.Tweening;
 
@@ -48,27 +49,15 @@ public class GameplayUIManager : MonoBehaviour
     private void OnEnable()
     {
         ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdatePlayerStats, UpdatePlayerStats);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateTurnCount, UpdateTurnCount);
         ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateRoundCount, UpdateRoundCount);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnShowEnemyInfo, ShowEnemyInfo);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnHideEnemyInfo, HideEnemyInfo);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnUpdateEnemyHP, UpdateEnemyHP);
         ObserverManager<EventID>.AddRegisterEvent(EventID.OnShowDamagePopup, HandleShowDamagePopup);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnVictory, HandleVictory);
-        ObserverManager<EventID>.AddRegisterEvent(EventID.OnGameOver, HandleGameOver);
     }
 
     private void OnDisable()
     {
         ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdatePlayerStats, UpdatePlayerStats);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateTurnCount, UpdateTurnCount);
         ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateRoundCount, UpdateRoundCount);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnShowEnemyInfo, ShowEnemyInfo);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnHideEnemyInfo, HideEnemyInfo);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnUpdateEnemyHP, UpdateEnemyHP);
         ObserverManager<EventID>.RemoveAddListener(EventID.OnShowDamagePopup, HandleShowDamagePopup);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnVictory, HandleVictory);
-        ObserverManager<EventID>.RemoveAddListener(EventID.OnGameOver, HandleGameOver);
     }
 
     public void Init()
@@ -79,7 +68,12 @@ public class GameplayUIManager : MonoBehaviour
         if (defeatUI != null) defeatUI.Hide();
 
         if (pausePopup != null) pausePopup.Init();
-        if (pauseButton != null) pauseButton.onClick.AddListener(OnPauseClicked);
+        
+        if (pauseButton != null)
+        {
+            pauseButton.onClick.RemoveListener(OnPauseClicked);
+            pauseButton.onClick.AddListener(OnPauseClicked);
+        }
     }
 
     private void OnDestroy()
@@ -93,39 +87,49 @@ public class GameplayUIManager : MonoBehaviour
         ObserverManager<EventID>.PostEvent(EventID.OnPause);
     }
 
-    private void HandleVictory(object param)
-    {
-        Player player = param as Player;
-        DOVirtual.DelayedCall(1.5f, () => ShowVictory(player));
-    }
-
     public void ShowVictory(Player player = null)
     {
-        AudioManager.Instance?.PlaySoundWin();
+        
         if (victoryUI != null)
             victoryUI.Show(player);
     }
 
-    private void HandleGameOver(object param)
+    private Coroutine _gameOverCoroutine;
+
+    public void ShowGameOver(Player player = null)
     {
-        DOVirtual.DelayedCall(1.5f, () => ShowGameOver());
+        
+        if (_gameOverCoroutine != null) StopCoroutine(_gameOverCoroutine);
+        _gameOverCoroutine = StartCoroutine(ShowGameOverDelayed());
     }
 
-    public void ShowGameOver()
+    private IEnumerator ShowGameOverDelayed()
     {
-        AudioManager.Instance?.PlaySoundLose();
-        if (defeatUI != null)
-            defeatUI.Show();
+        yield return new WaitForSecondsRealtime(1.5f);
+        if (defeatUI != null) defeatUI.Show();
+        _gameOverCoroutine = null;
     }
 
-    private void GoToMainMenu()
+    public void UpdateTurnCount(int currentTurns)
     {
-        AudioManager.Instance?.PlaySoundButtonClick();
-        Time.timeScale = 1f;
-        if (pausePopup != null) pausePopup.Hide();
-        if (victoryUI != null) victoryUI.Hide();
-        if (defeatUI != null) defeatUI.Hide();
-        FindObjectOfType<GameSceneManager>()?.ShowMainMenu();
+        if (turnIcons == null) return;
+        for (int i = 0; i < turnIcons.Length; i++)
+        {
+            if (turnIcons[i] != null) turnIcons[i].SetActive(i < currentTurns);
+        }
+    }
+
+    public void ShowEnemyInfo(Enemy enemy)
+    {
+        if (enemy == null) return;
+        if (enemyInfoPanel != null) enemyInfoPanel.SetActive(true);
+        if (enemySprite != null) enemySprite.sprite = enemy.CharacterSprite;
+        RefreshEnemyHP(enemy);
+    }
+
+    public void HideEnemyInfo()
+    {
+        if (enemyInfoPanel != null) enemyInfoPanel.SetActive(false);
     }
 
     private void UpdatePlayerStats(object param)
@@ -141,48 +145,20 @@ public class GameplayUIManager : MonoBehaviour
         }
     }
 
-    private void UpdateTurnCount(object param)
-    {
-        int currentTurns = (int)param;
-        if (turnIcons == null) return;
-        for (int i = 0; i < turnIcons.Length; i++)
-        {
-            if (turnIcons[i] != null) turnIcons[i].SetActive(i < currentTurns);
-        }
-    }
-
     private void UpdateRoundCount(object param)
     {
         int round = (int)param;
         if (roundText != null) roundText.text = round.ToString();
     }
 
-    private void ShowEnemyInfo(object param)
+    public void RefreshEnemyHP(Enemy enemy)
     {
-        if (param is Enemy enemy)
+        if (enemyHpText != null)
+            enemyHpText.text = $"{enemy.CurrentHealth}/{enemy.CurrentMaxHealth}";
+        if (enemyHpFill != null)
         {
-            if (enemyInfoPanel != null) enemyInfoPanel.SetActive(true);
-            if (enemySprite != null) enemySprite.sprite = enemy.CharacterSprite;
-            UpdateEnemyHP(enemy);
-        }
-    }
-
-    private void HideEnemyInfo(object param)
-    {
-        if (enemyInfoPanel != null) enemyInfoPanel.SetActive(false);
-    }
-
-    private void UpdateEnemyHP(object param)
-    {
-        if (param is Enemy enemy)
-        {
-            if (enemyHpText != null)
-                enemyHpText.text = $"{enemy.CurrentHealth}/{enemy.CurrentMaxHealth}";
-            if (enemyHpFill != null)
-            {
-                float fillAmount = enemy.CurrentHealth / enemy.CurrentMaxHealth;
-                enemyHpFill.DOFillAmount(fillAmount, 0.3f).SetEase(Ease.OutQuad);
-            }
+            float fillAmount = enemy.CurrentHealth / enemy.CurrentMaxHealth;
+            enemyHpFill.DOFillAmount(fillAmount, 0.3f).SetEase(Ease.OutQuad);
         }
     }
 

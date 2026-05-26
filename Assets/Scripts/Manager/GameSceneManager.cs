@@ -36,6 +36,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
     public void Start()
     {
         ShowMainMenu();
+        AudioManager.Instance?.PlayMusicInMenu();
 
         if (adventureButton != null)
             adventureButton.onClick.AddListener(OnAdventureClicked);
@@ -56,6 +57,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
     public void ShowMainMenu()
     {
+        BattleManager.Instance?.CleanupBattle();
         UpdateTopBar();
         if (mainMenuPanel) mainMenuPanel.SetActive(true);
         if (selectLevelPanel) selectLevelPanel.SetActive(false);
@@ -159,4 +161,24 @@ public class GameSceneManager : Singleton<GameSceneManager>
             BattleManager.Instance.InitBattle();
         }
     }
+
+    /// <summary>
+    /// Thử bắt đầu level theo LevelID. Trả về false nếu không tìm thấy level.
+    /// </summary>
+    public bool TryStartLevel(int levelId)
+    {
+        if (levelConfigs == null) return false;
+
+        for (int i = 0; i < levelConfigs.Length; i++)
+        {
+            if (levelConfigs[i] != null && levelConfigs[i].LevelID == levelId)
+            {
+                OnLevelNodeClicked(i);
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
+

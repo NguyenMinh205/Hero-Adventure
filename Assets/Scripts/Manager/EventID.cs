@@ -5,8 +5,7 @@ public enum EventID
     OnGemsMatched,
     OnPlayerTurnStart,
     OnEnemyTurnStart,
-    OnGameOver,
-    OnVictory,
+
     OnShowDamagePopup,
     OnUpdatePlayerStats,
     OnUpdateTurnCount,

@@ -44,11 +44,6 @@ public class EndlessModeStrategy : IGameModeStrategy
         return player.IsDead();
     }
 
-    public string GetProgressText()
-    {
-        return $"Round {currentRound}";
-    }
-
     public float GetDifficultyMultiplier()
     {
         return difficultyMultiplier;
