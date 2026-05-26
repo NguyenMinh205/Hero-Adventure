@@ -99,7 +99,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
         {
             if (levelNodeUIs[i] != null)
             {
-                bool isUnlocked = (i <= maxUnlocked);
+                bool isUnlocked = (i + 1 <= maxUnlocked);
                 bool isBossLevel = false;
 
                 if (levelConfigs != null && i < levelConfigs.Length && levelConfigs[i] != null)
@@ -162,9 +162,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
         }
     }
 
-    /// <summary>
-    /// Thử bắt đầu level theo LevelID. Trả về false nếu không tìm thấy level.
-    /// </summary>
     public bool TryStartLevel(int levelId)
     {
         if (levelConfigs == null) return false;

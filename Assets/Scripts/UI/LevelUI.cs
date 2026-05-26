@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class LevelUI : MonoBehaviour
 {
     [SerializeField] private Button levelButton;
     [SerializeField] private Image bgImage;
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private List<Image> listStars;
+    [SerializeField] private Sprite filledStarSprite;
 
     private int levelIndex;
 
@@ -29,6 +32,20 @@ public class LevelUI : MonoBehaviour
         if (levelText != null)
         {
             levelText.gameObject.SetActive(isUnlocked);
+        }
+
+        if (listStars != null && listStars.Count > 0)
+        {
+            int earnedStars = DataManager.Instance != null ? DataManager.Instance.GameData.GetLevelStar(levelIndex) : 0;
+            for (int i = 0; i < listStars.Count; i++)
+            {
+                if (listStars[i] == null) continue;
+                
+                if (isUnlocked && i < earnedStars && filledStarSprite != null)
+                {
+                    listStars[i].sprite = filledStarSprite;
+                }
+            }
         }
     }
 

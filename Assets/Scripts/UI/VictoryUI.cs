@@ -20,7 +20,7 @@ public class VictoryUI : MonoBehaviour
 
     [Header("Stars (chỉ dùng trong Level Mode)")]
     [Tooltip("Danh sách Star objects (3 cái). Ẩn hết ban đầu.")]
-    [SerializeField] private List<GameObject> stars;
+    [SerializeField] private List<StarUI> stars;
 
     [Header("Rewards")]
     [Tooltip("Prefab của RewardItem để khởi tạo động.")]
@@ -54,10 +54,6 @@ public class VictoryUI : MonoBehaviour
     [SerializeField] private float gapAfterChest = 0.3f;
     [SerializeField] private float gapAfterStars = 0.3f;
     [SerializeField] private float gapAfterRewards = 0.2f;
-
-    [Header("Star HP Thresholds (%)")]
-    [SerializeField] private float twoStarThreshold = 40f;
-    [SerializeField] private float threeStarThreshold = 70f;
 
     [Header("Endless Base Rewards")]
     [SerializeField] private int baseGoldEndless = 50;
@@ -109,7 +105,7 @@ public class VictoryUI : MonoBehaviour
 
         if (stars != null)
             foreach (var s in stars)
-                if (s != null) s.SetActive(false);
+                if (s != null) s.gameObject.SetActive(false);
 
         if (rewardContainer != null)
         {
@@ -177,25 +173,37 @@ public class VictoryUI : MonoBehaviour
 
         if (isLevel && stars != null && stars.Count > 0)
         {
-            int starsToShow = CalculateStars(player);
+            LevelConfig cfg = GameModeManager.Instance?.CurrentLevelConfig;
+            int starsToShow = CalculateStars(player, cfg);
 
             for (int i = 0; i < stars.Count; i++)
             {
                 if (stars[i] == null) continue;
 
-                if (i < starsToShow)
+                string conditionText = "";
+                if (cfg != null && cfg.starConditionTexts != null && i < cfg.starConditionTexts.Length)
                 {
-                    stars[i].SetActive(true);
-                    stars[i].transform.localScale = Vector3.zero;
-
-                    yield return stars[i].transform
-                        .DOScale(1f, 0.3f)
-                        .SetEase(Ease.OutBack)
-                        .SetUpdate(true)
-                        .WaitForCompletion();
-
-                    yield return new WaitForSecondsRealtime(starStagger);
+                    conditionText = cfg.starConditionTexts[i];
                 }
+
+                bool isAchieved = i < starsToShow;
+                stars[i].Setup(conditionText, isAchieved);
+                stars[i].gameObject.SetActive(true);
+                stars[i].transform.localScale = Vector3.zero;
+
+                yield return stars[i].transform
+                    .DOScale(1f, 0.3f)
+                    .SetEase(Ease.OutBack)
+                    .SetUpdate(true)
+                    .WaitForCompletion();
+
+                yield return new WaitForSecondsRealtime(starStagger);
+            }
+
+            // Save max stars
+            if (cfg != null && DataManager.Instance != null && DataManager.Instance.GameData != null)
+            {
+                DataManager.Instance.GameData.SaveLevelStar(cfg.LevelID, starsToShow);
             }
 
             yield return new WaitForSecondsRealtime(gapAfterStars);
@@ -262,14 +270,17 @@ public class VictoryUI : MonoBehaviour
         }
     }
 
-    private int CalculateStars(Player player)
+    private int CalculateStars(Player player, LevelConfig cfg)
     {
         if (player == null) return 1;
 
         float hpPercent = (player.CurrentHealth / player.CurrentMaxHealth) * 100f;
+        
+        float twoStarThresh = cfg != null ? cfg.twoStarHPThreshold : 40f;
+        float threeStarThresh = cfg != null ? cfg.threeStarHPThreshold : 70f;
 
-        if (hpPercent >= threeStarThreshold) return 3;
-        if (hpPercent >= twoStarThreshold) return 2;
+        if (hpPercent >= threeStarThresh) return 3;
+        if (hpPercent >= twoStarThresh) return 2;
         return 1;
     }
 

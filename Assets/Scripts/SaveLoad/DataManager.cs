@@ -41,6 +41,7 @@ public class SecureGameData
     [SerializeField] private int _playerLevel = 1;
     [SerializeField] private int _currentExp = 0;
     [SerializeField] private int _maxUnlockedLevel = 0;
+    [SerializeField] private int[] _levelStars = new int[100];
 
     #region CONST
     private const float DEFAULT_MUSIC_VOLUME = 0.5f;
@@ -112,6 +113,11 @@ public class SecureGameData
         this._playerLevel = other._playerLevel;
         this._currentExp = other._currentExp;
         this._maxUnlockedLevel = other._maxUnlockedLevel;
+
+        if (other._levelStars != null)
+        {
+            this._levelStars = other._levelStars;
+        }
     }
 
     public void ClearAllData()
@@ -131,6 +137,7 @@ public class SecureGameData
         _playerLevel = DEFAULT_PLAYER_LEVEL;
         _currentExp = DEFAULT_EXP;
         _maxUnlockedLevel = DEFAULT_UNLOCKED_LEVEL;
+        _levelStars = new int[100];
     }
 
     #endregion
@@ -143,7 +150,6 @@ public class SecureGameData
         _diamond += addDiamond;
         _currentExp += addExp;
 
-        // Xử lý Level up
         int maxExpForCurrentLevel = _playerLevel * 100;
         while (_currentExp >= maxExpForCurrentLevel)
         {
@@ -156,12 +162,33 @@ public class SecureGameData
 
     public void UnlockNextLevel(int currentLevelId)
     {
-        // currentLevelId là index của màn chơi vừa thắng (VD: 0 cho màn 1).
-        // MaxUnlockedLevel sẽ lưu trữ index lớn nhất có thể truy cập.
         if (currentLevelId >= _maxUnlockedLevel)
         {
             _maxUnlockedLevel = currentLevelId + 1;
         }
+    }
+
+    public void SaveLevelStar(int levelId, int starCount)
+    {
+        if (_levelStars == null)
+            _levelStars = new int[100];
+
+        if (levelId > 0 && levelId <= _levelStars.Length)
+        {
+            if (starCount > _levelStars[levelId])
+            {
+                _levelStars[levelId - 1] = starCount;
+            }
+        }
+    }
+
+    public int GetLevelStar(int levelId)
+    {
+        if (_levelStars != null && levelId >= 0 && levelId < _levelStars.Length)
+        {
+            return _levelStars[levelId];
+        }
+        return 0;
     }
 
     #endregion

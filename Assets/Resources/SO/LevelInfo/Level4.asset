@@ -15,6 +15,12 @@ MonoBehaviour:
   LevelID: 4
   IsBossLevel: 0
   MaxWaves: 3
+  twoStarHPThreshold: 40
+  threeStarHPThreshold: 75
+  starConditionTexts:
+  - Win Level
+  - HP > 40%
+  - HP > 75%
   levelDifficultyMultiplier: 1.35
   waveScalingIncrement: 0.05
   PossibleEnemies:
