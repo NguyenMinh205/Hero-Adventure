@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f86577d9da41ba0428624ad7e444feb1
+guid: 1af141895c85d704baf40938ded0407d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 48
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mushroom-Idle_0
+      name: InProgressPopup_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 80
-        height: 64
+        x: 19
+        y: 407
+        width: 283
+        height: 226
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8896748b69bf3d4aa0867cfbace6378
-      internalID: -734978021
+      spriteID: 511797ca6a980184d9f07e390adba240
+      internalID: -996158338
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Mushroom-Idle_1
+      name: InProgressPopup_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 0
-        width: 80
-        height: 64
+        x: 18
+        y: 190
+        width: 120
+        height: 125
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a22fe17a16657704c86fb1d65a1a1089
-      internalID: 866591306
+      spriteID: 06acf08cdd49bf64280b158d2291a764
+      internalID: 1009158397
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Mushroom-Idle_2
+      name: InProgressPopup_2
       rect:
         serializedVersion: 2
-        x: 160
-        y: 0
-        width: 80
-        height: 64
+        x: 179
+        y: 215
+        width: 171
+        height: 93
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 67be0bd6502b10b4283b4b50c9de2f56
-      internalID: 1841176965
+      spriteID: 579f91748f538c1499cc348abdbc3249
+      internalID: -944265433
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Mushroom-Idle_3
+      name: InProgressPopup_3
       rect:
         serializedVersion: 2
-        x: 240
-        y: 0
-        width: 80
-        height: 64
+        x: 385
+        y: 218
+        width: 68
+        height: 77
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 842f856d6f1dacc4cb9935326ab1b051
-      internalID: -720640364
+      spriteID: 8fbdb0bd815dd7d44bfcdfc93800b70f
+      internalID: -684332249
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Mushroom-Idle_4
+      name: InProgressPopup_4
       rect:
         serializedVersion: 2
-        x: 320
-        y: 0
-        width: 80
-        height: 64
+        x: 486
+        y: 217
+        width: 141
+        height: 79
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,20 +221,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1bf64fb78589cf4db72dbba850d1533
-      internalID: 942977064
+      spriteID: 0f7626f81f8500b48a3f409b94df4af0
+      internalID: 1283234152
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Mushroom-Idle_5
+      name: InProgressPopup_5
       rect:
         serializedVersion: 2
-        x: 400
-        y: 0
-        width: 80
-        height: 64
+        x: 666
+        y: 209
+        width: 139
+        height: 102
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -242,20 +242,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 07809fbbcb9ddb64eb87ece8084a0512
-      internalID: 1984951866
+      spriteID: f2a23dec90261144f830c91d166eced9
+      internalID: 2135302248
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Mushroom-Idle_6
+      name: InProgressPopup_6
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
-        width: 80
-        height: 64
+        x: 20
+        y: 48
+        width: 380
+        height: 93
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,8 +263,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 230ea6cfdf6365140b3941c64365a172
-      internalID: 380328267
+      spriteID: 6f354fbc57722b4428a647ec9ce5c4d8
+      internalID: 1337723488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InProgressPopup_7
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 54
+        width: 138
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68eb49335d822854d90934f41aed980e
+      internalID: -366186757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InProgressPopup_8
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 49
+        width: 143
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4555da8dbb6f384f9e92b96a0f9ebcb
+      internalID: -1035096678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InProgressPopup_9
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 53
+        width: 139
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75c4b909042bdc948bd36ea2b9be5703
+      internalID: -1056057936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InProgressPopup_10
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 53
+        width: 138
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77b27911d4570b445be194f06d396690
+      internalID: 2017549097
       vertices: []
       indices: 
       edges: []
@@ -280,13 +364,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Mushroom-Idle_0: -734978021
-      Mushroom-Idle_1: 866591306
-      Mushroom-Idle_2: 1841176965
-      Mushroom-Idle_3: -720640364
-      Mushroom-Idle_4: 942977064
-      Mushroom-Idle_5: 1984951866
-      Mushroom-Idle_6: 380328267
+      InProgressPopup_0: -996158338
+      InProgressPopup_1: 1009158397
+      InProgressPopup_10: 2017549097
+      InProgressPopup_2: -944265433
+      InProgressPopup_3: -684332249
+      InProgressPopup_4: 1283234152
+      InProgressPopup_5: 2135302248
+      InProgressPopup_6: 1337723488
+      InProgressPopup_7: -366186757
+      InProgressPopup_8: -1035096678
+      InProgressPopup_9: -1056057936
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -27,6 +27,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
     [SerializeField] private LevelUI[] levelNodeUIs;
     [SerializeField] private LevelConfig[] levelConfigs; 
     
+    [Header("Managers")]
+    [SerializeField] private NavigationManager navigationManager;
+    
     [Header("Level Node Assets")]
     [SerializeField] private Sprite lockedLevelSprite;
     [SerializeField] private Sprite unlockedLevelSprite;
@@ -46,6 +49,11 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
         if (backButton != null)
             backButton.onClick.AddListener(OnBackClicked);
+
+        if (navigationManager != null)
+        {
+            navigationManager.InitializeNavigation();
+        }
     }
 
     private void OnDestroy()
