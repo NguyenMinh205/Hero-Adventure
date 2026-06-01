@@ -14,11 +14,20 @@ public class BackgroundScroller : MonoBehaviour
     private Coroutine scrollCoroutine;
     private Vector2 startPosition;
 
-    private void Start()
+    private void Awake()
     {
         if (bgRectTransform != null)
         {
             startPosition = bgRectTransform.anchoredPosition;
+        }
+    }
+
+    public void Init()
+    {
+        StopScrolling();
+        if (bgRectTransform != null)
+        {
+            bgRectTransform.anchoredPosition = startPosition;
         }
     }
 

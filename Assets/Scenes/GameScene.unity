@@ -20094,8 +20094,9 @@ MonoBehaviour:
   enemySelectionManager: {fileID: 2025170504}
   enemyPrefab: {fileID: 4840756094578868637, guid: c063c18f8852b2143a0b31a297aee12d, type: 3}
   listEnemySO:
-  - {fileID: 11400000, guid: 6df6eb6f0b2846f4da89a8e0b9492a43, type: 2}
   - {fileID: 11400000, guid: 3678d96dfa1858f45916931e654f01f7, type: 2}
+  - {fileID: 11400000, guid: 1b71392e57474964e973e039ed37a8ee, type: 2}
+  - {fileID: 11400000, guid: 6df6eb6f0b2846f4da89a8e0b9492a43, type: 2}
   spawnPoints:
   - {fileID: 1609386778}
   - {fileID: 1083390619}

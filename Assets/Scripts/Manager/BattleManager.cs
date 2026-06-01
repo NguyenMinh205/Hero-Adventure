@@ -56,6 +56,12 @@ public class BattleManager : Singleton<BattleManager>
     public void InitBattle()
     {
         CleanupBattle();
+        
+        if (bgScroller != null)
+        {
+            bgScroller.Init();
+        }
+
         if (gameplayUIManager != null)
         {
             gameplayUIManager.Init();
@@ -339,11 +345,14 @@ public class BattleManager : Singleton<BattleManager>
     {
         StopAllCoroutines();
 
-        foreach (var enemy in activeEnemies)
+        if (characterParent != null)
         {
-            if (enemy != null && enemy.gameObject.activeInHierarchy)
+            foreach (Transform child in characterParent)
             {
-                PoolingManager.Despawn(enemy.gameObject);
+                if (child.gameObject.activeInHierarchy)
+                {
+                    PoolingManager.Despawn(child.gameObject);
+                }
             }
         }
         activeEnemies.Clear();

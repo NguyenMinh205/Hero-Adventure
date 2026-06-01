@@ -66,6 +66,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
     public void ShowMainMenu()
     {
         BattleManager.Instance?.CleanupBattle();
+        AudioManager.Instance?.PlayMusicInMenu();
         UpdateTopBar();
         if (mainMenuPanel) mainMenuPanel.SetActive(true);
         if (selectLevelPanel) selectLevelPanel.SetActive(false);
