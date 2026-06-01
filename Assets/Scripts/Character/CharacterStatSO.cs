@@ -1,4 +1,3 @@
-using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewCharacterInfo", menuName = "ScriptableObjects/CharacterInfo")]
@@ -15,6 +14,6 @@ public class CharacterInfoSO : ScriptableObject
     public float baseCritDamage = 50f;
 
     [Header("Other Attribute")]
-    public AnimatorController characterAnim;
+    public RuntimeAnimatorController characterAnim;
     public Sprite defaultCharacterSprite;
 }

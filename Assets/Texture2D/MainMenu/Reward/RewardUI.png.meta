@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,7 +121,1099 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: RewardUI_0
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 700
+        width: 103
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99d73fe041d6a2642ba64c087e642209
+      internalID: 459608068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_1
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 701
+        width: 104
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7831944076be5941aba8a636992155e
+      internalID: -520732251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_2
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 698
+        width: 113
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09bc573299dbe7a429e41bf4a0b8fcd6
+      internalID: 2110723953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_3
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 684
+        width: 106
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83aa385d3824c974b824e22e27a58280
+      internalID: 7447798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_4
+      rect:
+        serializedVersion: 2
+        x: 1114
+        y: 747
+        width: 106
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6262a73ae9f6d1f4f8e382ecf5cf588d
+      internalID: 884876268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_5
+      rect:
+        serializedVersion: 2
+        x: 1249
+        y: 747
+        width: 108
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dccd4d63a2ef1ca449f2d95dab45f157
+      internalID: -1770249619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_6
+      rect:
+        serializedVersion: 2
+        x: 1386
+        y: 745
+        width: 110
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88b54870d8ddc7440886ca034aa96d8f
+      internalID: -359089783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_7
+      rect:
+        serializedVersion: 2
+        x: 1524
+        y: 742
+        width: 113
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e63828fcef42214c88bbb47cbac45b5
+      internalID: -1507760840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_8
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 579
+        width: 552
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 390dac5b9d15a594b9fafc0cd9ea69ba
+      internalID: -767771276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_9
+      rect:
+        serializedVersion: 2
+        x: 618
+        y: 524
+        width: 462
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de9c70702b37d5c4891a1e3e64135731
+      internalID: 1809158269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_10
+      rect:
+        serializedVersion: 2
+        x: 1108
+        y: 602
+        width: 115
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 717826f3d7a8b98458bc390f7c6f4bea
+      internalID: 1197955032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_11
+      rect:
+        serializedVersion: 2
+        x: 1245
+        y: 600
+        width: 117
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 662791aedfcf66c46942a1f005557564
+      internalID: -612840963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_12
+      rect:
+        serializedVersion: 2
+        x: 1384
+        y: 602
+        width: 117
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f20b56dd617a9524a930d6d844882d09
+      internalID: 1262765739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_13
+      rect:
+        serializedVersion: 2
+        x: 1524
+        y: 602
+        width: 115
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e942eb630f982941a3e493cfff9eecf
+      internalID: 1001634336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_14
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 350
+        width: 204
+        height: 170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10a42daba5fe07d45bf32fb9e575def6
+      internalID: -1730166504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_15
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 350
+        width: 119
+        height: 170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b349272698840c4fa7b0a266827815b
+      internalID: 448322886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_16
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 350
+        width: 221
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e62df12127bcd6143846b1972149dc1d
+      internalID: 1217587129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_17
+      rect:
+        serializedVersion: 2
+        x: 618
+        y: 224
+        width: 464
+        height: 294
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d7acaba01c62d148943526d6adf9fd2
+      internalID: 22663123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_18
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 472
+        width: 93
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0453c0d576def3f459718847198b9f48
+      internalID: -1653123193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_19
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 471
+        width: 37
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54bd101e9ce3014488b98248fe39466b
+      internalID: -566798641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_20
+      rect:
+        serializedVersion: 2
+        x: 1421
+        y: 476
+        width: 33
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3856ca841a1694a4c967d1e1d9284621
+      internalID: -664455241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_21
+      rect:
+        serializedVersion: 2
+        x: 1553
+        y: 472
+        width: 36
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c4c7132327b93c4dac179912841177f
+      internalID: 134437738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_22
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 328
+        width: 78
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b93eb072d9962c4d88fee7abbb87856
+      internalID: -660193914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_23
+      rect:
+        serializedVersion: 2
+        x: 1191
+        y: 328
+        width: 78
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee0232ad48ce12f4780e0dd69bf62893
+      internalID: -688955088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_24
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 327
+        width: 79
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d2016b0e9af9df47823b8cf07e4df42
+      internalID: 1340019681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_25
+      rect:
+        serializedVersion: 2
+        x: 1365
+        y: 327
+        width: 82
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 125a49502e0e23040aaf0df827cfd81c
+      internalID: -370887755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_26
+      rect:
+        serializedVersion: 2
+        x: 1455
+        y: 328
+        width: 81
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22ba348bf3646d1478ed0780adc17794
+      internalID: -2137396012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_27
+      rect:
+        serializedVersion: 2
+        x: 1545
+        y: 327
+        width: 81
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 998c8952f2cf597409c35d05f8bf55d7
+      internalID: 930939845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_28
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 252
+        width: 307
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b80bc4ad559b984fb049d26aa427d4a
+      internalID: 933423828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_29
+      rect:
+        serializedVersion: 2
+        x: 1110
+        y: 154
+        width: 105
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c814bd76a4b5b93449d32c4f052e96d9
+      internalID: 1821352466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_30
+      rect:
+        serializedVersion: 2
+        x: 1232
+        y: 155
+        width: 107
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d4ef425ec397964f90aff9c83b35ce3
+      internalID: -1045909848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_31
+      rect:
+        serializedVersion: 2
+        x: 1362
+        y: 154
+        width: 107
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5366b860fe750c14298ab7076325cfc0
+      internalID: 647980530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_32
+      rect:
+        serializedVersion: 2
+        x: 1492
+        y: 154
+        width: 112
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5977ae1b6088b6458614f2d9380ad37
+      internalID: -394534912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_33
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 119
+        width: 118
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2be3bf8947af67245bbb9d83b9c9ed5e
+      internalID: -1179941972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_34
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 119
+        width: 118
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d458fee615d6ef64fab699ee3678377c
+      internalID: -978152472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_35
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 118
+        width: 133
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8050f148d7c994d408fc87238b726142
+      internalID: -291847195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_36
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 22
+        width: 27
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad73736adfaee814987f4f167d42bb54
+      internalID: 2129455093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_37
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 22
+        width: 22
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76c5ff90bd7ce2b408c09bd38b181b79
+      internalID: -363749032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_38
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 109
+        width: 40
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 816d0156fbae437438fbe40246dbb70f
+      internalID: -58642788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_39
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 105
+        width: 286
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19c3d5d64a6b74e4bb1bfb6bb3a0b70c
+      internalID: 685764797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_40
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 45
+        width: 39
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5fa1fd6e88aa3c4e832a2def0759f50
+      internalID: 1981308740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_41
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 78
+        width: 286
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7697ee8088b7ca142a02718b5d652d0a
+      internalID: 1641710692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_42
+      rect:
+        serializedVersion: 2
+        x: 1084
+        y: 45
+        width: 40
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f17efedd1ae0b1848bb6c0628da4d19c
+      internalID: -17493806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_43
+      rect:
+        serializedVersion: 2
+        x: 1142
+        y: 45
+        width: 41
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4ecc3fa6cc26e04e9fec0b7adcd4cd1
+      internalID: 1019298936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_44
+      rect:
+        serializedVersion: 2
+        x: 1201
+        y: 44
+        width: 42
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a167e98898927d54b941c890aabf3b69
+      internalID: -638297186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_45
+      rect:
+        serializedVersion: 2
+        x: 1310
+        y: 34
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c983936c0740ff488c9bed41eb678e7
+      internalID: -1527988341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_46
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 23
+        width: 285
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d128705ffa594b4a8dc430eb8f62f3c
+      internalID: -295257698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_47
+      rect:
+        serializedVersion: 2
+        x: 1259
+        y: 51
+        width: 35
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63a65e67c988dac40b8bd076bfaa5419
+      internalID: -1549718919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_48
+      rect:
+        serializedVersion: 2
+        x: 1421
+        y: 46
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92c5b341d2ba2464e9e48b5fbf3567e1
+      internalID: 302512629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_49
+      rect:
+        serializedVersion: 2
+        x: 1471
+        y: 46
+        width: 28
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 475de50c60cc752498f35a05dcc8e4bc
+      internalID: -1555115750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_50
+      rect:
+        serializedVersion: 2
+        x: 1519
+        y: 46
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c29b8be8e9d667f46af592eefef95fe9
+      internalID: -1872429565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardUI_51
+      rect:
+        serializedVersion: 2
+        x: 1566
+        y: 46
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cde733c38f665f244ba6463016664700
+      internalID: -274924847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +1224,59 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      RewardUI_0: 459608068
+      RewardUI_1: -520732251
+      RewardUI_10: 1197955032
+      RewardUI_11: -612840963
+      RewardUI_12: 1262765739
+      RewardUI_13: 1001634336
+      RewardUI_14: -1730166504
+      RewardUI_15: 448322886
+      RewardUI_16: 1217587129
+      RewardUI_17: 22663123
+      RewardUI_18: -1653123193
+      RewardUI_19: -566798641
+      RewardUI_2: 2110723953
+      RewardUI_20: -664455241
+      RewardUI_21: 134437738
+      RewardUI_22: -660193914
+      RewardUI_23: -688955088
+      RewardUI_24: 1340019681
+      RewardUI_25: -370887755
+      RewardUI_26: -2137396012
+      RewardUI_27: 930939845
+      RewardUI_28: 933423828
+      RewardUI_29: 1821352466
+      RewardUI_3: 7447798
+      RewardUI_30: -1045909848
+      RewardUI_31: 647980530
+      RewardUI_32: -394534912
+      RewardUI_33: -1179941972
+      RewardUI_34: -978152472
+      RewardUI_35: -291847195
+      RewardUI_36: 2129455093
+      RewardUI_37: -363749032
+      RewardUI_38: -58642788
+      RewardUI_39: 685764797
+      RewardUI_4: 884876268
+      RewardUI_40: 1981308740
+      RewardUI_41: 1641710692
+      RewardUI_42: -17493806
+      RewardUI_43: 1019298936
+      RewardUI_44: -638297186
+      RewardUI_45: -1527988341
+      RewardUI_46: -295257698
+      RewardUI_47: -1549718919
+      RewardUI_48: 302512629
+      RewardUI_49: -1555115750
+      RewardUI_5: -1770249619
+      RewardUI_50: -1872429565
+      RewardUI_51: -274924847
+      RewardUI_6: -359089783
+      RewardUI_7: -1507760840
+      RewardUI_8: -767771276
+      RewardUI_9: 1809158269
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

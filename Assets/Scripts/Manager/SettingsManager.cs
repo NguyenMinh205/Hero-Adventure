@@ -45,7 +45,7 @@ public class SettingsManager : Singleton<SettingsManager>
         if (isOn)
         {
             #if !UNITY_EDITOR
-            Vibration.Vibrate(50);
+            Vibration.VibratePop();
             #endif
             Debug.Log("Vibration ON");
         }
@@ -61,8 +61,10 @@ public class SettingsManager : Singleton<SettingsManager>
     {
         if (DataManager.Instance.GameData.Vibration)
         {
-            #if !UNITY_EDITOR
-            Vibration.Vibrate(milliseconds);
+            #if UNITY_ANDROID && !UNITY_EDITOR
+            Vibration.VibrateAndroid(milliseconds);
+            #elif !UNITY_EDITOR
+            Vibration.VibratePop();
             #endif
         }
     }
