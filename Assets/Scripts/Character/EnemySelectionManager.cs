@@ -45,12 +45,11 @@ public class EnemySelectionManager : MonoBehaviour
         Enemy selectedEnemy = null;
         while (selectedEnemy == null)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (InputHelper.GetPointerDown())
             {
-                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                mouseWorldPos.z = 0f;
+                Vector3 pointerWorldPos = InputHelper.GetPointerWorldPosition();
 
-                Collider2D hit = Physics2D.OverlapPoint(mouseWorldPos, enemyLayer);
+                Collider2D hit = Physics2D.OverlapPoint(pointerWorldPos, enemyLayer);
                 if (hit != null)
                 {
                     Enemy clickedEnemy = hit.GetComponent<Enemy>();

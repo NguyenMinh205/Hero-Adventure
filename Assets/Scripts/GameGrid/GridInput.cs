@@ -13,19 +13,18 @@ public class GridInput : MonoBehaviour
 
     private void Update()
     {
-        HandleMouseInput();
+        HandleInput();
     }
 
-    private void HandleMouseInput()
+    private void HandleInput()
     {
         if (BattleManager.Instance != null && BattleManager.Instance.CurrentState != GameState.PlayerTurn) return;
 
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPos.z = 0;
+        Vector3 pointerWorldPos = InputHelper.GetPointerWorldPosition();
 
-        if (Input.GetMouseButtonDown(0))
+        if (InputHelper.GetPointerDown())
         {
-            Gem hitGem = GetGemAtPosition(mouseWorldPos);
+            Gem hitGem = GetGemAtPosition(pointerWorldPos);
             if (hitGem != null)
             {
                 if (AudioManager.Instance != null) AudioManager.Instance.PlayGemSelect();
@@ -38,9 +37,9 @@ public class GridInput : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0) && isDrawing)
+        if (InputHelper.GetPointerHeld() && isDrawing)
         {
-            Gem hitGem = GetGemAtPosition(mouseWorldPos);
+            Gem hitGem = GetGemAtPosition(pointerWorldPos);
 
             if (hitGem != null)
             {
@@ -59,7 +58,7 @@ public class GridInput : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (InputHelper.GetPointerUp())
         {
             isDrawing = false;
 
