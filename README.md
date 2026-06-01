@@ -56,5 +56,3 @@ Thay vì sử dụng các đòn đánh thông thường, người chơi phải n
 - **Design Pattern**: Singleton, Observer, Object Pooling, Strategy Pattern (trong Game Modes).
 
 ---
-
-> *Dự án được xây dựng với tình yêu dành cho thể loại RPG & Line-Matching. Chúc các bạn chơi game vui vẻ!*
