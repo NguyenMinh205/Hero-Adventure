@@ -104,7 +104,11 @@ public class GameGrid : MonoBehaviour
             gridGems[gem.gridPosition.x, gem.gridPosition.y] = null;
 
             gem.transform.DOKill();
-            gemSpawner.DespawnGem(gem);
+            Gem capturedGem = gem;
+            capturedGem.transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack).OnComplete(() =>
+            {
+                gemSpawner.DespawnGem(capturedGem);
+            });
         }
 
         foreach (int x in affectedColumns)

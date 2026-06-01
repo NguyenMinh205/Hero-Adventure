@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d7c8093ca04a54e8868385ec2de9fb, type: 3}
+  m_Name: Skeleton
+  m_EditorClassIdentifier: 
+  maxHealth: 35
+  baseShield: 5
+  baseBlockRate: 5
+  baseDamage: 10
+  baseCritRate: 5
+  baseCritDamage: 50
+  characterAnim: {fileID: 9100000, guid: 8c8cb47de1694bd4cbe24a2e96d269f7, type: 2}
+  defaultCharacterSprite: {fileID: 1880692568, guid: 0e09da2ba9e607449abc8370975886e7, type: 3}

@@ -32,6 +32,7 @@ public class BattleManager : Singleton<BattleManager>
     [SerializeField] private Enemy enemyPrefab;
     [SerializeField] private List<CharacterInfoSO> listEnemySO;
     [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private Transform characterParent;
 
     protected override void Awake()
     {
@@ -166,7 +167,7 @@ public class BattleManager : Singleton<BattleManager>
 
         if (enemiesToSpawn.Count == 1)
         {
-            Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[spawnPoints.Length - 1].position, Quaternion.identity);
+            Enemy newEnemy = PoolingManager.Spawn(enemyPrefab, spawnPoints[spawnPoints.Length - 1].position, Quaternion.identity, characterParent);
             newEnemy.InitStat(enemiesToSpawn[0]);
             newEnemy.ApplyDifficultyMultiplier(difficultyMultiplier);
             activeEnemies.Add(newEnemy);
@@ -236,7 +237,7 @@ public class BattleManager : Singleton<BattleManager>
                 {
                     gameplayUIManager?.ShowEnemyInfo(selectedTarget);
                     yield return StartCoroutine(player.PerformAttackSequence(selectedTarget, totalPower));
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(0.5f);
                     selectedTarget.HideTargetIndicator();
                     gameplayUIManager?.HideEnemyInfo();
                 }

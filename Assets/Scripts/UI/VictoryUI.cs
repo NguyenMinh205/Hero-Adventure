@@ -7,40 +7,34 @@ using DG.Tweening;
 public class VictoryUI : MonoBehaviour
 {
     [Header("Popup Root")]
-    [Tooltip("Transform của VictoryPopup (con trực tiếp, sẽ scale-in khi mở).")]
     [SerializeField] private Transform victoryPopup;
     [SerializeField] private Image dime;
 
     [Header("Animated Elements")]
-    [Tooltip("Image chữ VICTORY ở đầu popup.")]
     [SerializeField] private CanvasGroup victoryImg;
-
-    [Tooltip("Image rương kho báu.")]
+    [Header("Stars (chỉ dùng trong Level Mode)")]
+    [Tooltip("Prefab của StarUI để spawn.")]
+    [SerializeField] private StarUI starPrefab;
+    [Tooltip("Container chứa các StarUI.")]
+    [SerializeField] private Transform starsContainer;
+    
+    private List<StarUI> spawnedStars = new List<StarUI>();
     [SerializeField] private Transform chestRewardImg;
 
-    [Header("Stars (chỉ dùng trong Level Mode)")]
-    [Tooltip("Danh sách Star objects (3 cái). Ẩn hết ban đầu.")]
-    [SerializeField] private List<StarUI> stars;
-
     [Header("Rewards")]
-    [Tooltip("Prefab của RewardItem để khởi tạo động.")]
     [SerializeField] private RewardItem rewardPrefab;
-    [Tooltip("Container chứa các RewardItem.")]
     [SerializeField] private Transform rewardContainer;
-    
+
     [Header("Reward Sprites")]
     [SerializeField] private Sprite goldSprite;
     [SerializeField] private Sprite diamondSprite;
     [SerializeField] private Sprite expSprite;
 
     [Header("Buttons")]
-    [Tooltip("Danh sách Button hiện sau khi xong rewards (theo thứ tự hiện dần).")]
     [SerializeField] private List<Button> buttons;
 
     [Header("Button Actions")]
-    [Tooltip("Button Next Level.")]
     [SerializeField] private Button nextLevelButton;
-    [Tooltip("Button Return to Menu.")]
     [SerializeField] private Button mainMenuButton;
 
     [Header("Timing (seconds)")]
@@ -103,15 +97,23 @@ public class VictoryUI : MonoBehaviour
 
         if (chestRewardImg != null) { chestRewardImg.localScale = Vector3.zero; chestRewardImg.gameObject.SetActive(false); }
 
-        if (stars != null)
-            foreach (var s in stars)
-                if (s != null) s.gameObject.SetActive(false);
+        if (starsContainer != null)
+        {
+            foreach (Transform child in starsContainer)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        spawnedStars.Clear();
 
         if (rewardContainer != null)
         {
             foreach (Transform child in rewardContainer)
             {
-                Destroy(child.gameObject);
+                if (child.GetComponent<RewardItem>() != null)
+                {
+                    Destroy(child.gameObject);
+                }
             }
         }
 
@@ -171,15 +173,19 @@ public class VictoryUI : MonoBehaviour
         bool isLevel = GameModeManager.Instance != null &&
                        GameModeManager.Instance.CurrentMode == GameModeType.Level;
 
-        if (isLevel && stars != null && stars.Count > 0)
+        if (isLevel && starPrefab != null && starsContainer != null)
         {
             LevelConfig cfg = GameModeManager.Instance?.CurrentLevelConfig;
             int starsToShow = CalculateStars(player, cfg);
 
-            for (int i = 0; i < stars.Count; i++)
+            int totalStars = 3;
+            if (cfg != null && cfg.starConditionTexts != null)
             {
-                if (stars[i] == null) continue;
+                totalStars = cfg.starConditionTexts.Length;
+            }
 
+            for (int i = 0; i < totalStars; i++)
+            {
                 string conditionText = "";
                 if (cfg != null && cfg.starConditionTexts != null && i < cfg.starConditionTexts.Length)
                 {
@@ -187,11 +193,15 @@ public class VictoryUI : MonoBehaviour
                 }
 
                 bool isAchieved = i < starsToShow;
-                stars[i].Setup(conditionText, isAchieved);
-                stars[i].gameObject.SetActive(true);
-                stars[i].transform.localScale = Vector3.zero;
+                
+                StarUI newStar = Instantiate(starPrefab, starsContainer);
+                spawnedStars.Add(newStar);
+                
+                newStar.Setup(conditionText, isAchieved);
+                newStar.gameObject.SetActive(true);
+                newStar.transform.localScale = Vector3.zero;
 
-                yield return stars[i].transform
+                yield return newStar.transform
                     .DOScale(1f, 0.3f)
                     .SetEase(Ease.OutBack)
                     .SetUpdate(true)
@@ -200,7 +210,6 @@ public class VictoryUI : MonoBehaviour
                 yield return new WaitForSecondsRealtime(starStagger);
             }
 
-            // Save max stars
             if (cfg != null && DataManager.Instance != null && DataManager.Instance.GameData != null)
             {
                 DataManager.Instance.GameData.SaveLevelStar(cfg.LevelID, starsToShow);
@@ -212,11 +221,11 @@ public class VictoryUI : MonoBehaviour
         if (chestRewardImg != null) chestRewardImg.gameObject.SetActive(false);
 
         List<int> amounts = rewardOverrides ?? BuildRewardAmounts(isLevel);
-        
+
         if (DataManager.Instance != null && amounts.Count >= 3)
         {
             DataManager.Instance.GameData.AddResources(amounts[0], amounts[1], amounts[2]);
-            
+
             if (isLevel)
             {
                 LevelConfig cfg = GameModeManager.Instance?.CurrentLevelConfig;
@@ -225,7 +234,7 @@ public class VictoryUI : MonoBehaviour
                     DataManager.Instance.GameData.UnlockNextLevel(cfg.LevelID);
                 }
             }
-            
+
             DataManager.Instance.GameData.Save();
         }
 
@@ -275,12 +284,12 @@ public class VictoryUI : MonoBehaviour
         if (player == null) return 1;
 
         float hpPercent = (player.CurrentHealth / player.CurrentMaxHealth) * 100f;
-        
+
         float twoStarThresh = cfg != null ? cfg.twoStarHPThreshold : 40f;
         float threeStarThresh = cfg != null ? cfg.threeStarHPThreshold : 70f;
 
-        if (hpPercent >= threeStarThresh) return 3;
-        if (hpPercent >= twoStarThresh) return 2;
+        if (hpPercent + 0.01f >= threeStarThresh) return 3;
+        if (hpPercent + 0.01f >= twoStarThresh) return 2;
         return 1;
     }
 
@@ -289,12 +298,30 @@ public class VictoryUI : MonoBehaviour
         if (isLevel)
         {
             LevelConfig cfg = GameModeManager.Instance?.CurrentLevelConfig;
-            return new List<int>
+            bool alreadyCleared = false;
+            if (cfg != null && DataManager.Instance != null && DataManager.Instance.GameData != null)
             {
-                cfg?.GoldReward    ?? 0,
-                cfg?.DiamondReward ?? 0,
-                cfg?.ExpReward     ?? 0
-            };
+                alreadyCleared = cfg.LevelID < DataManager.Instance.GameData.MaxUnlockedLevel;
+            }
+
+            if (alreadyCleared)
+            {
+                return new List<int>
+                {
+                    Mathf.RoundToInt((cfg?.GoldReward ?? 0) / 10f),
+                    Mathf.RoundToInt((cfg?.DiamondReward ?? 0) / 10f),
+                    Mathf.RoundToInt((cfg?.ExpReward ?? 0) / 10f)
+                };
+            }
+            else
+            {
+                return new List<int>
+                {
+                    cfg?.GoldReward    ?? 0,
+                    cfg?.DiamondReward ?? 0,
+                    cfg?.ExpReward     ?? 0
+                };
+            }
         }
         else
         {
@@ -328,12 +355,12 @@ public class VictoryUI : MonoBehaviour
         AudioManager.Instance?.PlaySoundButtonClick();
         Time.timeScale = 1f;
         Hide();
-        
+
         bool isLevel = GameModeManager.Instance != null && GameModeManager.Instance.CurrentMode == GameModeType.Level;
         if (isLevel && GameModeManager.Instance.CurrentLevelConfig != null)
         {
             int nextLevelId = GameModeManager.Instance.CurrentLevelConfig.LevelID + 1;
-            
+
             bool success = GameSceneManager.Instance != null &&
                            GameSceneManager.Instance.TryStartLevel(nextLevelId);
             if (!success)

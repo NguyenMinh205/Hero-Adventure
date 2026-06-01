@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class StarUI : MonoBehaviour
 {
@@ -16,7 +17,17 @@ public class StarUI : MonoBehaviour
 
         if (filledStar != null)
         {
-            filledStar.gameObject.SetActive(isAchieved);
+            if (isAchieved)
+            {
+                filledStar.gameObject.SetActive(true);
+                filledStar.transform.localScale = Vector3.zero;
+                filledStar.transform.DOKill();
+                filledStar.transform.DOScale(1f, 0.4f).SetEase(Ease.OutBack).SetDelay(0.2f).SetUpdate(true);
+            }
+            else
+            {
+                filledStar.gameObject.SetActive(false);
+            }
         }
     }
 }

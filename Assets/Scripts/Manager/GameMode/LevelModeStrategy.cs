@@ -35,11 +35,36 @@ public class LevelModeStrategy : IGameModeStrategy
         List<CharacterInfoSO> pool = (config != null && config.PossibleEnemies.Count > 0) ? config.PossibleEnemies : availableEnemies;
 
         List<CharacterInfoSO> selectedEnemies = new List<CharacterInfoSO>();
-        int enemyCount = Random.Range(1, 4);
+        
+        int safeMaxWaves = Mathf.Max(1, maxWaves);
+        float progress = Mathf.Clamp01((float)currentWave / safeMaxWaves);
+        int targetEnemyCount = Mathf.Clamp(Mathf.CeilToInt(progress * 3f), 1, 3);
+        
+        bool isBossWave = (config != null && config.IsBossLevel && currentWave == safeMaxWaves);
 
-        for (int i = 0; i < enemyCount; i++)
+        if (isBossWave)
         {
-            selectedEnemies.Add(pool[Random.Range(0, pool.Count)]);
+            int minionCount = Mathf.Max(0, targetEnemyCount - 1);
+            for (int i = 0; i < minionCount; i++)
+            {
+                selectedEnemies.Add(pool[Random.Range(0, pool.Count)]);
+            }
+            
+            if (config.BossEnemy != null)
+            {
+                selectedEnemies.Add(config.BossEnemy);
+            }
+            else
+            {
+                selectedEnemies.Add(pool[pool.Count - 1]); // fallback
+            }
+        }
+        else
+        {
+            for (int i = 0; i < targetEnemyCount; i++)
+            {
+                selectedEnemies.Add(pool[Random.Range(0, pool.Count)]);
+            }
         }
 
         return selectedEnemies;

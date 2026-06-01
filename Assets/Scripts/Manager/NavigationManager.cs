@@ -132,10 +132,6 @@ public class NavigationManager : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            Debug.LogWarning($"[Lỗi UI] Không tìm thấy cấu hình cho Tab: {targetTab} trong mảng Tabs của NavigationManager!");
-        }
 
         if (animateHighlight && targetTab != MenuTab.Battle)
         {

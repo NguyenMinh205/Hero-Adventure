@@ -24,8 +24,9 @@ MonoBehaviour:
   levelDifficultyMultiplier: 1.2
   waveScalingIncrement: 0.04
   PossibleEnemies:
+  - {fileID: 11400000, guid: 1b71392e57474964e973e039ed37a8ee, type: 2}
   - {fileID: 11400000, guid: 6df6eb6f0b2846f4da89a8e0b9492a43, type: 2}
-  - {fileID: 11400000, guid: 3678d96dfa1858f45916931e654f01f7, type: 2}
+  BossEnemy: {fileID: 0}
   GoldReward: 50
   DiamondReward: 5
   ExpReward: 100

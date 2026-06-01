@@ -11,6 +11,7 @@ public class Gem : MonoBehaviour
     {
         _gemData = data;
         gridPosition = gridPos;
+        transform.localScale = Vector3.one;
 
         if (_spriteRenderer != null && _gemData != null)
         {

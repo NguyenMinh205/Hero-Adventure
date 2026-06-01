@@ -25,6 +25,8 @@ public class LevelConfig : ScriptableObject
 
     [Header("Enemy Encounters")]
     public List<CharacterInfoSO> PossibleEnemies;
+    [Tooltip("Nếu IsBossLevel = true, boss này sẽ xuất hiện ở cuối.")]
+    public CharacterInfoSO BossEnemy;
     
     [Header("Rewards")]
     public int GoldReward;
